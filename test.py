@@ -86,25 +86,25 @@ def validation(model, criterion, evaluation_loader, converter, opt):
     infer_time = 0
     valid_loss_avg = Averager()
 
-    # print(f'test  의 밸리데이션 함수들어옴 opt : {opt}')
-    # print(f'test  의 밸리데이션 함수들어옴 evaluation_loader : {evaluation_loader}')
+    # print(f'tes.py validation 함수  opt : {opt}')
+    # print(f'tes.py validation 함수  evaluation_loader : {evaluation_loader}')
     for i, (image_tensors, labels) in enumerate(evaluation_loader):
-        #print(f'test  의 밸리데이션 함수들어옴 enumerate(evaluation_loader) i : {i}')
-        #print(f'test  의 밸리데이션 함수들어옴 len(labels) : {len(labels)}')
-        # print(f'test  의 밸리데이션 함수들어옴 (image_tensors, labels) : {(image_tensors, labels)}')
+        #print(f'tes.py validation 함수  enumerate(evaluation_loader) i : {i}')
+        #print(f'tes.py validation 함수  len(labels) : {len(labels)}')
+        # print(f'tes.py validation 함수  (image_tensors, labels) : {(image_tensors, labels)}')
         #
-        #print(f'test  의 밸리데이션 함수들어옴 labels : {labels}')
+        #print(f'tes.py validation 함수  labels : {labels}')
 
         batch_size = image_tensors.size(0)
-        print(f'test  의 밸리데이션 함수들어옴 batch_size {batch_size}')
-        #print(f'test  의 밸리데이션 함수들어옴 image_tensors {image_tensors}')
-        # print(f'test  의 밸리데이션 함수들어옴 image_tensors.size {image_tensors.size}')
-        # print(f'test  의 밸리데이션 함수들어옴 image_tensors.size {image_tensors.size(0)}')
-        # print(f'test  의 밸리데이션 함수들어옴 image_tensors.size {image_tensors.size(1)}')
-        # print(f'test  의 밸리데이션 함수들어옴 image_tensors.size {image_tensors.size(2)}')
-        # print(f'test  의 밸리데이션 함수들어옴 opt.batch_max_length {opt.batch_max_length}')
+        print(f'tes.py validation 함수  batch_size {batch_size}')
+        #print(f'tes.py validation 함수  image_tensors {image_tensors}')
+        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size}')
+        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(0)}')
+        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(1)}')
+        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(2)}')
+        # print(f'tes.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
         length_of_data = length_of_data + batch_size
-        print(f'test  의 밸리데이션 함수들어옴 length_of_data {length_of_data}')
+        print(f'tes.py validation 함수  length_of_data {length_of_data}')
         image = image_tensors.to(device)
         # For max length prediction
         length_for_pred = torch.IntTensor([opt.batch_max_length] * batch_size).to(device)
@@ -112,71 +112,71 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
         #opt.batch_max_length = opt.num_class
 
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 opt.num_class : {opt.num_class}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 length_for_pred : {length_for_pred}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 text_for_pred : {text_for_pred}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 length_for_pred.shape : {length_for_pred.shape}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 text_for_pred.shape : {text_for_pred.shape}')
+        # print(f'tes.py validation 함수  인코드전 opt.num_class : {opt.num_class}')
+        # print(f'tes.py validation 함수  인코드전 length_for_pred : {length_for_pred}')
+        # print(f'tes.py validation 함수  인코드전 text_for_pred : {text_for_pred}')
+        # print(f'tes.py validation 함수  인코드전 length_for_pred.shape : {length_for_pred.shape}')
+        # print(f'tes.py validation 함수  인코드전 text_for_pred.shape : {text_for_pred.shape}')
         #
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 labels : {labels}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
+        # print(f'tes.py validation 함수  인코드전 labels : {labels}')
+        # print(f'tes.py validation 함수  인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
 
         text_for_loss, length_for_loss = converter.encode(labels, batch_max_length=opt.batch_max_length)
-        # print(f'test  의 밸리데이션 함수들어옴 인코드후 text_for_loss : {text_for_loss}')
-        # print(f'test  의 밸리데이션 함수들어옴 인코드후  length_for_loss : {length_for_loss}')
+        # print(f'tes.py validation 함수  인코드후 text_for_loss : {text_for_loss}')
+        # print(f'tes.py validation 함수  인코드후  length_for_loss : {length_for_loss}')
         #
-        # print(f'test  의 밸리데이션 함수들어옴 len(length_for_pred) : {len(length_for_pred)}')
-        # print(f'test  의 밸리데이션 함수들어옴 batch_size : {batch_size}')
+        # print(f'tes.py validation 함수  len(length_for_pred) : {len(length_for_pred)}')
+        # print(f'tes.py validation 함수  batch_size : {batch_size}')
         #
         #
-        # print(f'test  의 밸리데이션 함수들어옴 batch_size : {batch_size}')
-        # print(f'test  의 밸리데이션 함수들어옴 length_of_data : {length_of_data}')
-        # print(f'test  의 밸리데이션 함수들어옴 length_of_data: {length_of_data}')
-        # print(f'test  의 밸리데이션 함수들어옴 opt.batch_max_length: {opt.batch_max_length}')
-        # print(f'test  의 밸리데이션 함수들어옴 opt: {opt}')
-        # print(f'test  의 밸리데이션 함수들어옴 [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
+        # print(f'tes.py validation 함수  batch_size : {batch_size}')
+        # print(f'tes.py validation 함수  length_of_data : {length_of_data}')
+        # print(f'tes.py validation 함수  length_of_data: {length_of_data}')
+        # print(f'tes.py validation 함수  opt.batch_max_length: {opt.batch_max_length}')
+        # print(f'tes.py validation 함수  opt: {opt}')
+        # print(f'tes.py validation 함수  [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
 
         start_time = time.time()
         if 'CTC' in opt.Prediction:
             preds = model(image, text_for_pred)
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred) image : {image }')
+            #     f'tes.py validation 함수  preds = model(image, text_for_pred) image : {image }')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred)  image.shape: { image.shape}')
+            #     f'tes.py validation 함수  preds = model(image, text_for_pred)  image.shape: { image.shape}')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
+            #     f'tes.py validation 함수  preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
-            # print(f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred) preds: {preds}')
+            #     f'tes.py validation 함수  preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
+            # print(f'tes.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds = model(image, text_for_pred) preds.shape: {preds.shape}')
+            #     f'tes.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
             # # 첫 번째 시퀀스에서 첫 번째 위치에 대한 확률 분포
             # prob_distribution = preds[0, 0, :]
             #
             # # 출력 예시
-            # print(f'test  의 밸리데이션 함수들어옴 prob_distribution: {prob_distribution}')
+            # print(f'tes.py validation 함수  prob_distribution: {prob_distribution}')
 
             forward_time = time.time() - start_time
 
             # Calculate evaluation loss for CTC deocder.
             preds_size = torch.IntTensor([preds.size(1)] * batch_size)
-            # print(f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) batch_size: {batch_size}')
-            # print(f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size}')
+            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) batch_size: {batch_size}')
+            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size}')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(0): {preds.size(0)}')
-            # print(f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size(1)}')
+            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(0): {preds.size(0)}')
+            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size(1)}')
             # print(
-            #     f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(2): {preds.size(2)}')
-            # print(f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size: {preds_size}')
+            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(2): {preds.size(2)}')
+            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size: {preds_size}')
             print(
-                f'test  의 밸리데이션 함수들어옴 preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
+                f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
 
             # permute 'preds' to use CTCloss format
             if opt.baiduCTC:
                 cost = criterion(preds.permute(1, 0, 2), text_for_loss, preds_size, length_for_loss) / batch_size
             else:
                 cost = criterion(preds.log_softmax(2).permute(1, 0, 2), text_for_loss, preds_size, length_for_loss)
-                #print(f'test  의 밸리데이션 함수들어옴 cost =: {cost  }')
+                #print(f'tes.py validation 함수  cost =: {cost  }')
 
             # Select max probabilty (greedy decoding) then decode index to character
             if opt.baiduCTC:
@@ -184,19 +184,22 @@ def validation(model, criterion, evaluation_loader, converter, opt):
                 preds_index = preds_index.view(-1)
             else:
                 _, preds_index = preds.max(2)
-                # print(f'test  의 밸리데이션 함수들어옴 preds_index  : {preds_index}')
-                # print(f'test  의 밸리데이션 함수들어옴 preds_size  : {preds_size}')
-                # print(f'test  의 밸리데이션 함수들어옴 preds_index.data  : {preds_index}')
-                # print(f'test  의 밸리데이션 함수들어옴 preds_size  : {preds_size}')
-                # print(f'test  의 밸리데이션 함수들어옴 converter.decode 반환 preds_index.data  : {preds_index.data}')
-                # print(f'test  의 밸리데이션 함수들어옴 converter.decode 반환 preds_size.data  : {preds_size.data}')
+                # print(f'tes.py validation 함수  preds_index  : {preds_index}')
+                # print(f'tes.py validation 함수  preds_size  : {preds_size}')
+                # print(f'tes.py validation 함수  preds_index.data  : {preds_index}')
+                # print(f'tes.py validation 함수  preds_size  : {preds_size}')
+                # print(f'tes.py validation 함수  converter.decode 반환 preds_index.data  : {preds_index.data}')
+                # print(f'tes.py validation 함수  converter.decode 반환 preds_size.data  : {preds_size.data}')
+                print('=================================================================================================')
                 print(
-                    f'test  의 밸리데이션 함수들어옴 converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
+                    f'tes.py validation 함수  converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
                 print(
-                    f'test  의 밸리데이션 함수들어옴 converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
+                    '=================================================================================================')
+                print(
+                    f'tes.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
 
             preds_str = converter.decode(preds_index.data, preds_size.data)
-            #print(f'test  의 밸리데이션 함수들어옴 preds_str  : {preds_str}')
+            #print(f'tes.py validation 함수  preds_str  : {preds_str}')
 
 
         else:

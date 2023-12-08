@@ -13,6 +13,7 @@ from torch.utils.data import Dataset, ConcatDataset, Subset
 from torch._utils import _accumulate
 import torchvision.transforms as transforms
 import datetime
+import random
 
 get_batch_cnt = 0
 class Batch_Balanced_Dataset(object):
@@ -25,7 +26,7 @@ class Batch_Balanced_Dataset(object):
         """
 
         current_date = datetime.datetime.now().strftime("%m-%d")
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dataset 파일 current_date {current_date}')
+        print(f'dataset 파일 current_date {current_date}')
 
         # 원하는 폴더 경로 생성
         directory = f'./saved_models/{opt.exp_name}/{current_date}/'
@@ -39,24 +40,24 @@ class Batch_Balanced_Dataset(object):
         log = open(f'{directory}/log_dataset.txt', 'a', encoding='utf-8')
 
         #log = open(f'./saved_models/{opt.exp_name}/{current_date}/log_dataset.txt', 'a')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dataset 파일 log : {log}')
+        print(f'dataset 파일 log : {log}')
 
         dashed_line = '-' * 80
         print(dashed_line)
         log.write(dashed_line + '\n')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Batch_Balanced_Dataset  이닛 opt  : {opt}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Batch_Balanced_Dataset  이닛 opt.character : {opt.character}')
+        print(f'Batch_Balanced_Dataset  이닛 opt  : {opt}')
+        print(f'Batch_Balanced_Dataset  이닛 opt.character : {opt.character}')
         if 'ๆ' in opt.character:
             # 'ๆ' 문자가 있을 경우
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Batch_Balanced_Dataset  이닛 opt.character 있음')
+            print('Batch_Balanced_Dataset  이닛 opt.character 있음')
         else:
             # 'ๆ' 문자가 없을 경우
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Batch_Balanced_Dataset  이닛 opt.character 없음')
+            print('Batch_Balanced_Dataset  이닛 opt.character 없음')
 
         print(
             f'Batch_Balanced_Dataset dataset_root: {opt.train_data}\nopt.select_data: {opt.select_data}\nopt.batch_ratio: {opt.batch_ratio}')
-        print(
-            f'Batch_Balanced_Dataset dataset_root: {opt.train_data}\nopt.select_data: {opt.select_data}\nopt.batch_ratio: {opt.batch_ratio}')
+        # print(
+        #     f'Batch_Balanced_Dataset dataset_root: {opt.train_data}\nopt.select_data: {opt.select_data}\nopt.batch_ratio: {opt.batch_ratio}')
         log.write(
             f'Batch_Balanced_Dataset dataset_root: {opt.train_data}\nopt.select_data: {opt.select_data}\nopt.batch_ratio: {opt.batch_ratio}\n')
         assert len(opt.select_data) == len(opt.batch_ratio)
@@ -67,30 +68,31 @@ class Batch_Balanced_Dataset(object):
         batch_size_list = []
         Total_batch_size = 0
 
-        print(f'@@@@@@@@@@Batch_Balanced_Dataset 태국어도 학습하라고 ㅜㅜㅜㅜㅜㅜ   opt.select_data : {opt.select_data}')
+        print(f'@@@@@@@@@@Batch_Balanced_Dataset 태국어도 학습하라고    opt.select_data : {opt.select_data}')
 
         for selected_d, batch_ratio_d in zip(opt.select_data, opt.batch_ratio):
-            print(f'Batch_Balanced_Dataset for 루프 2번 들어오라고 ㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜ@@@@@@@@@@태국어도 학습하라고 ㅜㅜㅜㅜㅜㅜ   selected_d : {selected_d}')
+            print(f'Batch_Balanced_Dataset select_data 반복 selected_d : {selected_d}')
             _batch_size = max(round(opt.batch_size * float(batch_ratio_d)), 1)
 
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!여기서 배치사이즈가 각 데이터 디렉토리마다 다르게 계산됨 opt.batch_ratio : {opt.batch_ratio}')
+            print(f'opt.batch_size : {opt.batch_size}')
+            print(f'opt.batch_ratio : {opt.batch_ratio}')
 
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!여기서 배치사이즈가 각 데이터 디렉토리마다 다르게 계산됨 opt.select_data : {opt.select_data}')
+            print(f'opt.select_data : {opt.select_data}')
 
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!여기서 배치사이즈가 각 데이터 디렉토리마다 다르게 계산됨 batch_size : {_batch_size}')
+            print(f'배치사이즈가 디렉토리마다 다르게 계산됨 ( batch_size * batch_ratio_d ) _batch_size : {_batch_size}')
 
 
             print(dashed_line)
             log.write(dashed_line + '\n')
-            # print("읽히라고!!!!!!!!!! 개짜증나 ㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜㅜ")
+            # print("읽히라고  ")
             print(f'Batch_Balanced_Dataset opt.train_data : {opt.train_data}')
 
-            if 'ๆ' in opt.character:
-                # 'ๆ' 문자가 있을 경우
-                print('배치 밸런스 넘어오면서 없어지는 거임? 있음')
-            else:
-                # 'ๆ' 문자가 없을 경우
-                print('배치 밸런스 넘어오면서 없어지는 거임? 없음')
+            # if 'ๆ' in opt.character:
+            #     # 'ๆ' 문자가 있을 경우
+            #     print('dataset.py Batch_Balanced_Dataset ๆ 있음')
+            # else:
+            #     # 'ๆ' 문자가 없을 경우
+            #     print('dataset.py Batch_Balanced_Dataset ๆ 없음')
 
             print(f'Batch_Balanced_Dataset [selected_d] : {[selected_d]}')
 
@@ -98,46 +100,66 @@ class Batch_Balanced_Dataset(object):
             print(f'Batch_Balanced_Dataset _dataset : {_dataset}')
             print(f'Batch_Balanced_Dataset _dataset_log : {_dataset_log}')
             print(f'Batch_Balanced_Dataset opt.train_data : {opt.train_data}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Batch_Balanced_Dataset 이닛 opt : {opt}')
+            print(f'!Batch_Balanced_Dataset 이닛 opt : {opt}')
             total_number_dataset = len(_dataset)
             log.write(_dataset_log)
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_dataset_log : {_dataset_log}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!total_number_dataset : {total_number_dataset}')
+            print(f'_dataset_log : {_dataset_log}')
+            print(f'total_number_dataset : {total_number_dataset}')
             """
             The total number of data can be modified with opt.total_data_usage_ratio.
             ex) opt.total_data_usage_ratio = 1 indicates 100% usage, and 0.2 indicates 20% usage.
             See 4.2 section in our paper.
             """
             number_dataset = int(total_number_dataset * float(opt.total_data_usage_ratio))
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!total_number_dataset : {total_number_dataset}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!opt.total_data_usage_ratio : {opt.total_data_usage_ratio}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!number_dataset : {number_dataset}')
+            print(f'total_number_dataset : {total_number_dataset}')
+            print(f'opt.total_data_usage_ratio : {opt.total_data_usage_ratio}')
+            print(f'number_dataset : {number_dataset}')
 
             dataset_split = [number_dataset, total_number_dataset - number_dataset]
+            # 원본
             indices = range(total_number_dataset)
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!indices  range(total_number_dataset) : {indices}')
 
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dataset_split : {dataset_split}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!zip(_accumulate(dataset_split), dataset_split) : {zip(_accumulate(dataset_split), dataset_split)}')
-            _dataset, _ = [Subset(_dataset, indices[offset - length:offset])
-                           for offset, length in zip(_accumulate(dataset_split), dataset_split)]
+            # 긴문장을 주로 학습 시키기 위해서 일단 바꿈 ( 나중엔 셔플로 변경 예정 )
+            reversed_indices = indices[::-1]
+            indices = reversed_indices
+            print(f'indices  range(total_number_dataset) : {indices}')
+            print(f'reversed_indices : {reversed_indices}')
 
-            print(f"!!!!!!!!!!!!!!!!!컴프리헨션 분해 하기 전 _dataset: {_dataset} ")
-
-
-            _dataset, a = [Subset(_dataset, indices[offset - length:offset])
-                           for offset, length in zip(_accumulate(dataset_split), dataset_split)]
-            print(f"!!!!!!!!!!!!!!!!!컴프리헨션 분해 하기 전 _dataset: {_dataset} ")
-            print(f"!!!!!!!!!!!!!!!!!컴프리헨션 분해 하기 전 a: {a} ")
+            # 리스트를 셔플
+            #indices = list(range(total_number_dataset))
+            #random.shuffle(indices)
+            #shuffle_indices = indices
+            # print(f'shuffle_indices : {shuffle_indices}')
 
 
+            print(f'dataset_split : {dataset_split}')
+            print(f'zip(_accumulate(dataset_split), dataset_split) : {zip(_accumulate(dataset_split), dataset_split)}')
+
+            # 로그용 ( offset )
             for offset, length in zip(_accumulate(dataset_split), dataset_split):
-                print(f"!!!!!!!!!!!!!!!!!컴프리헨션 분해 Offset: {offset}, Length: {length}")
+                print(f"Subset Offset: {offset}, Length: {length}")
                 subset = Subset(_dataset, indices[offset - length:offset])
-                print(f"!!!!!!!!!!!!!!!!!컴프리헨션 분해 subset: {subset} ")
+                print(f"Subset subset: {subset} ")
                 # 여기에서 subset을 사용하여 작업 수행
 
+            # _dataset, _ = [Subset(_dataset, indices[offset - length : offset])
+            #                for offset, length in zip(_accumulate(dataset_split), dataset_split)]
 
+            # _dataset : total_data_usage_ratio 만큼의 데이터
+            # _not_usage_dataset : total_data_usage_ratio 만큼의 데이터를 제외한 나머지 Subset 데이터
+            # 만약 처음에는 짧은 문장이 많고 뒷부분에 긴 문장이 있다면, _dataset에는 주로 짧은 문장만 포함
+            _dataset, _not_usage_dataset = [Subset(_dataset, indices[offset - length : offset])
+                           for offset, length in zip(_accumulate(dataset_split), dataset_split)]
+
+            # 출력 예시 ( opt.total_data_usage_ratio = 0.2 일 경우 )
+            # _dataset: [1, 2]
+            # _not_usage_dataset : [3, 4, 5, 6, 7, 8, 9, 10]
+
+            print(f" _dataset: {_dataset} ")
+            print(f"a: {_not_usage_dataset} ")
+            print(f"len(_dataset): {len(_dataset)} ")
+            print(f"len(a): {len(_not_usage_dataset)} ")
+            print(f"type(_dataset): {type(_dataset)} ")
 
             selected_d_log = f'num total samples of {selected_d}: {total_number_dataset} x {opt.total_data_usage_ratio} (total_data_usage_ratio) = {len(_dataset)}\n'
             selected_d_log += f'num samples of {selected_d} per batch: {opt.batch_size} x {float(batch_ratio_d)} (batch_ratio) = {_batch_size}'
@@ -146,13 +168,15 @@ class Batch_Balanced_Dataset(object):
             batch_size_list.append(str(_batch_size))
             Total_batch_size += _batch_size
 
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!_batch_size : {_batch_size}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!batch_size_list : {batch_size_list}')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Total_batch_size : {Total_batch_size}')
+            print(f'dataset.py _batch_size : {_batch_size}')
+            print(f'dataset.py batch_size_list : {batch_size_list}')
+            print(f'dataset.py Total_batch_size : {Total_batch_size}')
 
-            # print( '@@@@@@@@@@@이제 데이터 로더가 안돼 ㅜㅜㅜㅜㅜ 개짜증나 ㅜㅜㅜㅜㅜㅜㅜㅜㅜ')
+            # print( '@@@@@@@@@@@이제 데이터 로더가 안돼   ')
             # print(f'@@@@@@@@@@@@@@@@@이제 데이터 로더가 안돼 opt.workers : {opt.workers}')
 
+            # _AlignCollate 함수 ( 이미지 크기 조절 ( 전처리 ) 및 텍스트 패딩 적용 ( 모델 인풋에 전달할 텐서 생성 ) )
+            # 데이터셋으로부터 불러온 각각의 샘플을 정렬하고 패딩(padding)하는 등의 전처리를 수행하여 배치를 생성
             _data_loader = torch.utils.data.DataLoader(
                 _dataset, batch_size=_batch_size,
                 shuffle=True,
@@ -160,7 +184,7 @@ class Batch_Balanced_Dataset(object):
                 collate_fn=_AlignCollate, pin_memory=True)
             self.data_loader_list.append(_data_loader)
             self.dataloader_iter_list.append(iter(_data_loader))
-            print(f'%%%%%%%%%%%%%%%%%% 여기가 문제 len dataloader_iter_list : {len(self.dataloader_iter_list)}')
+            print(f'%%%%%%%%%%%%%%%%%% len dataloader_iter_list : {len(self.dataloader_iter_list)}')
 
         Total_batch_size_log = f'{dashed_line}\n'
         batch_size_sum = '+'.join(batch_size_list)
@@ -168,15 +192,15 @@ class Batch_Balanced_Dataset(object):
         Total_batch_size_log += f'{dashed_line}'
         opt.batch_size = Total_batch_size
 
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!batch_size_list : {batch_size_list}')
+        print(f'batch_size_list : {batch_size_list}')
 
 
         print(Total_batch_size_log)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!batch_size_sum : {batch_size_sum}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!opt.batch_size : {opt.batch_size}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Total_batch_size : {Total_batch_size}')
+        print(f'batch_size_sum : {batch_size_sum}')
+        print(f'opt.batch_size : {opt.batch_size}')
+        print(f'Total_batch_size : {Total_batch_size}')
 
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Total_batch_size_log : {Total_batch_size_log}')
+        print(f'Total_batch_size_log : {Total_batch_size_log}')
         log.write(Total_batch_size_log + '\n')
         log.close()
 
@@ -189,7 +213,7 @@ class Batch_Balanced_Dataset(object):
 
         # print(f'$$$$$$$$$$$$$$$$$$$$$ dataloader_iter_list 길이 : {len(dataloader_iter_list)}')
         #get_batch_cnt = get_batch_cnt +1
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!get_batch_cnt : {get_batch_cnt}')
+        print(f'get_batch_cnt : {get_batch_cnt}')
         #print(f'get_batch self.dataloader_iter_list : {self.dataloader_iter_list}')
         for i, data_loader_iter in enumerate(self.dataloader_iter_list):
             print(f'get_batch i : {i}')
@@ -216,10 +240,10 @@ class Batch_Balanced_Dataset(object):
         #print(f'get_batch dataloader_iter_list 반복 완료 get_batch_cnt : {get_batch_cnt}')
 
         balanced_batch_images = torch.cat(balanced_batch_images, 0)
-        #print(f'!!!!!!!!!!!!!!!get_batch 반환전 balanced_batch_images : {balanced_batch_images}')
-        print(f'!!!!!!!!!!!!!!!get_batch 반환전 길이 balanced_batch_images : {len(balanced_batch_images)}')
-        #print(f'!!!!!!!!!!!!!!!get_batch 반환전 balanced_batch_texts : {balanced_batch_texts}')
-        print(f'!!!!!!!!!!!!!!!get_batch 반환전 길이 balanced_batch_texts : {len(balanced_batch_texts)}')
+        #print(f'!get_batch 반환전 balanced_batch_images : {balanced_batch_images}')
+        print(f'!dataset.py get_batch len(balanced_batch_images) : {len(balanced_batch_images)}')
+        #print(f'!get_batch 반환전 balanced_batch_texts : {balanced_batch_texts}')
+        print(f'!dataset.py len(balanced_batch_texts) : {len(balanced_batch_texts)}')
         return balanced_batch_images, balanced_batch_texts
 
 
@@ -234,55 +258,67 @@ def hierarchical_dataset(root, opt, select_data=''):
 
     dataset_log = f'dataset_root:    {root}\t dataset: {select_data[0]}'
     print(dataset_log)
-    print(f'hierarchical_dataset hierarchical_dataset root : {root}')
-    print(f'hierarchical_dataset select_data : {select_data}')
+    print(f'dataset.py hierarchical_dataset root : {root}')
+    print(f'dataset.py hierarchical_dataset select_data : {select_data}')
 
     dataset_log += '\n'
     # for dirpath, dirnames, filenames in os.walk(root+'/'):
     # for dirpath, dirnames, filenames in os.walk(root + '\\'):
     for dirpath, dirnames, filenames in os.walk(root + r''):
 
-        print(f'hierarchical_dataset hierarchical_dataset dirpath : {dirpath}')
-        print(f'hierarchical_dataset hierarchical_dataset dirnames : {dirnames}')
-        print(f'hierarchical_dataset hierarchical_dataset filenames : {filenames}')
+        print(f'dataset.py hierarchical_dataset dirpath : {dirpath}')
+        print(f'dataset.py hierarchical_dataset dirnames : {dirnames}')
+        print(f'dataset.py hierarchical_dataset filenames : {filenames}')
 
+        # mdb 파일 있는 경로일 경우 ( 마지막 경로 )
         if not dirnames:
+            print(f'dataset.py mdb 파일 있는 경로일 경우  dirnames: {dirnames}')
+
             select_flag = False
             for selected_d in select_data:
 
-                print(f'있다 dirpath : {dirpath}')
+                print(f'dataset.py for selected_d in select_data -> selected_d : {selected_d}')
+                print(f'dataset.py for selected_d in select_data -> select_data : {select_data}')
+                print(f'dataset.py for selected_d in select_data -> dirpath : {dirpath}')
+
                 #if selected_d in dirpath:
                 if selected_d in dirpath and filenames:
-                    print(f'있다 dirpath : {dirpath}')
-                    print(f'디렉토리 {dirpath}에 파일이 있음')
-                    print(f'있다 selected_d : {selected_d}')
-                    print(f'있다 dirpath : {dirpath}')
+                    print(f'dataset.py if selected_d in dirpath and filenames: {filenames}')
+
+                    print(f'dataset.py selected_d in dirpath: {dirpath}')
+                    print(f'dataset.py 디렉토리 {dirpath}에 파일이 있음')
+                    print(f'dataset.py 있다 selected_d : {selected_d}')
+                    print(f'dataset.py selected_d in dirpath: {dirpath}')
                     select_flag = True
                     break
 
             if select_flag:
-                # print(f'여기서 이상하게 보냄 dirpath : {dirpath}')
-                # print(f'여기서 이상하게 보냄 opt : {opt}')
-                dataset = LmdbDataset(dirpath, opt)
+                print(f'dataset.py if select_flag dirpath : {dirpath}')
+                print(f'dataset.py if select_flag opt : {opt}')
 
+                dataset = LmdbDataset(dirpath, opt)
+                #print(f'dataset.py if select_flag dataset : {dataset}')
+                print(f'dataset.py if select_flag len(dataset) : {len(dataset)}')
                 # 라벨 정보 가져오기
                 labels2 = []
 
-                for i in range(len(dataset)):
-                    key = str(i)  # 각 데이터 포인트의 키를 순차적으로 생성
-                    #value = dataset.get_item(key)  # 키에 해당하는 값(라벨 및 이미지 데이터) 가져오기
-                    #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset 라벨 정보 가져오기 key : {key}')
-                    #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset 라벨 정보 가져오기 value : {value}')
-                    #label = value['label']  # 'label' 키를 사용하여 라벨 정보 가져오기
-                    #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset 라벨 정보 가져오기 label : {label}')
+                # for i in range(len(dataset)):
+                #     key = str(i)  # 각 데이터 포인트의 키를 순차적으로 생성
+                #     print(f'dataset.py if 각 데이터 포인트의 키 : {key}')
+                    # 에러남 get_item 속성 없음
+                    # value = dataset.get_item(key)  # 키에 해당하는 값(라벨 및 이미지 데이터) 가져오기
+                    # print(f'dataset.py hierarchical_dataset 라벨 정보 가져오기 key : {key}')
+                    # print(f'dataset.py hierarchical_dataset 라벨 정보 가져오기 value : {value}')
+                    # label = value['label']  # 'label' 키를 사용하여 라벨 정보 가져오기
+                    # print(f'dataset.py hierarchical_dataset 라벨 정보 가져오기 label : {label}')
                     #labels2.append(label)
-                #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset 라벨 정보 가져오기 labels2 : {labels2}')
+                #print(f'hierarchical_dataset 라벨 정보 가져오기 labels2 : {labels2}')
                 # 라벨 출력
                 #print("Labels from LmdbDataset labels2:", labels2)
 
                 # 중복된 라벨 확인
                 #unique_labels = set(labels2)
-                #ㅃprint("!!!!!!!!!!!!!!!여기서 중복된거 제거돼서 71 개임/??Number of Unique Labels:", len(unique_labels))
+                #ㅃprint("!여기서 중복된거 제거돼서 71 개임/??Number of Unique Labels:", len(unique_labels))
 
                 # print(f' dirpath : {dirpath}')
                 # print(f'  root : {root}')
@@ -294,14 +330,14 @@ def hierarchical_dataset(root, opt, select_data=''):
                 relative_path = relative_path.replace('/', '\\')  # 슬래시를 역슬래시로 변경
 
                 sub_dataset_log = f'sub-directory:\t/{os.path.relpath(dirpath, root)}\t num samples: {len(dataset)}'
-                print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset len(dataset) : {len(dataset)}')
-                print(sub_dataset_log)
+                print(f'dataset.py hierarchical_dataset len(dataset) : {len(dataset)}')
+                #print(sub_dataset_log)
                 dataset_log += f'{sub_dataset_log}\n'
                 dataset_list.append(dataset)
-
-                # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset dataset : {dataset}')
-                # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset dataset_list : {dataset_list}')
-                # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!hierarchical_dataset dataset_log : {dataset_log}')
+                print(f'dataset.py hierarchical_dataset len(dataset_list) : {len(dataset_list)}')
+                # print(f'hierarchical_dataset dataset : {dataset}')
+                # print(f'hierarchical_dataset dataset_list : {dataset_list}')
+                # print(f'hierarchical_dataset dataset_log : {dataset_log}')
 
     concatenated_dataset = ConcatDataset(dataset_list)
     #print(f'hierarchical_dataset concatenated_dataset : {concatenated_dataset}')
@@ -315,35 +351,58 @@ class LmdbDataset(Dataset):
         self.root = root
         self.opt = opt
 
-        print(f'LmdbDataset 여기--------------------root {root}')
+        print(f'dataset.py LmdbDataset root {root}')
 
-        print(f'LmdbDataset opt : {opt}')
+        print(f'dataset.py LmdbDataset opt : {opt}')
         if 'ๆ' in opt.character:
             # 'ๆ' 문자가 있을 경우
-            print('LmdbDataset 있음')
+            print('LmdbDataset ๆ 있음')
         else:
             # 'ๆ' 문자가 없을 경우
-            print('LmdbDataset 없음')
+            print('LmdbDataset ๆ 없음')
 
         self.env = lmdb.open(root, max_readers=32, readonly=True, lock=False, readahead=False, meminit=False)
+
+        # 다음 코드를 추가하여 self.env의 정보를 출력합니다.
+        print('================================================================')
+        print(f"dataset.py  LMDB Environment Information:\n{self.env.info()}")
+        print('================================================================')
+
         if not self.env:
             print('cannot create lmdb from %s' % (root))
             sys.exit(0)
 
         with self.env.begin(write=False) as txn:
+
+            # 데이터베이스의 모든 키-값 쌍을 읽어오기
+            cursor = txn.cursor()
+
+            # 데이터베이스에 데이터가 있는지 확인
+            if not cursor.first():
+                print("dataset.py lmdb 데이터 베이스에 데이터 없음.")
+                #return
+
+
+            for key, value in cursor:
+                pass
+                # key, value를 출력하거나 원하는 작업 수행
+                #print(f'Key : {key}')
+                # b'\xff\xd8\xff\xe0\...
+                #print(f'LmdbDataset Value : {Value}')
+
             nSamples = int(txn.get('num-samples'.encode()))
             self.nSamples = nSamples
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LmdbDataset nSamples : {nSamples}')
+            print(f'LmdbDataset nSamples : {nSamples}')
             print(f'###########################################LmdbDataset self.nSamples  : {self.nSamples}')
 
             if self.opt.data_filtering_off:
                 # for fast check or benchmark evaluation with no filtering
                 self.filtered_index_list = [index + 1 for index in range(self.nSamples)]
-                print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!LmdbDataset self.filtered_index_list : {self.filtered_index_list}')
+                print(f'LmdbDataset self.filtered_index_list : {self.filtered_index_list}')
                 print(
-                    f'^^^^^^^^^^^^^^^^^OKOKOK 필터링 하지마!!!!!!!!!!!!!!!!!!self.filtered_index_list : {self.filtered_index_list}')
+                    f'^^^^^^^^^^^^^^^^^필터링 안함 self.filtered_index_list : {self.filtered_index_list}')
                 print(
-                    f'^^^^^^^^^^^^^^^^^필터링 하지마!!!!!!!!!!!!!!!!!!self.nSamples : {self.nSamples}')
+                    f'^^^^^^^^^^^^^^^^^필터링 안함 self.nSamples : {self.nSamples}')
             else:
                 """ Filtering part
                 If you want to evaluate IC15-2077 & CUTE datasets which have special character labels,
@@ -358,9 +417,9 @@ class LmdbDataset(Dataset):
                 for index in range(self.nSamples):
                     index += 1  # lmdb starts with 1
                     label_key = 'label-%09d'.encode() % index
-                    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dataset.py __init__  label_key : {label_key}')
+                    print(f'dataset.py __init__  label_key : {label_key}')
                     label = txn.get(label_key).decode('utf-8')
-                    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!dataset.py __init__  label : {label}')
+                    print(f'dataset.py __init__  label : {label}')
 
                     if len(label) > self.opt.batch_max_length:
                         # print(f'The length of the label is longer than max_length: length
@@ -498,6 +557,10 @@ class AlignCollate(object):
         self.imgH = imgH
         self.imgW = imgW
         self.keep_ratio_with_pad = keep_ratio_with_pad
+
+        print(f'dataset.py AlignCollate imgH : {imgH}')
+        print(f'dataset.py AlignCollate imgW : {imgW}')
+        print(f'dataset.py AlignCollate keep_ratio_with_pad : {keep_ratio_with_pad}')
 
     def __call__(self, batch):
         batch = filter(lambda x: x is not None, batch)
