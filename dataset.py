@@ -117,23 +117,26 @@ class Batch_Balanced_Dataset(object):
 
             dataset_split = [number_dataset, total_number_dataset - number_dataset]
             # 원본
-            indices = range(total_number_dataset)
+            #indices = range(total_number_dataset)
 
             # 긴문장을 주로 학습 시키기 위해서 일단 바꿈 ( 나중엔 셔플로 변경 예정 )
+            indices = range(total_number_dataset)
             reversed_indices = indices[::-1]
             indices = reversed_indices
             print(f'indices  range(total_number_dataset) : {indices}')
             print(f'reversed_indices : {reversed_indices}')
+            # for index in reversed_indices:
+            #     print(f'reversed_indices index : {index}')
 
             # 리스트를 셔플
-            #indices = list(range(total_number_dataset))
-            #random.shuffle(indices)
-            #shuffle_indices = indices
-            # print(f'shuffle_indices : {shuffle_indices}')
+            # indices = list(range(total_number_dataset))
+            # random.shuffle(indices)
+            # shuffle_indices = indices
+            #print(f'dataset.py shuffle_indices : {shuffle_indices}')
 
 
-            print(f'dataset_split : {dataset_split}')
-            print(f'zip(_accumulate(dataset_split), dataset_split) : {zip(_accumulate(dataset_split), dataset_split)}')
+            print(f'dataset.py dataset_split : {dataset_split}')
+            print(f'dataset.py zip(_accumulate(dataset_split), dataset_split) : {zip(_accumulate(dataset_split), dataset_split)}')
 
             # 로그용 ( offset )
             for offset, length in zip(_accumulate(dataset_split), dataset_split):
@@ -340,7 +343,8 @@ def hierarchical_dataset(root, opt, select_data=''):
                 # print(f'hierarchical_dataset dataset_log : {dataset_log}')
 
     concatenated_dataset = ConcatDataset(dataset_list)
-    #print(f'hierarchical_dataset concatenated_dataset : {concatenated_dataset}')
+    print(f'hierarchical_dataset concatenated_dataset : {concatenated_dataset}')
+    print(f'hierarchical_dataset len(concatenated_dataset) : {len(concatenated_dataset)}')
     return concatenated_dataset, dataset_log
 
 

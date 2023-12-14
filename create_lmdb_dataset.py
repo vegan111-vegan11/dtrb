@@ -36,7 +36,7 @@ def createDataset(inputPath, gtFile, outputPath, checkValid=True):
     """
     os.makedirs(outputPath, exist_ok=True)
     #env = lmdb.open(outputPath, map_size=1099511627776)
-    env = lmdb.open(outputPath, map_size=1099511)
+    #env = lmdb.open(outputPath, map_size=1099511)
     env = lmdb.open(outputPath, map_size=109951162)
     cache = {}
     cnt = 1

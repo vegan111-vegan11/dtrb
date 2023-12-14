@@ -22,11 +22,12 @@ import sys
 import importlib
 import datetime
 import yaml
+
 # 모듈을 다시 로드
 importlib.reload(sys)
 
-#reload(sys)
-#sys.setdefaultencoding('utf-8')
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -43,17 +44,15 @@ def train(opt):
 
     print(f'current_date : {current_date}')
 
-    #path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\{current_date}"
+    # path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\{current_date}"
 
     # 현재 날짜를 가져옵니다.
     current_date = datetime.datetime.now().strftime("%m-%d")
     print(f'current_date : {current_date}')
 
-
-
     # 원래 경로를 설정합니다.
     original_path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\{current_date}"
-    #original_path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\TPS-ResNet-BiLSTM-Attn-Seed1111\{current_date}"
+    # original_path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\TPS-ResNet-BiLSTM-Attn-Seed1111\{current_date}"
     print(f'original_path_to_weights : {original_path_to_weights}')
 
     # # 경로가 존재하지 않거나 해당 경로에 아무 파일도 없는 경우를 확인합니다.
@@ -75,8 +74,7 @@ def train(opt):
 
     # 경로가 존재하면 업데이트합니다.
     path_to_weights = original_path_to_weights
-    #print(f'path_to_weights : {path_to_weights}')
-
+    # print(f'path_to_weights : {path_to_weights}')
 
     best_accuracy = -1
     current_accuracy_list = []
@@ -91,22 +89,21 @@ def train(opt):
             # print(f'트레인 학습된 모델 경로 가져오기 for file in files files: : {files:}')
             # print(f'트레인 학습된 모델 경로 가져오기 for file in files file : {file}')
 
-
             # if "best_prediction_accuracy_" in file:
             if "best_prediction_accuracy_" in file:
-                #print("Found matching file:", os.path.join(root, file))
+                # print("Found matching file:", os.path.join(root, file))
 
                 # 파일 경로에서 파일 이름 추출
                 file_name = os.path.join(root, file)
 
-                #print(f'file_name : {file_name}')
+                # print(f'file_name : {file_name}')
 
                 # 파일 이름을 "."으로 분할하여 파일 이름 부분과 확장자 부분 분리
                 file_parts = file_name.split(".")
-                #print(f'file_parts : {file_parts}')
+                # print(f'file_parts : {file_parts}')
 
                 connected_parts = '.'.join([file_parts[0], file_parts[1]])
-                #print(f'connected_parts : {connected_parts}')
+                # print(f'connected_parts : {connected_parts}')
 
                 # current_accuracy = connected_parts.split("_")[-1]
                 # print(
@@ -122,12 +119,12 @@ def train(opt):
                 # print(f'이터 스플릿해서 이 current_accuracy : {current_prediction_accuracy}')
 
                 current_prediction_accuracy = float(current_prediction_accuracy)
-                #print(current_prediction_accuracy)
+                # print(current_prediction_accuracy)
 
                 current_prediction_accuracy_list.append(float(current_prediction_accuracy))
                 # 파일 이름 부분을 "_"으로 분할하여 가장 마지막 요소 추출
 
-    #print(f'current_prediction_accuracy_list : {current_prediction_accuracy_list}')
+    # print(f'current_prediction_accuracy_list : {current_prediction_accuracy_list}')
     max_accuracy = max(current_prediction_accuracy_list)
     print("가장 큰 정확도:", max_accuracy)
 
@@ -140,27 +137,26 @@ def train(opt):
     for root, dirs, files in os.walk(path_to_weights):
         for file in files:
             if max_accuracy_str in file:
-            #if "max_accuracy_str" in file or "best_prediction_accuracy_" in file:
+                # if "max_accuracy_str" in file or "best_prediction_accuracy_" in file:
                 # Your code here
 
                 max_accuracy_file_path = os.path.join(root, file)
-                #print("max_accuracy_file_path:", max_accuracy_file_path)
-                #print("max_accuracy_str file:", os.path.join(root, file))
+                # print("max_accuracy_file_path:", max_accuracy_file_path)
+                # print("max_accuracy_str file:", os.path.join(root, file))
     print(f'max_accuracy_file_path : {max_accuracy_file_path}')
     # 기존 모델 불러오기
     opt.saved_model = max_accuracy_file_path
-    #opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_2023-11-23_16-49-53_0.3793_1000.pth'
-    #opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
-    #file = 'best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    # opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_2023-11-23_16-49-53_0.3793_1000.pth'
+    # opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    # file = 'best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
     opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
 
-    #print(f' train.py 기존 모델 불러오기 opt.saved_model : {opt.saved_model}')
+    # print(f' train.py 기존 모델 불러오기 opt.saved_model : {opt.saved_model}')
 
-
-    #opt.FT = True
-    #print(f'63부터 시작하라고 왜 0부터 시작하냐고  saved_model : {opt.saved_model}')
+    # opt.FT = True
+    # print(f'63부터 시작하라고 왜 0부터 시작하냐고  saved_model : {opt.saved_model}')
     print(f'opt.FT : {opt.FT}')
-    #print(f'max_accuracy_file_path : {max_accuracy_file_path}')
+    # print(f'max_accuracy_file_path : {max_accuracy_file_path}')
     print(f'opt.saved_model : {opt.saved_model}')
     """ dataset preparation """
     if not opt.data_filtering_off:
@@ -188,7 +184,6 @@ def train(opt):
 
     print(f' 트레인  Batch_Balanced_Dataset -> train_dataset : {train_dataset}')
 
-
     # print(f'@@@@@@@@@@@@@@@@@@@@train_dataset = Batch_Balanced_Dataset(opt) 에서 opt : {opt}')
     # print(f'@@@@@@@@@@@@@@@@@@@@train_dataset : {train_dataset}')
     current_date = datetime.datetime.now().strftime("%m-%d")
@@ -203,7 +198,7 @@ def train(opt):
     # 파일 열기
     log = open(f'{directory}/log_dataset.txt', 'a')
 
-    #log = open(f'./saved_models/{opt.exp_name}/{current_date}/log_dataset.txt', 'a')
+    # log = open(f'./saved_models/{opt.exp_name}/{current_date}/log_dataset.txt', 'a')
     AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
     # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt)
 
@@ -211,16 +206,15 @@ def train(opt):
     selected_d = 'JH2'
     selected_d = 'JH3'
     selected_d = 'th'
-    #selected_d = 'ttf'
+    # selected_d = 'ttf'
     # print(f'==============밸리드도 나는 트레인으로 일단 하기로 selected_d : {selected_d}')
 
     print(f'트레인 opt.train_dat : {opt.train_data}')
     print(f'트레인 opt.valid_data : {opt.valid_data}')
 
-    #valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
+    # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
     # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt, select_data=[selected_d])
-    valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
-
+    valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt, select_data=[selected_d])
 
     print(f'###############valid_datasethierarchical_dataset : {valid_dataset}')
     print(f'###############valid_dataset hierarchical_dataset len(valid_dataset) : {len(valid_dataset)}')
@@ -235,7 +229,6 @@ def train(opt):
     print(f'valid_loader len(valid_dataset) : {len(valid_dataset)}')
     # 데이터셋 객체에서 라벨과 라벨 수 확인
     # valid_dataset에서 라벨 가져오기
-
 
     # print(f'Number of Labels in valid_dataset len(labels2) : {len(labels2)}')
     # print(f'Number of Labels in valid_dataset : {labels2}')
@@ -258,8 +251,9 @@ def train(opt):
     # encoded_text = text.encode("utf-8")  # 다른 인코딩으로 변환하려면 해당 인코딩을 지정
 
     text = "태국어 텍스트"
-    #opt.character = opt.character.encode("utf-8")  # 다른 인코딩으로 변환하려면 해당 인코딩을 지정
-    print(f'##########################train  인코딩 잘됨???? utf-8 로 인코딩 하면 이상하게 xb8 이런식으로 들어감 이젠 주석했으니 정상 일것 opt.character : {opt.character}')
+    # opt.character = opt.character.encode("utf-8")  # 다른 인코딩으로 변환하려면 해당 인코딩을 지정
+    print(
+        f'##########################train  인코딩 잘됨???? utf-8 로 인코딩 하면 이상하게 xb8 이런식으로 들어감 이젠 주석했으니 정상 일것 opt.character : {opt.character}')
 
     """ model configuration """
     if 'CTC' in opt.Prediction:
@@ -281,22 +275,22 @@ def train(opt):
             print(f'CTCLabelConverter 호출 완료 cnt: {cnt}')
     else:
         converter = AttnLabelConverter(opt.character)
-        #print(f'try.py align with Attention.forward converter : {converter}')
-
+        # print(f'try.py align with Attention.forward converter : {converter}')
 
     opt.num_class = len(converter.character)
     # batch_max_length ( 라벨 ( 텍스트 ) 길이 )
     opt.batch_max_length = opt.num_class
     print(f'트레인.py opt.num_class 1 증가한다 [CTCblank] (  : {opt.num_class}')
-    print(f'트레인.py opt.batch_max_length num_class ( 178 + 1 ) 로 수정  ( preds 에 178 보다 큰 수 나오면 에러남 ( dict 에 없음 ) : {opt.batch_max_length}')
+    print(
+        f'트레인.py opt.batch_max_length num_class ( 178 + 1 ) 로 수정  ( preds 에 178 보다 큰 수 나오면 에러남 ( dict 에 없음 ) : {opt.batch_max_length}')
 
     opt.FT = True
 
     if opt.rgb:
         opt.input_channel = 3
-    #model = Model(opt)
+    # model = Model(opt)
     # 모델 가져오기
-    #model = Model(opt)
+    # model = Model(opt)
     # 가중치 파일을 로드
     # checkpoint = torch.load(max_accuracy_file_path)
     #
@@ -305,7 +299,7 @@ def train(opt):
 
     print(f'===== 트레인 모델의 아키텍처 ===== opt.FT : {opt.FT}')
     print(f'===== 트레인 모델의 아키텍처 ===== opt.saved_model : {opt.saved_model}')
-    #print(f'===== 트레인 현재 모델의 아키텍처 =====처음 생성시 model : {model}')
+    # print(f'===== 트레인 현재 모델의 아키텍처 =====처음 생성시 model : {model}')
 
     # 저장된 모델 파일 경로
     model_path = "your_model.pth"
@@ -314,19 +308,19 @@ def train(opt):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f'===== 트레인 모델의 아키텍처 ===== device : {device}')
     # 저장된 모델 불러오기
-    #saved_model = torch.load(opt.saved_model, map_location=device)
+    # saved_model = torch.load(opt.saved_model, map_location=device)
 
     # 저장된 모델 불러오기
-    #saved_model = torch.load(opt.saved_model)
+    # saved_model = torch.load(opt.saved_model)
     print("\n모델 프린트 너무 길어서 생략===== 저장된 모델의 아키텍처 =====")
-    #print(saved_model)
+    # print(saved_model)
     # for key, value in saved_model.items():
     #     print(f"모델 프린트 너무 길어서 생략===== 저장된 모델의 아키텍처 Key: {key}, Shape: {value.shape if isinstance(value, torch.Tensor) else 'Not a Tensor'}")
 
-    #model = Model(opt)  # YourModelClass는 실제 사용하는 모델 클래스로 바꿔야 합니다.
+    # model = Model(opt)  # YourModelClass는 실제 사용하는 모델 클래스로 바꿔야 합니다.
 
     # 저장된 모델의 가중치를 모델에 로드
-    #model.load_state_dict(saved_model['model_state_dict'])
+    # model.load_state_dict(saved_model['model_state_dict'])
     checkpoint = torch.load(max_accuracy_file_path)
 
     # 모델에 가중치 적용
@@ -353,7 +347,6 @@ def train(opt):
     print(f'model input parameters opt.SequenceModeling : {opt.SequenceModeling}')
     print(f'model input parameters opt.Prediction : {opt.Prediction}')
 
-
     # # weight initialization
     # for name, param in model.named_parameters():
     #     if 'localization_fc2' in name:
@@ -374,12 +367,12 @@ def train(opt):
     # model.train()
 
     # 저장된 모델 가중치 불러오기
-    #saved_model = torch.load('path/to/your/saved_model.pth')
-    #model.load_state_dict(saved_model['model_state_dict'])
+    # saved_model = torch.load('path/to/your/saved_model.pth')
+    # model.load_state_dict(saved_model['model_state_dict'])
     checkpoint = torch.load(max_accuracy_file_path)
 
     # 모델에 가중치 적용
-    #model.load_state_dict(checkpoint)
+    # model.load_state_dict(checkpoint)
 
     # 키와 값 출력
     # for key, value in saved_model.items():
@@ -390,7 +383,6 @@ def train(opt):
     # model.train()
 
     print(f'opt.saved_model : {opt.saved_model}')
-
 
     print(f'opt.FT 로 일단 지정 원래 easyocr 예측값 보려고 : {opt.FT}')
     # if opt.saved_model != '':
@@ -420,7 +412,7 @@ def train(opt):
     #         print(f'else: opt.FT 로 일단 지정 원래 easyocr 예측값 보려고 : {opt.FT}')
     #         model.load_state_dict(torch.load(opt.saved_model))
     # print("Model:")
-    #print(model)
+    # print(model)
 
     # 원본
     # 가중치 초기화
@@ -444,32 +436,30 @@ def train(opt):
         # 마지막 레이어만 가중치를 업데이트
         opt.FT = True
 
-        #model = Model(opt)
+        # model = Model(opt)
 
         print(f'loading pretrained model from {opt.saved_model}')
         # print(f'===== 트레인 모델의 아키텍처 ===== opt : {opt}')
         # print(f'===== 트레인 모델의 아키텍처 ===== opt.FT : {opt.FT}')
-        #print(f'===== 트레인 현재 모델의 아키텍처 =====model : {model}')
-
-
+        # print(f'===== 트레인 현재 모델의 아키텍처 =====model : {model}')
 
         saved_model = torch.load(opt.saved_model)
-        #print(f'Loading pretrained model from model ㅊ = {model}')
+        # print(f'Loading pretrained model from model ㅊ = {model}')
         print("\n모델 프린트 너무 길어서 생략===== 저장된 모델의 아키텍처 =====")
-        #model = Model(opt)
+        # model = Model(opt)
         print(f'Loading pretrained model from {opt.saved_model}')
-        #print(f'Loading pretrained model from model = Model(opt) model = {model }')
+        # print(f'Loading pretrained model from model = Model(opt) model = {model }')
 
-        #print(f'Loading pretrained model from model model = Model(opt)  model = {model}')
-        #print(f'Loading pretrained model from model saved_model = {saved_model}')
-        #여기부터
+        # print(f'Loading pretrained model from model model = Model(opt)  model = {model}')
+        # print(f'Loading pretrained model from model saved_model = {saved_model}')
+        # 여기부터
         # yaml 파일 읽기
         yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom.yaml'
 
         with open(yaml_path, 'r', encoding='utf-8') as stream:
             config = yaml.safe_load(stream)
 
-        #print(f'내가 만든 모델 opt : {opt}')
+        # print(f'내가 만든 모델 opt : {opt}')
 
         # 모델 초기화
         input_channel = config['network_params']['input_channel']
@@ -477,12 +467,12 @@ def train(opt):
         hidden_size = config['network_params']['hidden_size']
         opt.character = config['character_list']
         # len(opt.character) 와 len(converter.character) 둘 중 뭐가 맞는지 확인 필요 ( 기존 모델은 len(opt.character) 로 돼있는데 len(converter.character) 는 train.py 코드에 있음
-        #opt.num_class = len(opt.character)
+        # opt.num_class = len(opt.character)
         print(f'try opt.num_class = len(opt.character) yaml 파일에서 읽어온 거 opt.num_class : {opt.num_class}')
 
-        #opt.num_class = len(converter.character)
+        # opt.num_class = len(converter.character)
         # 기존 가중치 사용하려고
-        #opt.num_class = 177
+        # opt.num_class = 177
         print(
             f'try opt.num_class = len(opt.character) len(converter.character) 로 수정후 ( 1이 더해짐 ) opt.num_class : {opt.num_class}')
         # print(f'train 내가 만든 모델 opt : {opt}')
@@ -495,23 +485,23 @@ def train(opt):
         # print(f'train 내가 만든 모델 opt.num_class : {opt.num_class}')
 
         output_channel = output_channel * 2
-        hidden_size =  hidden_size * 2
+        hidden_size = hidden_size * 2
         # 기존 저장된 모델 num_class 177
         # 학습 시키려는 num_class 98
         # 기존 저장된 모델 num_class + 학습 시키려는 num_class 178 ( '✓' 추가됨 )
-        #opt.num_class = 177
+        # opt.num_class = 177
         # print(f'train  내가 만든 모델 output_channel * 2 변경후 output_channel : {output_channel}')
         # print(
         #     f'train  내가 만든 모델 output_channel * 2 변경후 hidden_size : {hidden_size}')
         # print(f'train  내가 만든 모델 output_channel * 2 변경후 opt.num_class : {opt.num_class}')
-        #def __init__(self, input_channel, output_channel, hidden_size, num_class):
-        #input_channel, output_channel, hidden_size, num_class
+        # def __init__(self, input_channel, output_channel, hidden_size, num_class):
+        # input_channel, output_channel, hidden_size, num_class
         # model = CustomModel(input_channel, output_channel, hidden_size, opt.num_class)
         # print(f'내가 만든 모델 model = {model}')
-        #sys.exit()
+        # sys.exit()
 
         # 원본 모델의 가중치 불러오기
-        #saved_model_state_dict = torch.load(opt.saved_model)
+        # saved_model_state_dict = torch.load(opt.saved_model)
         # saved_model_state_dict = CustomModel(input_channel, output_channel, hidden_size, opt.num_class - 1)
         # print(f'원본 모델 model = {saved_model_state_dict}')
         #
@@ -522,7 +512,6 @@ def train(opt):
         # saved_model_state_dict.load_state_dict(torch.load(opt.saved_model), strict=True)
         # print(f'try 원본 saved_model_state_dict : {saved_model_state_dict}')
 
-
         # for name, param in saved_model_state_dict.named_parameters():
         #     # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
         #     # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
@@ -530,19 +519,18 @@ def train(opt):
         #         param.requires_grad = True
         #         print(f'원본 가중치 Name: {name}\n, 원본 가중치 Shape ( 178 ): {param.shape}\n, 원본 가중치 data: {param.data}\n, 원본 가중치 data.shape ( 178 개만 불러와야 함 ): {param.data.shape}\n')
 
-
         if opt.FT:
 
             print(f'try opt.num_class 179 개 나와야 함 : {opt.num_class}')
             # custom 모델 ( ( ✓ 체크 ) + blank )
-            #opt.num_class = 179
+            # opt.num_class = 179
             # 원본 모델
-            #opt.num_class = 177
-            #model = CustomModel(input_channel, output_channel, hidden_size, opt.num_class)
+            # opt.num_class = 177
+            # model = CustomModel(input_channel, output_channel, hidden_size, opt.num_class)
             # output_channel, hidden_size 두배로 늘림
             model = CustomModel(input_channel, output_channel, hidden_size, opt.num_class)
-            #model = Model(opt)
-            #print(f'내가 만든 모델 model = {model}')
+            # model = Model(opt)
+            # print(f'내가 만든 모델 model = {model}')
             print(f'try pt.FT : {opt.FT}')
 
             ########################################
@@ -552,15 +540,14 @@ def train(opt):
             # 1. 출력개수 같은경우 ( 177, 177 )
 
             # DataParallel 로 먼저 가중치 로드하면 접두사 에러 해결됨 ( module. 이 접두사로 붙음 ( 병렬처리시 module. 이 접두사로 붙음 )
-            #model = torch.nn.DataParallel(model)
-
+            # model = torch.nn.DataParallel(model)
 
             # 2. 출력개수 틀릴시 ( 177, 179 )
             # trict=False 로 먼저 가중치 dict 로드하고 병렬로 이동시키면 에러 안남. ( 순서를 틀리게 해야함. 출력개수 같은경우와 틀린경우에 따라 )
 
             # 2-1. 가중치 dict 로드
             model.load_state_dict(torch.load(opt.saved_model), strict=False)
-            #model.load_state_dict(torch.load(opt.saved_model), strict=True)
+            # model.load_state_dict(torch.load(opt.saved_model), strict=True)
 
             # 2-2. 병렬로 이동
             model = torch.nn.DataParallel(model)
@@ -578,7 +565,7 @@ def train(opt):
 
             # 일단 기존 가중치랑 맞추기로 ( 처음에 너무 정확도가 낮음, 처음 트레인시에도 어느 정도 정확도 유지하는지 보려고 )
             # model.load_state_dict(torch.load(opt.saved_model), strict=False)
-            #model.load_state_dict(torch.load(opt.saved_model), strict=True)
+            # model.load_state_dict(torch.load(opt.saved_model), strict=True)
 
             # 저장된 모델의 가중치 불러오기
             # saved_model_state_dict = torch.load(opt.saved_model)
@@ -589,7 +576,7 @@ def train(opt):
             #
             # # 모델을 지정된 장치로 이동
             # model = model.to(device)
-            #print(f'가중치 잘 가져와야함! opt.FT model 가중치: {model}')
+            # print(f'가중치 잘 가져와야함! opt.FT model 가중치: {model}')
             # DataParallel 로 가중치 로드하면 접두사 에러 해결됨
             # model = torch.nn.DataParallel(model)
             # model.load_state_dict(torch.load(opt.saved_model))
@@ -605,9 +592,9 @@ def train(opt):
 
             model_dict = torch.load(opt.saved_model)
 
-        #DataParallel 로 가중치 로드하면 접두사 에러 해결됨 ( module. 이 접두사로 붙음 ( 병렬처리시 module. 이 접두사로 붙음 )
+        # DataParallel 로 가중치 로드하면 접두사 에러 해결됨 ( module. 이 접두사로 붙음 ( 병렬처리시 module. 이 접두사로 붙음 )
         # 출력개수 틀릴시 ( 177, 179 ) strict=False 로 가중치 로드하고 병렬로 이동시키면 에러 안남.
-        #model = torch.nn.DataParallel(model)
+        # model = torch.nn.DataParallel(model)
 
         # # DataParallel 로 가중치 로드하면 접두사 에러 해결됨
         # model = torch.nn.DataParallel(model)
@@ -624,17 +611,208 @@ def train(opt):
         #         param.requires_grad = False  # 나머지 레이어는 동결
 
         # 모델의 각 레이어에 대해 requires_grad 설정
+        # for name, param in model.named_parameters():
+        #     # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
+        #     # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
+        #     if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #         param.requires_grad = True
+        #         # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+        #         print(
+        #             f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+        #
+        #     else:
+        #         param.requires_grad = False  # 나머지 레이어는 동결
+
+        # for name, param in model.named_parameters():
+        #     # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
+        #     # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
+        #     # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #     #     param.requires_grad = True
+        #     #     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+        #     #     print(
+        #     #         f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+        #
+        #     print(f'마지막 레이어에 대해서만 학습 name :  {name} ')
+        #     print(f'param.requires_grad 변경전 :  {param.requires_grad} ')
+        #     #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #     if "module.Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #         print(f'마지막 레이어 ( module.Prediction ) model 가중치 name: {name}')
+        #         print(f'마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
+        #         param.requires_grad = True
+        #         # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+        #         print(
+        #              f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+        #         print(f'마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
+        #         # try:
+        #         #     if 'bias' in name:
+        #         #         init.constant_(param, 0.0)
+        #         #     elif 'weight' in name:
+        #         #         init.kaiming_normal_(param)
+        #         # except Exception as e:  # for batchnorm.
+        #         #     pass
+        #
+        #     else:
+        #         param.requires_grad = False  # 나머지 레이어는 동결
+        #         print(f'나머지 레이어는 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+
+        # for name, param in model.named_parameters():
+        #     # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
+        #     # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
+        #     # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #     #     param.requires_grad = True
+        #     #     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+        #     #     print(
+        #     #         f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+        #     print('============================================================')
+        #     print('============================================================')
+        #     print(f'처음 name :  {name} ')
+        #     print(f'처음 param.requires_grad 변경전 :  {param.requires_grad} ')
+        #     #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #
+        #     try:
+        #         # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #
+        #         if "module.Prediction" in name:  # 마지막 레이어에 대해서만 학습
+        #             #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 name: {name}')
+        #             #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
+        #             param.requires_grad = True
+        #             # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+        #             print(
+        #                 f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+        #             print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
+        #             # try:
+        #             #     if 'bias' in name:
+        #             #         init.constant_(param, 0.0)
+        #             #     elif 'weight' in name:
+        #             #         init.kaiming_normal_(param)
+        #             # except Exception as e:  # for batchnorm.
+        #             #     pass
+        #
+        #             # 가중치 초기화
+        #             #print(f'not batchnorm and 마지막 레이어 param name :  {name} ')
+        #             #print(f'not batchnorm and 마지막 레이어 param 변경전 :  {param} ')
+        #             if 'bias' in name:
+        #                 pass
+        #                 #init.constant_(param, 0.0)
+        #
+        #             elif 'weight' in name:
+        #                 pass
+        #                 #init.kaiming_normal_(param)
+        #
+        #             print('===========================================================')
+        #             #print(f'not batchnorm and 마지막 레이어 param 변경후 :  {param} ')
+        #
+        #
+        #         else:
+        #             #param.requires_grad = False  # 나머지 레이어는 동결
+        #             print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+        #             #print(f'not batchnorm and 나머지 레이어 param 변경전 :  {param} ')
+        #             if 'bias' in name:
+        #                 #init.constant_(param, 0.0)
+        #                 pass
+        #
+        #             elif 'weight' in name:
+        #                 #init.kaiming_normal_(param)
+        #                 pass
+        #
+        #             print('===========================================================')
+        #             #print(f'not batchnorm and 나머지 레이어 param 변경후 :  {param} ')
+        #
+        #     except Exception as e:  # for batchnorm.
+        #         #print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
+        #         #print(f'for batchnorm weight param 변경전 :  {param} ')
+        #         # Batch Normalization의 스케일 파라미터를 초기화할 때는 init.normal_ 함수를 사용하여 평균이 0이고 표준 편차가 0.02인 정규 분포로 초기화하는 방법이 일반적으로 사용
+        #         if 'weight' in name:
+        #             pass
+        #             # 원본 ( 1로 채움 )
+        #             #param.data.fill_(1)
+        #             #init.normal_(param)
+        #             #print(f'for batchnorm weight param 변경후 :  {param} ')
+        #
+        #         #param.requires_grad = False  # 나머지 레이어는 동결
+        #         print(f'batchnorm ( 마지막 레이어 나머지 레이어) 는 requires_grad 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+        #
+        #         continue
+
         for name, param in model.named_parameters():
             # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
             # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
-            if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
-                param.requires_grad = True
-                #print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
-                print(
-                    f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+            # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+            #     param.requires_grad = True
+            #     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+            #     print(
+            #         f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+            print('============================================================')
+            print('============================================================')
+            print(f'처음 name :  {name} ')
+            print(f'처음 param.requires_grad 변경전 :  {param.requires_grad} ')
+            #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
 
-            else:
-                param.requires_grad = False  # 나머지 레이어는 동결
+            try:
+                # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+
+                if "module.Prediction" in name:  # 마지막 레이어에 대해서만 학습
+                    #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 name: {name}')
+                    #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
+                    param.requires_grad = True
+                    # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
+                    print(
+                        f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+                    print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    # try:
+                    #     if 'bias' in name:
+                    #         init.constant_(param, 0.0)
+                    #     elif 'weight' in name:
+                    #         init.kaiming_normal_(param)
+                    # except Exception as e:  # for batchnorm.
+                    #     pass
+
+                    # 가중치 초기화
+                    #print(f'not batchnorm and 마지막 레이어 param name :  {name} ')
+                    #print(f'not batchnorm and 마지막 레이어 param 변경전 :  {param} ')
+                    if 'bias' in name:
+                        #pass
+                        init.constant_(param, 0.0)
+
+                    elif 'weight' in name:
+                        #pass
+                        init.kaiming_normal_(param)
+
+                    print('===========================================================')
+                    #print(f'not batchnorm and 마지막 레이어 param 변경후 :  {param} ')
+
+
+                else:
+                    #param.requires_grad = False  # 나머지 레이어는 동결
+                    print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    #print(f'not batchnorm and 나머지 레이어 param 변경전 :  {param} ')
+                    if 'bias' in name:
+                        init.constant_(param, 0.0)
+                        #pass
+
+                    elif 'weight' in name:
+                        init.kaiming_normal_(param)
+                        #pass
+
+                    print('===========================================================')
+                    #print(f'not batchnorm and 나머지 레이어 param 변경후 :  {param} ')
+
+            except Exception as e:  # for batchnorm.
+                #print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
+                #print(f'for batchnorm weight param 변경전 :  {param} ')
+                # param.requires_grad = False  # 나머지 레이어는 동결
+                print(
+                    f'batchnorm ( 마지막 레이어 나머지 레이어) 는 requires_grad 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+
+                # Batch Normalization의 스케일 파라미터를 초기화할 때는 init.normal_ 함수를 사용하여 평균이 0이고 표준 편차가 0.02인 정규 분포로 초기화하는 방법이 일반적으로 사용
+                if 'weight' in name:
+                    #pass
+                    # 원본 ( 1로 채움 )
+                    param.data.fill_(1)
+                    #init.normal_(param)
+                    #print(f'for batchnorm weight param 변경후 :  {param} ')
+
+                continue
 
         # 특정 부분의 파라미터를 제외한 파라미터 그룹 생성
         # params_to_update = []
@@ -662,10 +840,10 @@ def train(opt):
         #         continue
 
         # 마지막 레이어의 가중치 가져오기
-        #last_layer_weight = model.Prediction.weight.data
-        #last_layer_bias = model.Prediction.bias.data
-        #print(f'train last_layer_weight : {last_layer_weight}')
-        #print(f'train  last_layer_bias : {last_layer_bias}')
+        # last_layer_weight = model.Prediction.weight.data
+        # last_layer_bias = model.Prediction.bias.data
+        # print(f'train last_layer_weight : {last_layer_weight}')
+        # print(f'train  last_layer_bias : {last_layer_bias}')
 
         # for name, param in model.named_parameters():
         #     if 'localization_fc2' in name:
@@ -683,7 +861,7 @@ def train(opt):
         #             param.data.fill_(1)
         #         continue
 
-        #model.load_state_dict(torch.load(opt.saved_model))
+        # model.load_state_dict(torch.load(opt.saved_model))
 
         print('model input parameters', opt.imgH, opt.imgW, opt.num_fiducial, opt.input_channel, opt.output_channel,
 
@@ -719,10 +897,10 @@ def train(opt):
         #
         # print(f'model input parameters opt.Prediction : {opt.Prediction}')
 
-        #print(f'가중치 잘 가져와야함! model cuda 로 보내기전 아키텍쳐: {model}')
+        # print(f'가중치 잘 가져와야함! model cuda 로 보내기전 아키텍쳐: {model}')
 
         model = model.cuda()
-        #model = torch.nn.DataParallel(model).to(device)
+        # model = torch.nn.DataParallel(model).to(device)
 
         # 모든 파라미터에 대해 초기 설정
         # for param in model.parameters():
@@ -734,12 +912,9 @@ def train(opt):
         # for param in model.some_specific_part.parameters():
         #     param.requires_grad = False  # 해당 부분의 파라미터는 업데이트하지 않음
 
-
-
         model.train()
 
-        #print(f'가중치 잘 가져와야함! model cuda 로 보낸후 아키텍쳐: {model}')
-
+        # print(f'가중치 잘 가져와야함! model cuda 로 보낸후 아키텍쳐: {model}')
 
         # 모델의 가중치를 출력
         # for name, param in model.named_parameters():
@@ -786,48 +961,63 @@ def train(opt):
     #         if 'weight' in name:
     #             param.data.fill_(1)
     #         continue
-    for name, param in model.named_parameters():
-        if 'localization_fc2' in name:
-            print(f'Skip {name} as it is already initialized')
-            continue
-        try:
-            #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
-
-            if 'bias' in name:
-                init.constant_(param, 0.0)
-            elif 'weight' in name:
-                init.kaiming_normal_(param)
-
-        except Exception as e:  # for batchnorm.
-            if 'weight' in name:
-                param.data.fill_(1)
-            continue
-
-    # 기존 학습된 가중치 로드
-    # pretrained_weights = torch.load(opt.saved_model)
-    #
-    # # 모델의 각 매개변수에 대해 가중치 초기화 또는 기존 가중치로 설정
+    ##############################################################
+    # # 가중치 초기화 안하면 정확도가 0 ( 이상하게 나옴 )
     # for name, param in model.named_parameters():
     #     if 'localization_fc2' in name:
     #         print(f'Skip {name} as it is already initialized')
     #         continue
-    #
     #     try:
+    #         # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+    #
     #         if 'bias' in name:
     #             init.constant_(param, 0.0)
     #         elif 'weight' in name:
-    #             # 사용자 정의된 초기화 코드나 기존 가중치 설정 코드를 추가
-    #             if name in pretrained_weights:
-    #                 param.data = pretrained_weights[name]
-    #                 print(f'try 기존 가중치로 초기화 한다 name : {name}')
-    #                 print(f'try 기존 가중치로 초기화 한다 param.data : {param.data}')
+    #             init.kaiming_normal_(param)
     #
-    #             else:
-    #                 init.kaiming_normal_(param)
     #     except Exception as e:  # for batchnorm.
+    #         print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
     #         if 'weight' in name:
     #             param.data.fill_(1)
     #         continue
+
+    ##############################################################
+
+    #기존 학습된 가중치 로드
+    #pretrained_weights = torch.load(opt.saved_model)
+    # 초기화 안하면 정확도가 0 나옴
+    # 모델의 각 매개변수에 대해 가중치 초기화 또는 기존 가중치로 설정
+    # for name, param in model.named_parameters():
+    #     print(f'name, param in model.named_parameters name :  {name} ')
+    #     if 'localization_fc2' in name:
+    #         print(f'Skip {name} as it is already initialized')
+    #         continue
+    #     try:
+    #         #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+    #
+    #         print(f'batchnorm 아닌 레이어 param 변경전 ( 기존 학습된 param ) :  {param} ')
+    #
+    #         if 'bias' in name:
+    #             init.constant_(param, 0.0)
+    #
+    #         elif 'weight' in name:
+    #             # 원본 init.kaiming_normal_(param)
+    #             # # ( [-0.0604, -0.0159,  0.1155,  ...,  0.0332, -0.0112, -0.0189] )
+    #             #init.kaiming_normal_(param)
+    #             # ( [-0.1055,  0.0768, -0.0776,  ...,  0.0348, -0.0304,  0.0949] )
+    #             #init.kaiming_uniform_(param, mode='fan_in', nonlinearity='relu')
+    #             # ( [-0.0270, -0.0071,  0.0516,  ...,  0.0149, -0.0050, -0.0085] )
+    #             init.xavier_normal_(param)
+    #         print(f'batchnorm 아닌 레이어 param 변경후 :  {param} ')
+    #         print(f'batchnorm 아닌 레이어 param 변경전 ( 기존 학습된 param.shape ) :  {param.shape} ')
+    #     except Exception as e:  # for batchnorm.
+    #         #print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
+    #         print(f'for batchnorm param 변경전 param :  {param} ')
+    #         if 'weight' in name:
+    #             param.data.fill_(1)
+    #             print(f'for batchnorm param 변경후 param :  {param} ')
+    #         continue
+
 
     """ setup loss """
     if 'CTC' in opt.Prediction:
@@ -855,11 +1045,15 @@ def train(opt):
 
     # opt.lr = 0.0085  # 학습률을 더 작게 조정
     # opt.adam = True
-    
+
     # setup optimizer
     if opt.adam:
         optimizer = optim.Adam(filtered_parameters, lr=opt.lr, betas=(opt.beta1, 0.999))
     else:
+        print('train.py opt.lr 변경전 : ', opt.lr)
+        #opt.lr = 0.0001
+        opt.lr = 0.0001
+        opt.lr = 0.001
         # 원본
         # adam: False
         # lr: 1
@@ -871,6 +1065,9 @@ def train(opt):
         # #opt.beta1: 0.9  # Adam의 첫 번째 모멘텀 값
         # opt.rho = 0.9  # Adadelta의 감마 값 (보통 0.9로 설정)
         # opt.eps = 1e-08  # Adadelta의 epsilon 값
+        print('train.py opt.lr : ', opt.lr)
+        print('train.py opt.rho : ', opt.rho)
+        print('train.py opt.eps : ', opt.eps)
 
         optimizer = optim.Adadelta(filtered_parameters, lr=opt.lr, rho=opt.rho, eps=opt.eps)
 
@@ -921,23 +1118,23 @@ def train(opt):
 
     """ start training """
     start_iter = 0
-    #print(f'기존 모델 있을 경우  opt.saved_model : {opt.saved_model}')
+    # print(f'기존 모델 있을 경우  opt.saved_model : {opt.saved_model}')
     if opt.saved_model != '':
         try:
             # start_iter = int(opt.saved_model.split('_')[-1].split('.')[0])
             # 파일 경로에서 파일 이름 추출
             file_name = opt.saved_model
-            #print(f'기존 모델 있을 경우  opt.saved_model : {opt.saved_model}')
+            # print(f'기존 모델 있을 경우  opt.saved_model : {opt.saved_model}')
             # 파일 이름을 "."으로 분할하여 파일 이름 부분과 확장자 부분 분리
             file_parts = file_name.split(".")
 
             connected_parts = '.'.join([file_parts[0], file_parts[1]])
-            #print(f'기존 모델 있을 경우  connected_parts : {connected_parts}')
-            #print(f'기존 모델 있을 경우  connected_parts.split("_") : {connected_parts.split("_")}')
-            #start_iter = connected_parts.split("_")[-1].split("_")[1]
+            # print(f'기존 모델 있을 경우  connected_parts : {connected_parts}')
+            # print(f'기존 모델 있을 경우  connected_parts.split("_") : {connected_parts.split("_")}')
+            # start_iter = connected_parts.split("_")[-1].split("_")[1]
             start_iter = int(connected_parts.split("_")[-1])
             print(f'기존 모델 있을 경우  start_iter : {start_iter}')
-            #print(f'기존 모델 있을 경우 들어오라고  start_iter : {start_iter}')
+            # print(f'기존 모델 있을 경우 들어오라고  start_iter : {start_iter}')
             # print(f'opt saved_model split : {opt.saved_model.split('_')[-1]}')
             # print(f'start_iter : {start_iter}')
             #
@@ -947,13 +1144,13 @@ def train(opt):
 
             print(f'트레인 opt.num_iter: {opt.num_iter}')
 
-            if(start_iter > opt.num_iter):
-            # 기존 저장된 가중치 이터레이션이 클 경우 처음부터 로그 저장하기 위해서 start_iter = 0 으로 초기화
+            if (start_iter > opt.num_iter):
+                # 기존 저장된 가중치 이터레이션이 클 경우 처음부터 로그 저장하기 위해서 start_iter = 0 으로 초기화
                 start_iter = 0
 
                 print(f'트레인 if(start_iter < opt.num_iter) 면 0부터 시작 start_iter : {start_iter}')
 
-            #print(f'split : {split}')
+            # print(f'split : {split}')
         except:
             pass
 
@@ -964,7 +1161,6 @@ def train(opt):
     # 기존 저장된 가중치 이터레이션이 클 경우 처음부터 로그 저장하기 위해서 start_iter = 0 으로 초기화
     start_iter = 0
     iteration = start_iter
-
 
     # print(f'opt.saved_model : {opt.saved_model}')
     #
@@ -980,13 +1176,12 @@ def train(opt):
     all_results = []
 
     # 실제값과 정확도를 저장할 리스트
-    #correct_predictions = []
+    # correct_predictions = []
     label_cnt = 0
 
     while (True):
 
-        #print(f'트레인 train part opt : {opt}')
-
+        # print(f'트레인 train part opt : {opt}')
 
         # train part
         image_tensors, labels = train_dataset.get_batch()
@@ -998,8 +1193,8 @@ def train(opt):
         current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
         image = image_tensors.to(device)
-        #print(f'트레인 함수 Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 labels  : {labels}')
-        #'labels' 변수에서 'ๆ' 문자가 있는지 확인
+        # print(f'트레인 함수 Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 labels  : {labels}')
+        # 'labels' 변수에서 'ๆ' 문자가 있는지 확인
         # if '✓' in labels:
         #     # 'ๆ' 문자가 있을 경우
         #     print('Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 라벨에도 없음 있음')
@@ -1011,14 +1206,14 @@ def train(opt):
         text, length = converter.encode(labels, batch_max_length=opt.batch_max_length)
 
         print(f'트레인  converter.encode 후 len(labels) : {len(labels)}')
-        #print(f'트레인  converter.encode 후 length : {length}')
+        # print(f'트레인  converter.encode 후 length : {length}')
 
         batch_size = image.size(0)
 
         print(f'batch_size ( 마지막 배치는 batch_size 보다 작을 수 있다 ) : {batch_size}')
         print(f'len(labels) : {len(labels)}')
         print(f'iteration : {iteration}')
-        #print(f'accuracy : {accuracy}')
+        # print(f'accuracy : {accuracy}')
 
         # 이미지 텐서를 PIL 이미지로 변환
         # print('@@@@@@@@@@@@@@이미지 텐서를 PIL 이미지로 변환')
@@ -1030,9 +1225,8 @@ def train(opt):
         # 이미지 파일 경로 출력
         # print("이미지 파일이 저장된 경로: saved_image.png")
 
-
         if 'CTC' in opt.Prediction:
-            #print(f'Prediction if  CTC opt.Prediction: text : {text}')
+            # print(f'Prediction if  CTC opt.Prediction: text : {text}')
 
             preds = model(image, text)
             preds_size = torch.IntTensor([preds.size(1)] * batch_size)
@@ -1043,14 +1237,14 @@ def train(opt):
                 preds = preds.log_softmax(2).permute(1, 0, 2)
                 cost = criterion(preds, text, preds_size, length)
 
-            #print(f' preds : {preds }')
+            # print(f' preds : {preds }')
             print(f' preds.shape : {preds.shape}')
             print(f' len(preds) : {len(preds)}')
             print(f' batch_size : {batch_size}')
-            #print(f' preds_size : {preds_size}')
-            #print(f' text : {text}')
-            #print(f' preds_size : {preds_size}')
-            #print(f' length : {length}')
+            # print(f' preds_size : {preds_size}')
+            # print(f' text : {text}')
+            # print(f' preds_size : {preds_size}')
+            # print(f' length : {length}')
 
         else:
 
@@ -1063,7 +1257,7 @@ def train(opt):
             preds = model(image, text[:, :-1])  # align with Attention.forward
             target = text[:, 1:]  # without [GO] Symbol
             cost = criterion(preds.view(-1, preds.shape[-1]), target.contiguous().view(-1))
-            #print(f'try.py align with Attention.forward cost : {cost}')
+            # print(f'try.py align with Attention.forward cost : {cost}')
 
         model.zero_grad()
         cost.backward()
@@ -1078,8 +1272,9 @@ def train(opt):
         # print(f'결과 출력하기 전 iteration 1 증가시키기 전: {iteration}')
         # print(f'결과 출력하기 전 iteration 1 증가시키기 전 마지막도 출력해라  opt.num_iter: {opt.num_iter}')
 
-        #if ( iteration + 1) % opt.valInterval == 0 or iteration == 0:  # To see training progress, we also conduct validation when 'iteration == 0'
-        if ( iteration + 1) % opt.valInterval == 0 or iteration == 0 or ( iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
+        # if ( iteration + 1) % opt.valInterval == 0 or iteration == 0:  # To see training progress, we also conduct validation when 'iteration == 0'
+        if (iteration + 1) % opt.valInterval == 0 or iteration == 0 or (
+                iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
 
             print('결과 출력한다')
             print(f'iteration : {iteration}')
@@ -1101,18 +1296,22 @@ def train(opt):
             log_file_with_time = f'log_train_{log_file_with_time[0]}_{current_time}{log_file_with_time[1]}'
 
             # 파일 열기
-            #with open(log_file_with_time, 'a', encoding='utf-8') as log:
-
+            # with open(log_file_with_time, 'a', encoding='utf-8') as log:
 
             # for log
-            #with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a') as log:
-            #with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a', encoding='utf-8') as log:
-            #with open(f'./saved_models/{opt.exp_name}/log_train_{current_time}.txt', 'a', encoding='utf-8') as log:
+            # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a') as log:
+            # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a', encoding='utf-8') as log:
+            # with open(f'./saved_models/{opt.exp_name}/log_train_{current_time}.txt', 'a', encoding='utf-8') as log:
             print(f'파일 저장전 iteration: {iteration}')
             print(f'파일 저장전 iteration + 1: {iteration + 1}')
 
+            original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+
             #         f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt
-            with open(f'./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt', 'a', encoding='utf-8') as log:
+            # with open(f'./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt', 'a',
+            #           encoding='utf-8') as log:
+            with open(original_log_file_name, 'a',
+                      encoding='utf-8') as log:
                 # 나머지 코드
                 print(f' validation 함수 넘겨주기전 OPT: {opt}')
 
@@ -1126,7 +1325,7 @@ def train(opt):
 
                 model.train()
                 print(f' validation 함수 넘겨주기전 model.train() OPT: {opt}')
-                #print(f'validation labels : {labels}')
+                # print(f'validation labels : {labels}')
                 print(f'validation 함수에서 라벨 개수가 줄어  len(labels) : {len(labels)}')
                 #
                 # # train_dataset의 데이터셋 구성 확인
@@ -1136,7 +1335,6 @@ def train(opt):
                 # unique_labels = set()
                 # for _, labels in length:
                 #     unique_labels.update(labels)
-
 
                 # print("Number of Unique Labels in Train Dataset:",
                 #       unique_labels)  # unique_labels을 사용해 고유 라벨 수 확인
@@ -1189,7 +1387,7 @@ def train(opt):
                 print(f"current_accuracy: {current_accuracy}")
                 print(f"current_norm_ED: {current_norm_ED:.4f}")
 
-                #best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
+                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
 
                 correct_predictions = []
                 fail_predictions = []
@@ -1215,7 +1413,7 @@ def train(opt):
 
                     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
 
-                    #print(f'트라이 predicted_result_log 쌓는다 : {predicted_result_log}')
+                    # print(f'트라이 predicted_result_log 쌓는다 : {predicted_result_log}')
 
                     is_correct = pred == gt
                     correct_predictions.append(is_correct)
@@ -1226,15 +1424,14 @@ def train(opt):
                     else:
                         # Code for incorrect prediction
                         # Save gt to a text file
-                        #fail_predictions.append(gt)
+                        # fail_predictions.append(gt)
                         # for 루프 내부에서 fail_predictions에 gt와 pred를 딕셔너리로 추가
                         fail_predictions.append({'gt': gt, 'pred': pred})
-
 
                 # print(
                 #     f'트레인 fail 로 예측함 잘못 예측한거 리스트에 저장 fail_predictions : {fail_predictions}')
 
-                #fail_predictions_save_dir = r'fail_predictions'
+                # fail_predictions_save_dir = r'fail_predictions'
 
                 # with open(f'./saved_models/{opt.exp_name}/{current_date}/fail_predictions_{current_time}_{iteration + 1}.txt',
                 #           'w', encoding='utf-8') as fail_predictions_log:
@@ -1251,11 +1448,11 @@ def train(opt):
 
                     for line in lines:
 
-                        #print(f'line : {line}')
+                        # print(f'line : {line}')
 
                         # Split the line using tab as a separator
                         parts = line.split('\t')
-                        #print(f'parts : {parts}')
+                        # print(f'parts : {parts}')
 
                         # Check if the part after the tab matches any ground truth in fail_predictions
                         for failed_gt in fail_predictions:
@@ -1264,11 +1461,11 @@ def train(opt):
                             # print(
                             #     f'트라이 for failed_gt in fail_predictions failed_gt : {t}')
 
-                            #if len(parts) > 1 and parts[1].strip() == failed_gt:
+                            # if len(parts) > 1 and parts[1].strip() == failed_gt:
                             if len(parts) > 1 and parts[1].strip() == failed_gt['gt']:
-                                #failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
+                                # failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
                                 failed_gt_predictions.append(f"{line.strip()}\t|\t{failed_gt['pred']}")
-                                #print(f'failed_gt_predictions : {failed_gt_predictions}')
+                                # print(f'failed_gt_predictions : {failed_gt_predictions}')
 
                                 # fail_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
                                 # print(f'이미지도 있어야 해 fail_predictions : {fail_predictions}')
@@ -1280,37 +1477,33 @@ def train(opt):
 
                 print(f'실패한 GT 행과 이미지 저장 gt_output_file_path : {gt_output_file_path}')
 
-
                 #############################################
 
-
-
                 predicted_result_log += f'{dashed_line}'
-
 
                 # 정확도 계산
                 accuracy = sum(correct_predictions) / len(correct_predictions)
 
-                #best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"accuracy":17s}: {accuracy:0.2f}'
-                #best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
+                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"accuracy":17s}: {accuracy:0.2f}'
+                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
 
-                #accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
+                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
 
-                #best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":17s}: {accuracy:0.2f}\n'
+                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":17s}: {accuracy:0.2f}\n'
                 best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":10s}({sum(correct_predictions)} / {len(correct_predictions)}): {accuracy:0.2f}\n'
                 best_model_log += f'{dashed_line}\n'
                 # print(accuracy_log)
                 # log.write(accuracy_log + '\n')
                 # 정확도 출력
                 # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}'
-                #accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
+                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
                 accuracy_log = f'{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}\n'
-                #accuracy_log += f'{dashed_line}\n'
+                # accuracy_log += f'{dashed_line}\n'
                 # print(accuracy_log)
-                #best_model_log += dashed_line
+                # best_model_log += dashed_line
                 best_model_log += accuracy_log
 
-                #loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
+                # loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
                 loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
 
                 print(loss_model_log)
@@ -1320,7 +1513,7 @@ def train(opt):
                 # log.write(predicted_result_log + '\n')
 
                 # show some predicted results
-                #dashed_line = '-' * 80
+                # dashed_line = '-' * 80
                 # head = f'{"Ground Truth":25s} | {"Prediction":25s} | Confidence Score & T/F'
                 # predicted_result_log = f'{dashed_line}\n{head}\n{dashed_line}\n'
                 # for gt, pred, confidence in zip(labels[:5], preds[:5], confidence_score[:5]):
@@ -1364,15 +1557,14 @@ def train(opt):
                 #     # result = f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
                 #     # all_results.append(result)
 
-                #print(f'트라이 correct_predictions 전체 : {correct_predictions}')
+                # print(f'트라이 correct_predictions 전체 : {correct_predictions}')
                 print(f'트라이 correct_predictions 전체 길이 : {len(correct_predictions)}')
 
                 predicted_result_log += f'{dashed_line}'
-                #print(predicted_result_log)
+                # print(predicted_result_log)
                 log.write(predicted_result_log + '\n')
 
                 print('=' * 200)
-
 
                 # for gt, pred, confidence in zip(labels, preds, confidence_score):
                 #     if 'Attn' in opt.Prediction:
@@ -1388,8 +1580,7 @@ def train(opt):
                 #
                 #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{is_correct}\n'
 
-
-                #print(f'정확도 계산 len(correct_predictions) : {len(correct_predictions)}')
+                # print(f'정확도 계산 len(correct_predictions) : {len(correct_predictions)}')
 
                 # # 정확도 계산
                 # accuracy = sum(correct_predictions) / len(correct_predictions)
@@ -1418,11 +1609,11 @@ def train(opt):
             # 훈련이 끝난 후, 모든 결과 출력
             for result in all_results:
                 pass
-                #print('훈련 끝남==========')
-                #print(result)
+                # print('훈련 끝남==========')
+                # print(result)
 
         # save model per 1e+5 iter.
-        #if (iteration + 1) % 1e+5 == 0:
+        # if (iteration + 1) % 1e+5 == 0:
 
         # print(f'iter 마다 주기적으로 가중치 저장한다 (num_iter // 2) : {(opt.num_iter // 2)}')
         #
@@ -1434,32 +1625,35 @@ def train(opt):
         print(f'current_time : {current_time}')
         print(f'iteration  : {iteration}')
         print(f'opt.num_iter  : {opt.num_iter}')
-        #if (iteration + 1) % (opt.num_iter // 2) == 0:
-        if (opt.num_iter != 0 and iteration != 0) and ((opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
+        # if (iteration + 1) % (opt.num_iter // 2) == 0:
+        if (opt.num_iter != 0 and iteration != 0) and (
+                (opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
             # 해당 코드 블록 실행
 
             print(f'iter 마다 주기적으로 가중치 저장 시작 (num_iter // 2) 저장 : {(opt.num_iter // 2)}')
             torch.save(
-                #model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
-                model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+                # model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
+                model.state_dict(),
+                f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
 
         # print(f'@@@@@@@@@@@@@@@@@@@@@@@@opt.num_iter : {opt.num_iter}')
 
         # 원래 파일 경로 및 파일명
-        original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
-        #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration}.txt"
+        #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+        #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+        # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration}.txt"
 
         # 파일 이름 변경
-        #os.rename(original_log_file_name, new_log_file_name)
+        # os.rename(original_log_file_name, new_log_file_name)
 
-        #print(f'파일의 존재 여부를 확인 original_log_file_name : {original_log_file_name}')
+        # print(f'파일의 존재 여부를 확인 original_log_file_name : {original_log_file_name}')
 
         # 파일의 존재 여부를 확인
         if os.path.exists(original_log_file_name):
             print(f'파일의 존재 여부를 확인 있음___________  original_log_file_name : {original_log_file_name}')
 
             # 원래 파일 경로 및 파일명
-            #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
 
             # 추가할 문자열
             suffix = f"{accuracy:.4f}_{iteration + 1}.txt"
@@ -1499,16 +1693,16 @@ def train(opt):
 
         print(f'opt.num_iter : {opt.num_iter}')
         print(f'iteration + 1 : {iteration + 1}')
-        #opt.num_iter = 602
+        # opt.num_iter = 602
 
-        #if (iteration + 1) == opt.num_iter:
+        # if (iteration + 1) == opt.num_iter:
         if (iteration + 1) == opt.num_iter or (iteration + 1) >= opt.num_iter:
-            #print(f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 iteration 에 1 더하기 전: {iteration}')
+            # print(f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 iteration 에 1 더하기 전: {iteration}')
             # print(
             #     f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 opt.num_iter: {opt.num_iter}')
             print(f'opt.num_iter : {opt.num_iter}')
             print(f'iteration +  : {iteration + 1}')
-            #print(f'iteration +  : {iteration + 1}')
+            # print(f'iteration +  : {iteration + 1}')
             print('end the training')
             start_iter = iteration
             sys.exit()
@@ -1517,8 +1711,8 @@ def train(opt):
         print(f'여기서 iteration 1 증가시킨다 0에서 1로  iteration : {iteration}')
         print(f'여기서 iteration 1 증가시킨다 0에서 1로 opt.num_iter  : {opt.num_iter}')
         print(f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy : {accuracy:.4f}')
-        print(f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy sum / len : {sum(correct_predictions)} / {len(correct_predictions)}')
-
+        print(
+            f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy sum / len : {sum(correct_predictions)} / {len(correct_predictions)}')
 
 
 if __name__ == '__main__':
@@ -1529,13 +1723,13 @@ if __name__ == '__main__':
     parser.add_argument('--manualSeed', type=int, default=1111, help='for random seed setting')
     # parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=0)
-    #parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
+    # parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
     parser.add_argument('--batch_size', type=int, default=300, help='input batch size')
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
-    #parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
-    #parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
+    # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
+    # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
     parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
@@ -1557,8 +1751,8 @@ if __name__ == '__main__':
     #                     help='total data usage ratio, this ratio is multiplied to total number of data.')
     parser.add_argument('--total_data_usage_ratio', type=str, default='0.5',
                         help='total data usage ratio, this ratio is multiplied to total number of data.')
-    #parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
-    #parser.add_argument('--batch_max_length', type=int, default=200, help='maximum-label-length')
+    # parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
+    # parser.add_argument('--batch_max_length', type=int, default=200, help='maximum-label-length')
     parser.add_argument('--batch_max_length', type=int, default=300, help='maximum-label-length')
     parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
     parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
@@ -1567,7 +1761,7 @@ if __name__ == '__main__':
     #                     default='0123456789abcdefghijklmnopqrstuvwxyz', help='character label')
 
     # 원하는 문자열을 utf-8로 인코딩한 다음 다시 utf-8로 디코딩하여 문자열을 설정
-    #opt_character = ' ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไ็็่้๊์✓'
+    # opt_character = ' ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไ็็่้๊์✓'
     opt_character = ' ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไๆ็่้๊์✓'
 
     opt_character = '()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไๆ็่้๊์✓'.encode(
@@ -1594,12 +1788,12 @@ if __name__ == '__main__':
                         default=unique_combined_text,
                         help='character label')
     # 원본 캐릭터
-    #'¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙'
+    # '¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙'
     # parser.add_argument('--character', type=str,
     #                     default=opt_character, help='character label')
 
-    #" ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไๆ็่้๊์✓"
-    #parser.add_argument('--sensitive', action='store_true', help='for sensitive character mode')
+    # " ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไๆ็่้๊์✓"
+    # parser.add_argument('--sensitive', action='store_true', help='for sensitive character mode')
     parser.add_argument('--sensitive', action='store_true', default=True, help='for sensitive character mode')
     parser.add_argument('--PAD', action='store_true', help='whether to keep ratio then pad for image resize')
     # parser.add_argument('--data_filtering_off', action='store_true', help='for data_filtering_off mode')
@@ -1618,19 +1812,19 @@ if __name__ == '__main__':
                         help='the number of output channel of Feature extractor')
     parser.add_argument('--hidden_size', type=int, default=256, help='the size of the LSTM hidden state')
 
-    #print(f'opt.character : {opt.character}')
+    # print(f'opt.character : {opt.character}')
 
     opt = parser.parse_args()
-    #data_lmdb_release\training\ttf --valid_data data_lmdb_release\validation\ttf --select_data th --batch_ratio 1 --Transformation None --FeatureExtraction VGG --SequenceModeling BiLSTM --Prediction CTC
+    # data_lmdb_release\training\ttf --valid_data data_lmdb_release\validation\ttf --select_data th --batch_ratio 1 --Transformation None --FeatureExtraction VGG --SequenceModeling BiLSTM --Prediction CTC
 
     # 필수 옵션 지정
-    #opt.valid_data = "data_lmdb_release/validation/ttf"
-    #opt.train_data = "data_lmdb_release/training/ttf"
+    # opt.valid_data = "data_lmdb_release/validation/ttf"
+    # opt.train_data = "data_lmdb_release/training/ttf"
     opt.valid_data = "data_lmdb_release/validation/ttf3"
     opt.train_data = "data_lmdb_release/training/ttf3"
     opt.valid_data = "data_lmdb_release/training/ttf7"
     opt.train_data = "data_lmdb_release/training/ttf7"
-    opt.valid_data = "data_lmdb_release/training/ttf8"
+    opt.valid_data = "data_lmdb_release/validation/ttf8"
     opt.train_data = "data_lmdb_release/training/ttf8"
     opt.Transformation = "None"
     opt.FeatureExtraction = "VGG"
@@ -1638,6 +1832,7 @@ if __name__ == '__main__':
     opt.Prediction = "CTC"
     opt.select_data = "th"
     opt.batch_ratio = "1"
+    opt.batch_ratio = "0.5"
 
     print(opt.valid_data)
     print(opt.train_data)
@@ -1657,16 +1852,14 @@ if __name__ == '__main__':
 
     os.makedirs(f'./saved_models/{opt.exp_name}', exist_ok=True)
 
-
     """ vocab / character number configuration """
     if opt.sensitive:
         # opt.character += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        #print(f'센서티브에서 지맘대로 아스키로 바꾸기전   opt.character : {opt.character}')
+        # print(f'센서티브에서 지맘대로 아스키로 바꾸기전   opt.character : {opt.character}')
         print(
             f'센서티브 string.printable : {string.printable}')
-        #opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
-        #print(f'센서티브에서 지맘대로 아스키로 바꾼후(use 94 char) 어쩌고 저쩌고    opt.character : {opt.character}')
-
+        # opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
+        # print(f'센서티브에서 지맘대로 아스키로 바꾼후(use 94 char) 어쩌고 저쩌고    opt.character : {opt.character}')
 
     """ Seed and GPU setting """
     # print("Random Seed: ", opt.manualSeed)
@@ -1682,7 +1875,6 @@ if __name__ == '__main__':
 
     print(f'배치사이즈 업데이트 전 opt.num_gpu : {opt.num_gpu}')
     print(f'배치사이즈 업데이트 전 opt.batch_size : {opt.batch_size}')
-
 
     if opt.num_gpu > 1:
         print('------ Use multi-GPU setting ------')
@@ -1708,11 +1900,11 @@ if __name__ == '__main__':
         If you dont care about it, just commnet out these line.)
         opt.num_iter = int(opt.num_iter / opt.num_gpu)
         """
-    #print(f'메인함수에서 트레인 함수 에 opt 전달할 때 태국어가 없어짐 아규먼트 함수때문에 그럼???  opt.character : {opt.character}')
-    #print(f'train 에 마지막 넘겨주기 전 여기서 디코드 하기 전엔 정상임 opt.character : {opt.character}')
-    #print(f'train 에 마지막 넘겨주기 전전전 여기서 디코드해도 정상으로 감 opt.character : {opt.character}')
+    # print(f'메인함수에서 트레인 함수 에 opt 전달할 때 태국어가 없어짐 아규먼트 함수때문에 그럼???  opt.character : {opt.character}')
+    # print(f'train 에 마지막 넘겨주기 전 여기서 디코드 하기 전엔 정상임 opt.character : {opt.character}')
+    # print(f'train 에 마지막 넘겨주기 전전전 여기서 디코드해도 정상으로 감 opt.character : {opt.character}')
     opt_character = opt.character.encode('utf-8').decode('utf-8')
-    #print(f'train 에 마지막 넘겨주기 전 encode -> decode  opt.character : {opt.character}')
+    # print(f'train 에 마지막 넘겨주기 전 encode -> decode  opt.character : {opt.character}')
     # if 'ๆ' in opt.character:
     #     # 'ๆ' 문자가 있을 경우
     #     #print('train 에 마지막 넘겨주기 전 여기서 디코드해도 정상으로 감  있음')
