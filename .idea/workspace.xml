@@ -5,21 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90df7bf3-81e3-4ddd-bfb0-07dff525c951" name="Changes" comment="1124">
-      <change afterPath="$PROJECT_DIR$/ocr_test_1215.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img5.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img6.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/create_gt/create_gt.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/easyocr/easyocr.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/easyocr_test/easyocr_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/easyocr_test/easyocr_test2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/run_create_dataset/run_create_dataset.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/util/run_create_dataset/run_create_dataset2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/convert_img/convert_img7.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/create_background/create_background.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/create_background/create_background2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/util/create_img_add_margin/create_img_add_margin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ocr_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ocr_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,10 +70,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\convert_img" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_background" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\bounding_rect" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
