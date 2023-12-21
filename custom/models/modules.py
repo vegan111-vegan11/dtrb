@@ -82,9 +82,10 @@ class vgg16_bn(torch.nn.Module):
 class BidirectionalLSTM(nn.Module):
 
     def __init__(self, input_size, hidden_size, output_size):
+        # 로그용
         print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py BidirectionalLSTM __init__ input_size : {input_size}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py  BidirectionalLSTM __init__ hidden_size : {hidden_size}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py  BidirectionalLSTM __init__ output_size : {output_size}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py  BidirectionalLSTM __init__ hidden_size : {hidden_size}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py  BidirectionalLSTM __init__ output_size : {output_size}')
 
         # input_size = input_size / 4
         # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py BidirectionalLSTM __init__ input_size 다시 4배로 줄인다 : {input_size}')
@@ -138,9 +139,10 @@ class ResNet_FeatureExtractor(nn.Module):
     """ FeatureExtractor of FAN (http://openaccess.thecvf.com/content_ICCV_2017/papers/Cheng_Focusing_Attention_Towards_ICCV_2017_paper.pdf) """
 
     def __init__(self, input_channel, output_channel=512):
+        # 로그용
         print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet_FeatureExtractor  input_channel: {input_channel}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet_FeatureExtractor  output_channel: {output_channel}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet_FeatureExtractor  BasicBlock: {BasicBlock}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet_FeatureExtractor  output_channel: {output_channel}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet_FeatureExtractor  BasicBlock: {BasicBlock}')
 
         super(ResNet_FeatureExtractor, self).__init__()
         self.ConvNet = ResNet(input_channel, output_channel, BasicBlock, [1, 2, 5, 3])
@@ -152,9 +154,11 @@ class BasicBlock(nn.Module):
     expansion = 1
 
     def __init__(self, inplanes, planes, stride=1, downsample=None):
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py modules BasicBlock __init__ inplanes, : {inplanes,}')
 
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py modules BasicBlock __init__ planes: {planes}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py modules BasicBlock __init__ inplanes, : {inplanes,}')
+        #
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py modules BasicBlock __init__ planes: {planes}')
 
 
         super(BasicBlock, self).__init__()
@@ -218,10 +222,12 @@ class BasicBlock(nn.Module):
 class ResNet(nn.Module):
 
     def __init__(self, input_channel, output_channel, block, layers):
+
+        # 로그용
         print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ input_channel : {input_channel}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ output_channel : {output_channel}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ block : {block}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ layers : {layers}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ output_channel : {output_channel}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ block : {block}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py custom ResNet __init__ layers : {layers}')
 
         #output_channel = output_channel * 2
 
@@ -232,20 +238,22 @@ class ResNet(nn.Module):
 
         self.output_channel_block = [int(output_channel / 4), int(output_channel / 2), output_channel, output_channel]
 
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.output_channel_block : {self.output_channel_block}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.output_channel_block : {self.output_channel_block}')
 
 
         self.inplanes = int(output_channel / 8)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.inplanes : {self.inplanes}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.inplanes : {self.inplanes}')
 
-
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ input_channel : {input_channel}')
-
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 16) : {int(output_channel / 16)}')
-
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ output_channel : {output_channel}')
-
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 16) : {int(output_channel / 16)}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ input_channel : {input_channel}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 16) : {int(output_channel / 16)}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ output_channel : {output_channel}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 16) : {int(output_channel / 16)}')
         # 원본
         self.conv0_1 = nn.Conv2d(input_channel, int(output_channel / 16),
                                  kernel_size=3, stride=1, padding=1, bias=False)
@@ -261,43 +269,53 @@ class ResNet(nn.Module):
         #원본
         self.conv0_2 = nn.Conv2d(int(output_channel / 16), self.inplanes,
                                  kernel_size=3, stride=1, padding=1, bias=False)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv0_2 : {self.conv0_2}')
-        print(int(output_channel / 8))
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv0_2 : {self.conv0_2}')
+        # 로그용
+        #print(int(output_channel / 8))
         # self.conv0_2 = nn.Conv2d(int(output_channel / 8), self.inplanes,
         #                          kernel_size=3, stride=1, padding=1, bias=False)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ output_channel : {output_channel}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 8) : {int(output_channel / 8)}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.inplanes : {self.inplanes}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ output_channel : {output_channel}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ int(output_channel / 8) : {int(output_channel / 8)}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.inplanes : {self.inplanes}')
         in_chanel = int(output_channel / 8) * 2
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py in_chanel : {in_chanel}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py in_chanel : {in_chanel}')
         # 16 -> 8 로 수정했음
         #self.conv0_2 = nn.Conv2d(int(output_channel / 8), self.inplanes * 2, kernel_size=3, stride=1, padding=1, bias=False)
 
         #원본
         self.bn0_2 = nn.BatchNorm2d(self.inplanes)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.bn0_2 : {self.bn0_2}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.bn0_2 : {self.bn0_2}')
         #self.bn0_2 = nn.BatchNorm2d(self.inplanes * 2)
         self.relu = nn.ReLU(inplace=True)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.relu : {self.relu}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.relu : {self.relu}')
 
         self.maxpool1 = nn.MaxPool2d(kernel_size=2, stride=2, padding=0)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.maxpool1 : {self.maxpool1}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.maxpool1 : {self.maxpool1}')
 
         self.layer1 = self._make_layer(block, self.output_channel_block[0], layers[0])
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.layer1 = : {self.layer1  }')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.layer1 = : {self.layer1  }')
 
         #원본
         self.conv1 = nn.Conv2d(self.output_channel_block[0], self.output_channel_block[
                                0], kernel_size=3, stride=1, padding=1, bias=False)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv1 = : {self.conv1  }')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py self.output_channel_block[0] : {self.output_channel_block[0]}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py self.output_channel_block[0] * 2 : {self.output_channel_block[0] * 2}')
+        # 로그용
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv1 = : {self.conv1  }')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py self.output_channel_block[0] : {self.output_channel_block[0]}')
+        # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py self.output_channel_block[0] * 2 : {self.output_channel_block[0] * 2}')
         # self.output_channel_block[0] = 64
         # self.conv1 = nn.Conv2d(self.output_channel_block[0] * 2, self.output_channel_block[
         #     0] * 2, kernel_size=3, stride=1, padding=1, bias=False)
         #원본
         self.bn1 = nn.BatchNorm2d(self.output_channel_block[0])
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.bn1 = : {self.bn1 }')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.bn1 = : {self.bn1 }')
 
 
         #self.bn1 = nn.BatchNorm2d(self.output_channel_block[0])
@@ -306,7 +324,8 @@ class ResNet(nn.Module):
         self.layer2 = self._make_layer(block, self.output_channel_block[1], layers[1], stride=1)
         self.conv2 = nn.Conv2d(self.output_channel_block[1], self.output_channel_block[
                                1], kernel_size=3, stride=1, padding=1, bias=False)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv2 = : {self.conv2}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!modules.py ResNet __init__ self.conv2 = : {self.conv2}')
         self.bn2 = nn.BatchNorm2d(self.output_channel_block[1])
 
         self.maxpool3 = nn.MaxPool2d(kernel_size=2, stride=(2, 1), padding=(0, 1))
@@ -394,10 +413,11 @@ with open(yaml_path, 'r', encoding='utf-8') as stream:
     num_class = len(character)
 
     output_channel = output_channel *  2
-    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train input_channel  : {input_channel}')
-    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train output_channel * 2 변경후  : {output_channel}')
-    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train hidden_size  : {hidden_size}')
-    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train character  : {character}')
-    print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train num_class  : {num_class}')
+    # 로그용
+    #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train input_channel  : {input_channel}')
+    # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train output_channel * 2 변경후  : {output_channel}')
+    # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train hidden_size  : {hidden_size}')
+    # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train character  : {character}')
+    # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!train num_class  : {num_class}')
 
 #ResNet.__init__(input_channel, output_channel, hidden_size, num_class)

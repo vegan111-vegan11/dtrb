@@ -96,7 +96,8 @@ def validation(model, criterion, evaluation_loader, converter, opt):
         #print(f'tes.py validation 함수  labels : {labels}')
 
         batch_size = image_tensors.size(0)
-        print(f'tes.py validation 함수  batch_size {batch_size}')
+        # 로그용
+        #print(f'tes.py validation 함수  batch_size {batch_size}')
         #print(f'tes.py validation 함수  image_tensors {image_tensors}')
         # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size}')
         # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(0)}')
@@ -104,7 +105,9 @@ def validation(model, criterion, evaluation_loader, converter, opt):
         # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(2)}')
         # print(f'tes.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
         length_of_data = length_of_data + batch_size
-        print(f'tes.py validation 함수  length_of_data {length_of_data}')
+
+        # 로그용
+        #print(f'tes.py validation 함수  length_of_data {length_of_data}')
         image = image_tensors.to(device)
         # For max length prediction
         length_for_pred = torch.IntTensor([opt.batch_max_length] * batch_size).to(device)
@@ -168,8 +171,10 @@ def validation(model, criterion, evaluation_loader, converter, opt):
             # print(
             #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(2): {preds.size(2)}')
             # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size: {preds_size}')
-            print(
-                f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
+
+            # 로그용
+            # print(
+            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
 
             # permute 'preds' to use CTCloss format
             if opt.baiduCTC:
@@ -190,13 +195,15 @@ def validation(model, criterion, evaluation_loader, converter, opt):
                 # print(f'tes.py validation 함수  preds_size  : {preds_size}')
                 # print(f'tes.py validation 함수  converter.decode 반환 preds_index.data  : {preds_index.data}')
                 # print(f'tes.py validation 함수  converter.decode 반환 preds_size.data  : {preds_size.data}')
-                print('=================================================================================================')
-                print(
-                    f'tes.py validation 함수  converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
-                print(
-                    '=================================================================================================')
-                print(
-                    f'tes.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
+
+                # 로그용 ( 정확도 떨어질때는 보통 26 ~ 27 )
+                # print('=================================================================================================')
+                # print(
+                #     f'tes.py validation 함수  converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
+                # print(
+                #     '=================================================================================================')
+                # print(
+                #     f'tes.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
 
             preds_str = converter.decode(preds_index.data, preds_size.data)
             #print(f'tes.py validation 함수  preds_str  : {preds_str}')

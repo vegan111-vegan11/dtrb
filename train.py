@@ -23,6 +23,8 @@ import importlib
 import datetime
 import yaml
 
+from tqdm import tqdm
+
 # 모듈을 다시 로드
 importlib.reload(sys)
 
@@ -31,6 +33,30 @@ importlib.reload(sys)
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print(f'train.py device : {device}')
+
+cpu_cores = os.cpu_count()
+print(f"train.py CPU Cores: {cpu_cores}")
+
+# GPU 사용 가능 여부 확인
+if torch.cuda.is_available():
+    # 사용 가능한 GPU 개수 출력
+    gpu_count = torch.cuda.device_count()
+    print(f"train.py Total GPUs: {gpu_count}")
+
+    # 각 GPU의 이름 및 메모리 용량 출력
+    for i in range(gpu_count):
+        gpu_name = torch.cuda.get_device_name(i)
+        gpu_memory = torch.cuda.get_device_properties(i).total_memory
+        print(f"train.py GPU {i + 1}: {gpu_name}, Memory: {gpu_memory / (1024 ** 3):.2f} GB")
+else:
+    print("No GPU available.")
+
+
+# CPU Cores: 32
+# Total GPUs: 1
+# GPU 1: NVIDIA GeForce RTX 4090, Memory: 23.99 GB
+
 # -*- coding: utf-8 -*-
 from PIL import Image
 
@@ -78,6 +104,7 @@ def train(opt):
 
     best_accuracy = -1
     current_accuracy_list = []
+    accuracy_file_str = "best_prediction_accuracy_"
     for root, dirs, files in os.walk(path_to_weights):
 
         # print(f'트레인 학습된 모델 경로 가져오기 walk path_to_weights : {path_to_weights}')
@@ -90,7 +117,8 @@ def train(opt):
             # print(f'트레인 학습된 모델 경로 가져오기 for file in files file : {file}')
 
             # if "best_prediction_accuracy_" in file:
-            if "best_prediction_accuracy_" in file:
+            #if "best_prediction_accuracy_" in file:
+            if accuracy_file_str in file:
                 # print("Found matching file:", os.path.join(root, file))
 
                 # 파일 경로에서 파일 이름 추출
@@ -136,7 +164,10 @@ def train(opt):
     max_accuracy_file_path = ''
     for root, dirs, files in os.walk(path_to_weights):
         for file in files:
-            if max_accuracy_str in file:
+            #if max_accuracy_str in file:
+            #if max_accuracy_str in file and "best_prediction_accuracy_" in file:
+            if max_accuracy_str in file and accuracy_file_str in file:
+
                 # if "max_accuracy_str" in file or "best_prediction_accuracy_" in file:
                 # Your code here
 
@@ -149,7 +180,9 @@ def train(opt):
     # opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_2023-11-23_16-49-53_0.3793_1000.pth'
     # opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
     # file = 'best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
-    opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    # 테스트용
+    #opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    #opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
 
     # print(f' train.py 기존 모델 불러오기 opt.saved_model : {opt.saved_model}')
 
@@ -173,7 +206,7 @@ def train(opt):
 
     opt.select_data = opt.select_data.split('-')
     opt.batch_ratio = opt.batch_ratio.split('-')
-    print(f'트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 opt : {opt}')
+    #print(f'트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 opt : {opt}')
     # if 'ๆ' in opt.character:
     #     # 'ๆ' 문자가 있을 경우
     #     print('트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 ๆ 없음')
@@ -240,12 +273,12 @@ def train(opt):
     print(f'valid_dataset_log : {valid_dataset_log}')
 
     print(f'트레인 함수 들어옴train opt.character : {opt.character}')
-    if 'ๆ' in opt.character:
-        # 'ๆ' 문자가 있을 경우
-        print('트레인 함수 들어옴 있음')
-    else:
-        # 'ๆ' 문자가 없을 경우
-        print('트레인 함수 들어옴 없음')
+    # if 'ๆ' in opt.character:
+    #     # 'ๆ' 문자가 있을 경우
+    #     print('트레인 함수 들어옴 있음')
+    # else:
+    #     # 'ๆ' 문자가 없을 경우
+    #     print('트레인 함수 들어옴 없음')
 
     # text = "태국어 텍스트"
     # encoded_text = text.encode("utf-8")  # 다른 인코딩으로 변환하려면 해당 인코딩을 지정
@@ -734,6 +767,12 @@ def train(opt):
         #
         #         continue
 
+        # 일부 레이어 동결 해제
+        # for i, (name, param) in enumerate(model.named_parameters()):
+        #     if i >= len(model) - update_layers:  # 마지막 몇 개의 레이어만 업데이트
+        #         param.requires_grad = True
+
+
         for name, param in model.named_parameters():
             # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
             # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
@@ -742,10 +781,10 @@ def train(opt):
             #     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
             #     print(
             #         f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
-            print('============================================================')
-            print('============================================================')
-            print(f'처음 name :  {name} ')
-            print(f'처음 param.requires_grad 변경전 :  {param.requires_grad} ')
+            # print('============================================================')
+            # print('============================================================')
+            # print(f'처음 name :  {name} ')
+            # print(f'처음 param.requires_grad 변경전 :  {param.requires_grad} ')
             #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
 
             try:
@@ -756,9 +795,9 @@ def train(opt):
                     #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
                     param.requires_grad = True
                     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
-                    print(
-                        f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
-                    print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    # print(
+                    #     f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
+                    #print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
                     # try:
                     #     if 'bias' in name:
                     #         init.constant_(param, 0.0)
@@ -778,13 +817,13 @@ def train(opt):
                         #pass
                         init.kaiming_normal_(param)
 
-                    print('===========================================================')
+                    #print('===========================================================')
                     #print(f'not batchnorm and 마지막 레이어 param 변경후 :  {param} ')
 
 
                 else:
                     #param.requires_grad = False  # 나머지 레이어는 동결
-                    print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    #print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
                     #print(f'not batchnorm and 나머지 레이어 param 변경전 :  {param} ')
                     if 'bias' in name:
                         init.constant_(param, 0.0)
@@ -794,15 +833,15 @@ def train(opt):
                         init.kaiming_normal_(param)
                         #pass
 
-                    print('===========================================================')
+                    #print('===========================================================')
                     #print(f'not batchnorm and 나머지 레이어 param 변경후 :  {param} ')
 
             except Exception as e:  # for batchnorm.
                 #print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
                 #print(f'for batchnorm weight param 변경전 :  {param} ')
                 # param.requires_grad = False  # 나머지 레이어는 동결
-                print(
-                    f'batchnorm ( 마지막 레이어 나머지 레이어) 는 requires_grad 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+                # print(
+                #     f'batchnorm ( 마지막 레이어 나머지 레이어) 는 requires_grad 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
 
                 # Batch Normalization의 스케일 파라미터를 초기화할 때는 init.normal_ 함수를 사용하여 평균이 0이고 표준 편차가 0.02인 정규 분포로 초기화하는 방법이 일반적으로 사용
                 if 'weight' in name:
@@ -1179,540 +1218,569 @@ def train(opt):
     # correct_predictions = []
     label_cnt = 0
 
-    while (True):
+    # 전체 반복 횟수를 지정합니다. 여기서는 특정 값으로 임의로 설정하였습니다.
 
-        # print(f'트레인 train part opt : {opt}')
+    print(f'전체 반복 횟수를 지정 opt.num_iter : {opt.num_iter}')
+    # 테스트용
+    #opt.num_iter = 3
+    total_iterations = opt.num_iter
 
-        # train part
-        image_tensors, labels = train_dataset.get_batch()
-        print(f'train while (True) image_tensors, labels = train_dataset.get_batch() : len(labels) : {len(labels)}')
-        # print(
-        #     f'train while (True) image_tensors, labels = train_dataset.get_batch() : labels : {labels}')
+    # tqdm을 사용하여 진행 상황을 표시하는 부분
+    #with tqdm(total=total_iterations, desc='Training Loop', unit='iteration') as pbar:
+    # bar_format 매개변수를 사용하여 그래프 모양을 지정
+    # with tqdm(total=total_iterations, desc='Training Loop', unit='iteration', ncols=100,
+    #           bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]',
+    #           dynamic_ncols=True, colour='green') as pbar:
+    with tqdm(total=total_iterations, desc='Training Loop', unit='iteration', ncols=100,
+                  bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]',
+                  dynamic_ncols=True, colour='green') as pbar:
+    #with tqdm(desc='Training Loop', unit='iteration', dynamic_ncols=True) as pbar:
+        time.sleep(1)
+        pbar.update(1)
+        print('@'*50)
+        #print(f'pbar : {pbar}')
 
-        # 현재 시간을 얻어옵니다.
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        while (True):
 
-        image = image_tensors.to(device)
-        # print(f'트레인 함수 Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 labels  : {labels}')
-        # 'labels' 변수에서 'ๆ' 문자가 있는지 확인
-        # if '✓' in labels:
-        #     # 'ๆ' 문자가 있을 경우
-        #     print('Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 라벨에도 없음 있음')
-        # else:
-        #     # 'ๆ' 문자가 없을 경우
-        #     print('Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 라벨에도 없음 없음')
+            # print(f'트레인 train part opt : {opt}')
 
-        print(f'트레인  converter.encode 전 opt.batch_max_length : {opt.batch_max_length}')
-        text, length = converter.encode(labels, batch_max_length=opt.batch_max_length)
-
-        print(f'트레인  converter.encode 후 len(labels) : {len(labels)}')
-        # print(f'트레인  converter.encode 후 length : {length}')
-
-        batch_size = image.size(0)
-
-        print(f'batch_size ( 마지막 배치는 batch_size 보다 작을 수 있다 ) : {batch_size}')
-        print(f'len(labels) : {len(labels)}')
-        print(f'iteration : {iteration}')
-        # print(f'accuracy : {accuracy}')
-
-        # 이미지 텐서를 PIL 이미지로 변환
-        # print('@@@@@@@@@@@@@@이미지 텐서를 PIL 이미지로 변환')
-        # image_pil = Image.fromarray(image.cpu().numpy()[0][0], 'L')  # 단일 채널 이미지인 경우
-
-        # 이미지 파일로 저장
-        # image_pil.save('saved_image.png')  # 이미지를 'saved_image.png' 파일로 저장
-
-        # 이미지 파일 경로 출력
-        # print("이미지 파일이 저장된 경로: saved_image.png")
-
-        if 'CTC' in opt.Prediction:
-            # print(f'Prediction if  CTC opt.Prediction: text : {text}')
-
-            preds = model(image, text)
-            preds_size = torch.IntTensor([preds.size(1)] * batch_size)
-            if opt.baiduCTC:
-                preds = preds.permute(1, 0, 2)  # to use CTCLoss format
-                cost = criterion(preds, text, preds_size, length) / batch_size
-            else:
-                preds = preds.log_softmax(2).permute(1, 0, 2)
-                cost = criterion(preds, text, preds_size, length)
-
-            # print(f' preds : {preds }')
-            print(f' preds.shape : {preds.shape}')
-            print(f' len(preds) : {len(preds)}')
-            print(f' batch_size : {batch_size}')
-            # print(f' preds_size : {preds_size}')
-            # print(f' text : {text}')
-            # print(f' preds_size : {preds_size}')
-            # print(f' length : {length}')
-
-        else:
-
-            # print(f'try.py align with Attention.forward :  ')
-            # print(f'try.py align with Attention.forward model :  {model}')
-            # print(f'try.py align with Attention.forward image :  {image}')
-            # print(f'try.py align with Attention.forward text :  {text}')
-            # print(f'try.py align with Attention.forward text[:, :-1] :  {text[:, :-1]}')
-
-            preds = model(image, text[:, :-1])  # align with Attention.forward
-            target = text[:, 1:]  # without [GO] Symbol
-            cost = criterion(preds.view(-1, preds.shape[-1]), target.contiguous().view(-1))
-            # print(f'try.py align with Attention.forward cost : {cost}')
-
-        model.zero_grad()
-        cost.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip)  # gradient clipping with 5 (Default)
-        optimizer.step()
-
-        loss_avg.add(cost)
-        # print(f'iteration : {iteration}')
-        # print(f'valInterval : {opt.valInterval}')
-        # validation part
-        # print('결과 출력하기 전')
-        # print(f'결과 출력하기 전 iteration 1 증가시키기 전: {iteration}')
-        # print(f'결과 출력하기 전 iteration 1 증가시키기 전 마지막도 출력해라  opt.num_iter: {opt.num_iter}')
-
-        # if ( iteration + 1) % opt.valInterval == 0 or iteration == 0:  # To see training progress, we also conduct validation when 'iteration == 0'
-        if (iteration + 1) % opt.valInterval == 0 or iteration == 0 or (
-                iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
-
-            print('결과 출력한다')
-            print(f'iteration : {iteration}')
-            print(f'opt.valIntervall : {opt.valInterval}')
-            print(
-                f'iteration + 1) % opt.valInterval : {(iteration + 1) % opt.valInterval}')
-
-            # 결과를 출력하는 코드
-
-            elapsed_time = time.time() - start_time
-
-            log_file = f'./saved_models/{opt.exp_name}/{current_date}/log_train.txt'
+            # train part
+            image_tensors, labels = train_dataset.get_batch()
+            print(f'train while (True) image_tensors, labels = train_dataset.get_batch() : len(labels) : {len(labels)}')
+            # print(
+            #     f'train while (True) image_tensors, labels = train_dataset.get_batch() : labels : {labels}')
 
             # 현재 시간을 얻어옵니다.
             current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-            # 경로 끝에 '_'를 추가하고 현재 시간을 추가한 파일 경로를 생성합니다.
-            log_file_with_time = os.path.splitext(log_file)
-            log_file_with_time = f'log_train_{log_file_with_time[0]}_{current_time}{log_file_with_time[1]}'
+            image = image_tensors.to(device)
+            # print(f'트레인 함수 Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 labels  : {labels}')
+            # 'labels' 변수에서 'ๆ' 문자가 있는지 확인
+            # if '✓' in labels:
+            #     # 'ๆ' 문자가 있을 경우
+            #     print('Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 라벨에도 없음 있음')
+            # else:
+            #     # 'ๆ' 문자가 없을 경우
+            #     print('Batch_Balanced_Dataset 에서 트레인데이터셋 받아와서 라벨에도 없음 없음')
 
-            # 파일 열기
-            # with open(log_file_with_time, 'a', encoding='utf-8') as log:
+            print(f'트레인  converter.encode 전 opt.batch_max_length : {opt.batch_max_length}')
+            text, length = converter.encode(labels, batch_max_length=opt.batch_max_length)
 
-            # for log
-            # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a') as log:
-            # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a', encoding='utf-8') as log:
-            # with open(f'./saved_models/{opt.exp_name}/log_train_{current_time}.txt', 'a', encoding='utf-8') as log:
-            print(f'파일 저장전 iteration: {iteration}')
-            print(f'파일 저장전 iteration + 1: {iteration + 1}')
+            print(f'트레인  converter.encode 후 len(labels) : {len(labels)}')
+            # print(f'트레인  converter.encode 후 length : {length}')
 
-            original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            batch_size = image.size(0)
 
-            #         f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt
-            # with open(f'./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt', 'a',
-            #           encoding='utf-8') as log:
-            with open(original_log_file_name, 'a',
-                      encoding='utf-8') as log:
-                # 나머지 코드
-                print(f' validation 함수 넘겨주기전 OPT: {opt}')
+            print(f'batch_size ( 마지막 배치는 batch_size 보다 작을 수 있다 ) : {batch_size}')
+            print(f'len(labels) : {len(labels)}')
+            print(f'iteration : {iteration}')
+            # print(f'accuracy : {accuracy}')
 
-                model.eval()
-                print(f' validation 함수 넘겨주기전 model.eval() OPT: {opt}')
+            # 이미지 텐서를 PIL 이미지로 변환
+            # print('@@@@@@@@@@@@@@이미지 텐서를 PIL 이미지로 변환')
+            # image_pil = Image.fromarray(image.cpu().numpy()[0][0], 'L')  # 단일 채널 이미지인 경우
 
-                with torch.no_grad():
-                    valid_loss, current_accuracy, current_norm_ED, preds, confidence_score, labels, infer_time, length_of_data = validation(
-                        model, criterion, valid_loader, converter, opt)
-                print(f' validation 함수 넘겨주기전 with torch.no_grad() OPT: {opt}')
+            # 이미지 파일로 저장
+            # image_pil.save('saved_image.png')  # 이미지를 'saved_image.png' 파일로 저장
 
-                model.train()
-                print(f' validation 함수 넘겨주기전 model.train() OPT: {opt}')
-                # print(f'validation labels : {labels}')
-                print(f'validation 함수에서 라벨 개수가 줄어  len(labels) : {len(labels)}')
-                #
-                # # train_dataset의 데이터셋 구성 확인
-                print("Train Dataset Information:")
-                print("Number of Samples in Train Dataset:", len(train_dataset.get_batch()))
+            # 이미지 파일 경로 출력
+            # print("이미지 파일이 저장된 경로: saved_image.png")
 
-                # unique_labels = set()
-                # for _, labels in length:
-                #     unique_labels.update(labels)
+            if 'CTC' in opt.Prediction:
+                # print(f'Prediction if  CTC opt.Prediction: text : {text}')
 
-                # print("Number of Unique Labels in Train Dataset:",
-                #       unique_labels)  # unique_labels을 사용해 고유 라벨 수 확인
+                preds = model(image, text)
+                preds_size = torch.IntTensor([preds.size(1)] * batch_size)
+                if opt.baiduCTC:
+                    preds = preds.permute(1, 0, 2)  # to use CTCLoss format
+                    cost = criterion(preds, text, preds_size, length) / batch_size
+                else:
+                    preds = preds.log_softmax(2).permute(1, 0, 2)
+                    cost = criterion(preds, text, preds_size, length)
 
-                # valid_loader의 데이터셋 구성 확인
-                # print("\nValidation Dataset Information:")
-                # print("Number of Samples in Validation Dataset:", len(valid_loader.dataset))
+                # print(f' preds : {preds }')
+                print(f' preds.shape : {preds.shape}')
+                print(f' len(preds) : {len(preds)}')
+                print(f' batch_size : {batch_size}')
+                # print(f' preds_size : {preds_size}')
+                # print(f' text : {text}')
+                # print(f' preds_size : {preds_size}')
+                # print(f' length : {length}')
 
-                unique_labels = set()
-                for _, labels2 in valid_loader.dataset:
-                    unique_labels.update(labels2)
-                    # print(f'54가 어디서 튀어나옴????for _, labels in valid_loader.dataset  len(labels) : {len(labels2)}')
-                    # print(
-                    #     f'54가 어디서 튀어나옴????for _, labels in valid_loader.dataset  labels 이젠 돼지 2로 바꿨으니깐 : {labels2}')
+            else:
 
-                print(" Unique Labels in Validation Dataset:", len(unique_labels))
-                # print("Validation Loader Options (opt):", valid_loader.dataset.opt)
-                # print("Train Dataset Options (opt):", train_dataset.opt)
+                # print(f'try.py align with Attention.forward :  ')
+                # print(f'try.py align with Attention.forward model :  {model}')
+                # print(f'try.py align with Attention.forward image :  {image}')
+                # print(f'try.py align with Attention.forward text :  {text}')
+                # print(f'try.py align with Attention.forward text[:, :-1] :  {text[:, :-1]}')
 
-                print(f'  opt.num_iter : {opt.num_iter}')
-                print(f'  iteration : {iteration}')
-                print(f'  iteration + 1 : {iteration + 1}')
-                # training loss and validation loss
-                loss_log = f'[{iteration + 1}/{opt.num_iter}] Train loss: {loss_avg.val():0.5f}, Valid loss: {valid_loss:0.5f}, Elapsed_time: {elapsed_time:0.5f}'
-                loss_avg.reset()
+                preds = model(image, text[:, :-1])  # align with Attention.forward
+                target = text[:, 1:]  # without [GO] Symbol
+                cost = criterion(preds.view(-1, preds.shape[-1]), target.contiguous().view(-1))
+                # print(f'try.py align with Attention.forward cost : {cost}')
 
-                current_model_log = f'{"Current_accuracy":17s}: {current_accuracy:0.3f}, {"Current_norm_ED":17s}: {current_norm_ED:0.2f}'
+            model.zero_grad()
+            cost.backward()
+            torch.nn.utils.clip_grad_norm_(model.parameters(), opt.grad_clip)  # gradient clipping with 5 (Default)
+            optimizer.step()
 
-                # keep best accuracy model (on valid dataset)
-                # if current_accuracy > best_accuracy:
-                #     best_accuracy = current_accuracy
-                #     torch.save(model.state_dict(), f'./saved_models/{opt.exp_name}/best_accuracy.pth')
-                # if current_norm_ED > best_norm_ED:
-                #     best_norm_ED = current_norm_ED
-                #     torch.save(model.state_dict(), f'./saved_models/{opt.exp_name}/best_norm_ED.pth')
+            loss_avg.add(cost)
+            # print(f'iteration : {iteration}')
+            # print(f'valInterval : {opt.valInterval}')
+            # validation part
+            # print('결과 출력하기 전')
+            # print(f'결과 출력하기 전 iteration 1 증가시키기 전: {iteration}')
+            # print(f'결과 출력하기 전 iteration 1 증가시키기 전 마지막도 출력해라  opt.num_iter: {opt.num_iter}')
 
-                if current_accuracy > best_accuracy:
-                    best_accuracy = current_accuracy
-                    # torch.save(model.state_dict(),
-                    #            f'./saved_models/{opt.exp_name}/best_accuracy_{current_time}_{current_accuracy:.4f}.pth')
-                    torch.save(model.state_dict(),
-                               f'./saved_models/{opt.exp_name}/{current_date}/best_accuracy_{current_time}_{current_accuracy:.4f}_{iteration + 1}.pth')
-                if current_norm_ED > best_norm_ED:
-                    best_norm_ED = current_norm_ED
-                    # torch.save(model.state_dict(),
-                    #            f'./saved_models/{opt.exp_name}/best_norm_ED_{current_time}_{current_norm_ED:.4f}.pth')
-                    torch.save(model.state_dict(),
-                               f'./saved_models/{opt.exp_name}/{current_date}/best_norm_ED_{current_time}_{current_norm_ED:.4f}_{iteration + 1}.pth')
+            # if ( iteration + 1) % opt.valInterval == 0 or iteration == 0:  # To see training progress, we also conduct validation when 'iteration == 0'
+            if (iteration + 1) % opt.valInterval == 0 or iteration == 0 or (
+                    iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
 
-                print(f"current_accuracy: {current_accuracy}")
-                print(f"current_norm_ED: {current_norm_ED:.4f}")
-
-                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
-
-                correct_predictions = []
-                fail_predictions = []
-                predicted_result_log = ''
-                dashed_line = '-' * 80
-                head = f'{"Ground Truth":25s} | {"Prediction":25s} | Confidence Score & T/F'
-                predicted_result_log = f'{dashed_line}\n{head}\n{dashed_line}\n'
-
-                # gt.txt 에서 실패한 행 읽어와서 저장
-                # Read gt.txt file and get failed predictions
-                gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
-
-                failed_gt_predictions = []
-
-                for gt, pred, confidence in zip(labels, preds, confidence_score):
-                    label_cnt = label_cnt + 1
-
-                    # print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 : {label_cnt}')
-
-                    if 'Attn' in opt.Prediction:
-                        gt = gt[:gt.find('[s]')]
-                        pred = pred[:pred.find('[s]')]
-
-                    predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
-
-                    # print(f'트라이 predicted_result_log 쌓는다 : {predicted_result_log}')
-
-                    is_correct = pred == gt
-                    correct_predictions.append(is_correct)
-
-                    if is_correct:
-                        # Code for correct prediction
-                        pass
-                    else:
-                        # Code for incorrect prediction
-                        # Save gt to a text file
-                        # fail_predictions.append(gt)
-                        # for 루프 내부에서 fail_predictions에 gt와 pred를 딕셔너리로 추가
-                        fail_predictions.append({'gt': gt, 'pred': pred})
-
-                # print(
-                #     f'트레인 fail 로 예측함 잘못 예측한거 리스트에 저장 fail_predictions : {fail_predictions}')
-
-                # fail_predictions_save_dir = r'fail_predictions'
-
-                # with open(f'./saved_models/{opt.exp_name}/{current_date}/fail_predictions_{current_time}_{iteration + 1}.txt',
-                #           'w', encoding='utf-8') as fail_predictions_log:
-                #
-                #     #fail_predictions_log.write(fail_predictions + '\n')
-                #     fail_predictions_log.write('\n'.join(map(str, fail_predictions)) + '\n')
-                #
-                #     print(f'트레인 fail_predictions_ 저장 fail_predictions : {fail_predictions}')
-
-                # 실패한 문장 이미지와 함께 텍스트 파일로 저장
-                # Save only failed predictions to a text file along with the corresponding lines from gt.txt
-                with open(gt_file_path, 'r', encoding='utf-8') as gt_file:
-                    lines = gt_file.readlines()
-
-                    for line in lines:
-
-                        # print(f'line : {line}')
-
-                        # Split the line using tab as a separator
-                        parts = line.split('\t')
-                        # print(f'parts : {parts}')
-
-                        # Check if the part after the tab matches any ground truth in fail_predictions
-                        for failed_gt in fail_predictions:
-                            t = failed_gt['gt']
-                            # print(f'트라이 for failed_gt in fail_predictions failed_gt : {failed_gt}')
-                            # print(
-                            #     f'트라이 for failed_gt in fail_predictions failed_gt : {t}')
-
-                            # if len(parts) > 1 and parts[1].strip() == failed_gt:
-                            if len(parts) > 1 and parts[1].strip() == failed_gt['gt']:
-                                # failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
-                                failed_gt_predictions.append(f"{line.strip()}\t|\t{failed_gt['pred']}")
-                                # print(f'failed_gt_predictions : {failed_gt_predictions}')
-
-                                # fail_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
-                                # print(f'이미지도 있어야 해 fail_predictions : {fail_predictions}')
-
-                # Save only failed predictions and corresponding lines to a text file
-                gt_output_file_path = f'./saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
-                with open(gt_output_file_path, 'w', encoding='utf-8') as output_file:
-                    output_file.write('\n'.join(failed_gt_predictions) + '\n')
-
-                print(f'실패한 GT 행과 이미지 저장 gt_output_file_path : {gt_output_file_path}')
-
-                #############################################
-
-                predicted_result_log += f'{dashed_line}'
-
-                # 정확도 계산
-                accuracy = sum(correct_predictions) / len(correct_predictions)
-
-                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"accuracy":17s}: {accuracy:0.2f}'
-                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
-
-                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
-
-                # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":17s}: {accuracy:0.2f}\n'
-                best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":10s}({sum(correct_predictions)} / {len(correct_predictions)}): {accuracy:0.2f}\n'
-                best_model_log += f'{dashed_line}\n'
-                # print(accuracy_log)
-                # log.write(accuracy_log + '\n')
-                # 정확도 출력
-                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}'
-                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
-                accuracy_log = f'{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}\n'
-                # accuracy_log += f'{dashed_line}\n'
-                # print(accuracy_log)
-                # best_model_log += dashed_line
-                best_model_log += accuracy_log
-
-                # loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
-                loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
-
-                print(loss_model_log)
-                log.write(loss_model_log + '\n')
-
-                # print(predicted_result_log)
-                # log.write(predicted_result_log + '\n')
-
-                # show some predicted results
-                # dashed_line = '-' * 80
-                # head = f'{"Ground Truth":25s} | {"Prediction":25s} | Confidence Score & T/F'
-                # predicted_result_log = f'{dashed_line}\n{head}\n{dashed_line}\n'
-                # for gt, pred, confidence in zip(labels[:5], preds[:5], confidence_score[:5]):
-                #     if 'Attn' in opt.Prediction:
-                #         gt = gt[:gt.find('[s]')]
-                #         pred = pred[:pred.find('[s]')]
-                #
-                #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
-                # predicted_result_log += f'{dashed_line}'
-                # print(predicted_result_log)
-                # log.write(predicted_result_log + '\n')
-                print(f' 트레인 labels 길이 : {len(labels)}')
-
-                num_labels = len(labels)
-                num_preds = len(preds)
-                num_confidence = len(confidence_score)
-                # print(f"개짜증나! labels: {labels}")
-                # print(f"개짜증나! validation validationvalidationvalidation Number of labels: {num_labels}")
-                # print(f"Number of preds: {num_preds}")
-                # print(f"Number of confidence scores: {num_confidence}")
-                print(f'label_cnt len(labels) : {len(labels)}')
-                # print(f'label_cnt 또 줄기 전 len(labels) : {len(labels)}')
-                # print(f'label_cnt 또 줄기 전 len(preds) : {len(preds)}')
-                # print(f'label_cnt 또 줄기 전 len(confidence_score) : {len(confidence_score)}')
-                # print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 labels : {labels}')
-                # correct_predictions = []
-                # for gt, pred, confidence in zip(labels, preds, confidence_score):
-                #     label_cnt = label_cnt + 1
-                #
-                #     #print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 : {label_cnt}')
-                #
-                #     if 'Attn' in opt.Prediction:
-                #         gt = gt[:gt.find('[s]')]
-                #         pred = pred[:pred.find('[s]')]
-                #
-                #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
-                #
-                #     is_correct = pred == gt
-                #     correct_predictions.append(is_correct)
-                #
-                #     # result = f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
-                #     # all_results.append(result)
-
-                # print(f'트라이 correct_predictions 전체 : {correct_predictions}')
-                print(f'트라이 correct_predictions 전체 길이 : {len(correct_predictions)}')
-
-                predicted_result_log += f'{dashed_line}'
-                # print(predicted_result_log)
-                log.write(predicted_result_log + '\n')
-
-                print('=' * 200)
-
-                # for gt, pred, confidence in zip(labels, preds, confidence_score):
-                #     if 'Attn' in opt.Prediction:
-                #         gt = gt[:gt.find('[s]')]
-                #         pred = pred[:pred.find('[s]')]
-                #
-                #     is_correct = pred == gt
-                #     correct_predictions.append(is_correct)
-                #
-                #     print(f'is_correct : {is_correct}')
-                #     print(f'gt : {gt}')
-                #     print(f'pred : {pred}')
-                #
-                #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{is_correct}\n'
-
-                # print(f'정확도 계산 len(correct_predictions) : {len(correct_predictions)}')
-
-                # # 정확도 계산
-                # accuracy = sum(correct_predictions) / len(correct_predictions)
-                # #print(f'correct_predictions : {correct_predictions}')
-                # # 정확도 출력
-                # #accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}'
-                # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
-                # #print(accuracy_log)
-                # log.write(accuracy_log + '\n')
-
-                current_prediction_accuracy = accuracy
-
-                # if current_prediction_accuracy > best_prediction_accuracy:
-                #     best_prediction_accuracy = current_prediction_accuracy
-                #     torch.save(model.state_dict(),
-                #                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
-                if current_prediction_accuracy > best_prediction_accuracy:
-                    best_prediction_accuracy = current_prediction_accuracy
-                    torch.save(model.state_dict(),
-                               f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
-
-                print(f'로그 다 찍고 저장 !best_prediction_accuracy : {best_prediction_accuracy}')
+                print('결과 출력한다')
+                print(f'iteration : {iteration}')
+                print(f'opt.valIntervall : {opt.valInterval}')
                 print(
-                    f'로그 다 찍고 저장 !current_prediction_accuracy : {current_prediction_accuracy}')
+                    f'iteration + 1) % opt.valInterval : {(iteration + 1) % opt.valInterval}')
 
-            # 훈련이 끝난 후, 모든 결과 출력
-            for result in all_results:
-                pass
-                # print('훈련 끝남==========')
-                # print(result)
+                # 결과를 출력하는 코드
 
-        # save model per 1e+5 iter.
-        # if (iteration + 1) % 1e+5 == 0:
+                elapsed_time = time.time() - start_time
 
-        # print(f'iter 마다 주기적으로 가중치 저장한다 (num_iter // 2) : {(opt.num_iter // 2)}')
-        #
-        # print(f' 앞에 날짜 넣어서 저장   opt.num_iter : {opt.num_iter}')
-        #
-        # print(f' 앞에 날짜 넣어서 저장   iteration : {iteration}')
+                log_file = f'./saved_models/{opt.exp_name}/{current_date}/log_train.txt'
 
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        print(f'current_time : {current_time}')
-        print(f'iteration  : {iteration}')
-        print(f'opt.num_iter  : {opt.num_iter}')
-        # if (iteration + 1) % (opt.num_iter // 2) == 0:
-        if (opt.num_iter != 0 and iteration != 0) and (
-                (opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
-            # 해당 코드 블록 실행
+                # 현재 시간을 얻어옵니다.
+                current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-            print(f'iter 마다 주기적으로 가중치 저장 시작 (num_iter // 2) 저장 : {(opt.num_iter // 2)}')
-            torch.save(
-                # model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
-                model.state_dict(),
-                f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+                # 경로 끝에 '_'를 추가하고 현재 시간을 추가한 파일 경로를 생성합니다.
+                log_file_with_time = os.path.splitext(log_file)
+                log_file_with_time = f'log_train_{log_file_with_time[0]}_{current_time}{log_file_with_time[1]}'
 
-        # print(f'@@@@@@@@@@@@@@@@@@@@@@@@opt.num_iter : {opt.num_iter}')
+                # 파일 열기
+                # with open(log_file_with_time, 'a', encoding='utf-8') as log:
 
-        # 원래 파일 경로 및 파일명
-        #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
-        #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
-        # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration}.txt"
+                # for log
+                # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a') as log:
+                # with open(f'./saved_models/{opt.exp_name}/log_train.txt', 'a', encoding='utf-8') as log:
+                # with open(f'./saved_models/{opt.exp_name}/log_train_{current_time}.txt', 'a', encoding='utf-8') as log:
+                print(f'파일 저장전 iteration: {iteration}')
+                print(f'파일 저장전 iteration + 1: {iteration + 1}')
 
-        # 파일 이름 변경
-        # os.rename(original_log_file_name, new_log_file_name)
+                original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
 
-        # print(f'파일의 존재 여부를 확인 original_log_file_name : {original_log_file_name}')
+                #         f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt
+                # with open(f'./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt', 'a',
+                #           encoding='utf-8') as log:
+                with open(original_log_file_name, 'a',
+                        encoding='utf-8') as log:
+                    # 나머지 코드
+                    #print(f' validation 함수 넘겨주기전 OPT: {opt}')
 
-        # 파일의 존재 여부를 확인
-        if os.path.exists(original_log_file_name):
-            print(f'파일의 존재 여부를 확인 있음___________  original_log_file_name : {original_log_file_name}')
+                    model.eval()
+                    #print(f' validation 함수 넘겨주기전 model.eval() OPT: {opt}')
+
+                    with torch.no_grad():
+                        valid_loss, current_accuracy, current_norm_ED, preds, confidence_score, labels, infer_time, length_of_data = validation(
+                            model, criterion, valid_loader, converter, opt)
+                    #print(f' validation 함수 넘겨주기전 with torch.no_grad() OPT: {opt}')
+
+                    # 모델을 학습 모드로 전환
+                    model.train()
+                    print(f'model.train() OPT: {opt}')
+                    # print(f'validation labels : {labels}')
+                    print(f'validation 함수에서 라벨 개수가 줄어  len(labels) : {len(labels)}')
+                    #
+                    # # train_dataset의 데이터셋 구성 확인
+                    print("Train Dataset Information:")
+                    print("Number of Samples in Train Dataset:", len(train_dataset.get_batch()))
+
+                    # unique_labels = set()
+                    # for _, labels in length:
+                    #     unique_labels.update(labels)
+
+                    # print("Number of Unique Labels in Train Dataset:",
+                    #       unique_labels)  # unique_labels을 사용해 고유 라벨 수 확인
+
+                    # valid_loader의 데이터셋 구성 확인
+                    # print("\nValidation Dataset Information:")
+                    # print("Number of Samples in Validation Dataset:", len(valid_loader.dataset))
+
+                    unique_labels = set()
+                    # for _, labels2 in valid_loader.dataset:
+                    #     unique_labels.update(labels2)
+                    #     # print(f'54가 어디서 튀어나옴????for _, labels in valid_loader.dataset  len(labels) : {len(labels2)}')
+                    #     # print(
+                    #     #     f'54가 어디서 튀어나옴????for _, labels in valid_loader.dataset  labels 이젠 돼지 2로 바꿨으니깐 : {labels2}')
+                    #
+                    # print(" Unique Labels in Validation Dataset:", len(unique_labels))
+                    # print("Validation Loader Options (opt):", valid_loader.dataset.opt)
+                    # print("Train Dataset Options (opt):", train_dataset.opt)
+
+                    print(f'  opt.num_iter : {opt.num_iter}')
+                    print(f'  iteration : {iteration}')
+                    print(f'  iteration + 1 : {iteration + 1}')
+                    # training loss and validation loss
+                    loss_log = f'[{iteration + 1}/{opt.num_iter}] Train loss: {loss_avg.val():0.5f}, Valid loss: {valid_loss:0.5f}, Elapsed_time: {elapsed_time:0.5f}'
+                    loss_avg.reset()
+
+                    current_model_log = f'{"Current_accuracy":17s}: {current_accuracy:0.3f}, {"Current_norm_ED":17s}: {current_norm_ED:0.2f}'
+
+                    # keep best accuracy model (on valid dataset)
+                    # if current_accuracy > best_accuracy:
+                    #     best_accuracy = current_accuracy
+                    #     torch.save(model.state_dict(), f'./saved_models/{opt.exp_name}/best_accuracy.pth')
+                    # if current_norm_ED > best_norm_ED:
+                    #     best_norm_ED = current_norm_ED
+                    #     torch.save(model.state_dict(), f'./saved_models/{opt.exp_name}/best_norm_ED.pth')
+
+                    if current_accuracy > best_accuracy:
+                        best_accuracy = current_accuracy
+                        # torch.save(model.state_dict(),
+                        #            f'./saved_models/{opt.exp_name}/best_accuracy_{current_time}_{current_accuracy:.4f}.pth')
+                        torch.save(model.state_dict(),
+                                f'./saved_models/{opt.exp_name}/{current_date}/best_accuracy_{current_time}_{current_accuracy:.4f}_{iteration + 1}.pth')
+                    if current_norm_ED > best_norm_ED:
+                        best_norm_ED = current_norm_ED
+                        # torch.save(model.state_dict(),
+                        #            f'./saved_models/{opt.exp_name}/best_norm_ED_{current_time}_{current_norm_ED:.4f}.pth')
+                        torch.save(model.state_dict(),
+                                f'./saved_models/{opt.exp_name}/{current_date}/best_norm_ED_{current_time}_{current_norm_ED:.4f}_{iteration + 1}.pth')
+
+                    print(f"current_accuracy: {current_accuracy}")
+                    print(f"current_norm_ED: {current_norm_ED:.4f}")
+
+                    # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
+
+                    correct_predictions = []
+                    fail_predictions = []
+                    predicted_result_log = ''
+                    dashed_line = '-' * 80
+                    head = f'{"Ground Truth":25s} | {"Prediction":25s} | Confidence Score & T/F'
+                    predicted_result_log = f'{dashed_line}\n{head}\n{dashed_line}\n'
+
+                    # gt.txt 에서 실패한 행 읽어와서 저장
+                    # Read gt.txt file and get failed predictions
+                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
+                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
+
+                    failed_gt_predictions = []
+
+                    for gt, pred, confidence in zip(labels, preds, confidence_score):
+                        label_cnt = label_cnt + 1
+
+                        # print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 : {label_cnt}')
+
+                        if 'Attn' in opt.Prediction:
+                            gt = gt[:gt.find('[s]')]
+                            pred = pred[:pred.find('[s]')]
+
+                        predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
+
+                        # print(f'트라이 predicted_result_log 쌓는다 : {predicted_result_log}')
+
+                        is_correct = pred == gt
+                        correct_predictions.append(is_correct)
+
+                        if is_correct:
+                            # Code for correct prediction
+                            pass
+                        else:
+                            # Code for incorrect prediction
+                            # Save gt to a text file
+                            # fail_predictions.append(gt)
+                            # for 루프 내부에서 fail_predictions에 gt와 pred를 딕셔너리로 추가
+                            fail_predictions.append({'gt': gt, 'pred': pred})
+
+                    # print(
+                    #     f'트레인 fail 로 예측함 잘못 예측한거 리스트에 저장 fail_predictions : {fail_predictions}')
+
+                    # fail_predictions_save_dir = r'fail_predictions'
+
+                    # with open(f'./saved_models/{opt.exp_name}/{current_date}/fail_predictions_{current_time}_{iteration + 1}.txt',
+                    #           'w', encoding='utf-8') as fail_predictions_log:
+                    #
+                    #     #fail_predictions_log.write(fail_predictions + '\n')
+                    #     fail_predictions_log.write('\n'.join(map(str, fail_predictions)) + '\n')
+                    #
+                    #     print(f'트레인 fail_predictions_ 저장 fail_predictions : {fail_predictions}')
+
+                    # 실패한 문장 이미지와 함께 텍스트 파일로 저장
+                    # Save only failed predictions to a text file along with the corresponding lines from gt.txt
+                    with open(gt_file_path, 'r', encoding='utf-8') as gt_file:
+                        lines = gt_file.readlines()
+
+                        for line in lines:
+
+                            # print(f'line : {line}')
+
+                            # Split the line using tab as a separator
+                            parts = line.split('\t')
+                            # print(f'parts : {parts}')
+
+                            # Check if the part after the tab matches any ground truth in fail_predictions
+                            for failed_gt in fail_predictions:
+                                t = failed_gt['gt']
+                                # print(f'트라이 for failed_gt in fail_predictions failed_gt : {failed_gt}')
+                                # print(
+                                #     f'트라이 for failed_gt in fail_predictions failed_gt : {t}')
+
+                                # if len(parts) > 1 and parts[1].strip() == failed_gt:
+                                if len(parts) > 1 and parts[1].strip() == failed_gt['gt']:
+                                    # failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
+                                    failed_gt_predictions.append(f"{line.strip()}\t|\t{failed_gt['pred']}")
+                                    # print(f'failed_gt_predictions : {failed_gt_predictions}')
+
+                                    # fail_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
+                                    # print(f'이미지도 있어야 해 fail_predictions : {fail_predictions}')
+
+                    # Save only failed predictions and corresponding lines to a text file
+                    gt_output_file_path = f'./saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
+                    with open(gt_output_file_path, 'w', encoding='utf-8') as output_file:
+                        output_file.write('\n'.join(failed_gt_predictions) + '\n')
+
+                    print(f'실패한 GT 행과 이미지 저장 gt_output_file_path : {gt_output_file_path}')
+
+                    #############################################
+
+                    predicted_result_log += f'{dashed_line}'
+
+                    # 정확도 계산
+                    accuracy = sum(correct_predictions) / len(correct_predictions)
+
+                    # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"accuracy":17s}: {accuracy:0.2f}'
+                    # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
+
+                    # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
+
+                    # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":17s}: {accuracy:0.2f}\n'
+                    best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}, {"Aaccuracy":10s}({sum(correct_predictions)} / {len(correct_predictions)}): {accuracy:0.2f}\n'
+                    best_model_log += f'{dashed_line}\n'
+                    # print(accuracy_log)
+                    # log.write(accuracy_log + '\n')
+                    # 정확도 출력
+                    # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}'
+                    # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
+                    accuracy_log = f'{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}\n'
+                    # accuracy_log += f'{dashed_line}\n'
+                    # print(accuracy_log)
+                    # best_model_log += dashed_line
+                    best_model_log += accuracy_log
+
+                    # loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
+                    loss_model_log = f'{loss_log}\n{current_model_log}\n{best_model_log}'
+
+                    print(loss_model_log)
+                    log.write(loss_model_log + '\n')
+
+                    # print(predicted_result_log)
+                    # log.write(predicted_result_log + '\n')
+
+                    # show some predicted results
+                    # dashed_line = '-' * 80
+                    # head = f'{"Ground Truth":25s} | {"Prediction":25s} | Confidence Score & T/F'
+                    # predicted_result_log = f'{dashed_line}\n{head}\n{dashed_line}\n'
+                    # for gt, pred, confidence in zip(labels[:5], preds[:5], confidence_score[:5]):
+                    #     if 'Attn' in opt.Prediction:
+                    #         gt = gt[:gt.find('[s]')]
+                    #         pred = pred[:pred.find('[s]')]
+                    #
+                    #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
+                    # predicted_result_log += f'{dashed_line}'
+                    # print(predicted_result_log)
+                    # log.write(predicted_result_log + '\n')
+                    print(f' 트레인 labels 길이 : {len(labels)}')
+
+                    num_labels = len(labels)
+                    num_preds = len(preds)
+                    num_confidence = len(confidence_score)
+                    # print(f"개짜증나! labels: {labels}")
+                    # print(f"개짜증나! validation validationvalidationvalidation Number of labels: {num_labels}")
+                    # print(f"Number of preds: {num_preds}")
+                    # print(f"Number of confidence scores: {num_confidence}")
+                    print(f'label_cnt len(labels) : {len(labels)}')
+                    # print(f'label_cnt 또 줄기 전 len(labels) : {len(labels)}')
+                    # print(f'label_cnt 또 줄기 전 len(preds) : {len(preds)}')
+                    # print(f'label_cnt 또 줄기 전 len(confidence_score) : {len(confidence_score)}')
+                    # print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 labels : {labels}')
+                    # correct_predictions = []
+                    # for gt, pred, confidence in zip(labels, preds, confidence_score):
+                    #     label_cnt = label_cnt + 1
+                    #
+                    #     #print(f'label_cnt 갑자기 끝에 라벨 텍스트길이로 바뀌어 버림 개짜증나 : {label_cnt}')
+                    #
+                    #     if 'Attn' in opt.Prediction:
+                    #         gt = gt[:gt.find('[s]')]
+                    #         pred = pred[:pred.find('[s]')]
+                    #
+                    #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
+                    #
+                    #     is_correct = pred == gt
+                    #     correct_predictions.append(is_correct)
+                    #
+                    #     # result = f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{str(pred == gt)}\n'
+                    #     # all_results.append(result)
+
+                    # print(f'트라이 correct_predictions 전체 : {correct_predictions}')
+                    print(f'트라이 correct_predictions 전체 길이 : {len(correct_predictions)}')
+
+                    predicted_result_log += f'{dashed_line}'
+                    # print(predicted_result_log)
+                    log.write(predicted_result_log + '\n')
+
+                    print('=' * 200)
+
+                    # for gt, pred, confidence in zip(labels, preds, confidence_score):
+                    #     if 'Attn' in opt.Prediction:
+                    #         gt = gt[:gt.find('[s]')]
+                    #         pred = pred[:pred.find('[s]')]
+                    #
+                    #     is_correct = pred == gt
+                    #     correct_predictions.append(is_correct)
+                    #
+                    #     print(f'is_correct : {is_correct}')
+                    #     print(f'gt : {gt}')
+                    #     print(f'pred : {pred}')
+                    #
+                    #     predicted_result_log += f'{gt:25s} | {pred:25s} | {confidence:0.4f}\t{is_correct}\n'
+
+                    # print(f'정확도 계산 len(correct_predictions) : {len(correct_predictions)}')
+
+                    # # 정확도 계산
+                    # accuracy = sum(correct_predictions) / len(correct_predictions)
+                    # #print(f'correct_predictions : {correct_predictions}')
+                    # # 정확도 출력
+                    # #accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}'
+                    # accuracy_log = f'{"Accuracy":17s}: {accuracy:0.3f}\n{"correct_predictions_len":17s}: {sum(correct_predictions)}\n{"predictions_len":17s}: {len(correct_predictions)}'
+                    # #print(accuracy_log)
+                    # log.write(accuracy_log + '\n')
+
+                    current_prediction_accuracy = accuracy
+
+                    # if current_prediction_accuracy > best_prediction_accuracy:
+                    #     best_prediction_accuracy = current_prediction_accuracy
+                    #     torch.save(model.state_dict(),
+                    #                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+                    if current_prediction_accuracy > best_prediction_accuracy:
+                        best_prediction_accuracy = current_prediction_accuracy
+                        torch.save(model.state_dict(),
+                                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+
+                    print(f'로그 다 찍고 저장 !best_prediction_accuracy : {best_prediction_accuracy}')
+                    print(
+                        f'로그 다 찍고 저장 !current_prediction_accuracy : {current_prediction_accuracy}')
+
+                # 훈련이 끝난 후, 모든 결과 출력
+                for result in all_results:
+                    pass
+                    # print('훈련 끝남==========')
+                    # print(result)
+
+            # save model per 1e+5 iter.
+            # if (iteration + 1) % 1e+5 == 0:
+
+            # print(f'iter 마다 주기적으로 가중치 저장한다 (num_iter // 2) : {(opt.num_iter // 2)}')
+            #
+            # print(f' 앞에 날짜 넣어서 저장   opt.num_iter : {opt.num_iter}')
+            #
+            # print(f' 앞에 날짜 넣어서 저장   iteration : {iteration}')
+
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            print(f'current_time : {current_time}')
+            print(f'iteration  : {iteration}')
+            print(f'opt.num_iter  : {opt.num_iter}')
+            # if (iteration + 1) % (opt.num_iter // 2) == 0:
+            if (opt.num_iter != 0 and iteration != 0) and (
+                    (opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
+                # 해당 코드 블록 실행
+
+                print(f'iter 마다 주기적으로 가중치 저장 시작 (num_iter // 2) 저장 : {(opt.num_iter // 2)}')
+                torch.save(
+                    # model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
+                    model.state_dict(),
+                    f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+
+            # print(f'@@@@@@@@@@@@@@@@@@@@@@@@opt.num_iter : {opt.num_iter}')
 
             # 원래 파일 경로 및 파일명
-            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration}.txt"
 
-            # 추가할 문자열
-            suffix = f"{accuracy:.4f}_{iteration + 1}.txt"
-
-            print(f'각 이터마다 애큐러시 넣어서 파일명 업데이트 해야하는데 처음은 업데이트가 이상하게 안됨  suffix : {suffix}')
-
-            # 새로운 파일 경로 및 파일명 생성
-            new_log_file_name = original_log_file_name.replace(f'{iteration + 1}.txt', suffix)
-
-            print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
-
-            # 파일 이름 변경 (original_log_file_name가 존재할 경우에만 실행)
-            os.rename(original_log_file_name, new_log_file_name)
-            print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
-
-        else:
-            print(f"파일 '{original_log_file_name}'이 존재하지 않습니다.")
-
-            # # 원래 파일 경로 및 파일명
-            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
-            #
-            # # 추가할 문자열
-            # suffix = f"{accuracy:.4f}_{iteration + 1}.txt"
-            #
-            # print(f'각 이터마다 애큐러시 넣어서 파일명 업데이트 해야하는데 처음은 업데이트가 이상하게 안됨  suffix : {suffix}')
-            #
-            # # 새로운 파일 경로 및 파일명 생성
-            # new_log_file_name = original_log_file_name.replace(f'{iteration + 1}.txt', suffix)
-            #
-            # print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
-            #
-            # # 파일 이름 변경 (original_log_file_name가 존재할 경우에만 실행)
+            # 파일 이름 변경
             # os.rename(original_log_file_name, new_log_file_name)
-            # print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
 
-            #####################################
+            # print(f'파일의 존재 여부를 확인 original_log_file_name : {original_log_file_name}')
 
-        print(f'opt.num_iter : {opt.num_iter}')
-        print(f'iteration + 1 : {iteration + 1}')
-        # opt.num_iter = 602
+            # 파일의 존재 여부를 확인
+            if os.path.exists(original_log_file_name):
+                print(f'파일의 존재 여부를 확인 있음___________  original_log_file_name : {original_log_file_name}')
 
-        # if (iteration + 1) == opt.num_iter:
-        if (iteration + 1) == opt.num_iter or (iteration + 1) >= opt.num_iter:
-            # print(f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 iteration 에 1 더하기 전: {iteration}')
-            # print(
-            #     f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 opt.num_iter: {opt.num_iter}')
+                # 원래 파일 경로 및 파일명
+                # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+
+                # 추가할 문자열
+                suffix = f"{accuracy:.4f}_{iteration + 1}.txt"
+
+                print(f'각 이터마다 애큐러시 넣어서 파일명 업데이트 해야하는데 처음은 업데이트가 이상하게 안됨  suffix : {suffix}')
+
+                # 새로운 파일 경로 및 파일명 생성
+                new_log_file_name = original_log_file_name.replace(f'{iteration + 1}.txt', suffix)
+
+                print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
+
+                # 파일 이름 변경 (original_log_file_name가 존재할 경우에만 실행)
+                os.rename(original_log_file_name, new_log_file_name)
+                print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
+
+            else:
+                print(f"파일 '{original_log_file_name}'이 존재하지 않습니다.")
+
+                # # 원래 파일 경로 및 파일명
+                # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+                #
+                # # 추가할 문자열
+                # suffix = f"{accuracy:.4f}_{iteration + 1}.txt"
+                #
+                # print(f'각 이터마다 애큐러시 넣어서 파일명 업데이트 해야하는데 처음은 업데이트가 이상하게 안됨  suffix : {suffix}')
+                #
+                # # 새로운 파일 경로 및 파일명 생성
+                # new_log_file_name = original_log_file_name.replace(f'{iteration + 1}.txt', suffix)
+                #
+                # print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
+                #
+                # # 파일 이름 변경 (original_log_file_name가 존재할 경우에만 실행)
+                # os.rename(original_log_file_name, new_log_file_name)
+                # print(f'새로운 파일 경로 및 파일명 생성 new_log_file_name : {new_log_file_name}')
+
+                #####################################
+
             print(f'opt.num_iter : {opt.num_iter}')
-            print(f'iteration +  : {iteration + 1}')
-            # print(f'iteration +  : {iteration + 1}')
-            print('end the training')
-            start_iter = iteration
-            sys.exit()
-        iteration += 1
+            print(f'iteration + 1 : {iteration + 1}')
+            # opt.num_iter = 602
 
-        print(f'여기서 iteration 1 증가시킨다 0에서 1로  iteration : {iteration}')
-        print(f'여기서 iteration 1 증가시킨다 0에서 1로 opt.num_iter  : {opt.num_iter}')
-        print(f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy : {accuracy:.4f}')
-        print(
-            f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy sum / len : {sum(correct_predictions)} / {len(correct_predictions)}')
+            # if (iteration + 1) == opt.num_iter:
+            if (iteration + 1) == opt.num_iter or (iteration + 1) >= opt.num_iter:
+                # print(f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 iteration 에 1 더하기 전: {iteration}')
+                # print(
+                #     f'iter + 1 이랑  opt.num_iter 랑 같으면 트레인 종료한다 opt.num_iter: {opt.num_iter}')
+                print(f'opt.num_iter : {opt.num_iter}')
+                print(f'iteration +  : {iteration + 1}')
+                # print(f'iteration +  : {iteration + 1}')
+                print('end the training')
+                start_iter = iteration
+                # 추가: 루프가 종료되기 전에 100%에 도달하도록 업데이트
+                pbar.update(1)
+
+
+                sys.exit()
+            iteration += 1
+            pbar.update(1)
+
+            print(f'여기서 iteration 1 증가시킨다 0에서 1로  iteration : {iteration}')
+            print(f'여기서 iteration 1 증가시킨다 0에서 1로 opt.num_iter  : {opt.num_iter}')
+            print(f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy : {accuracy:.4f}')
+            print(
+                f'여기서 iteration 1 증가시킨다 0에서 1로 accuracy sum / len : {sum(correct_predictions)} / {len(correct_predictions)}')
 
 
 if __name__ == '__main__':
@@ -1727,10 +1795,10 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=300, help='input batch size')
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=40000, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1748,6 +1816,8 @@ if __name__ == '__main__':
     parser.add_argument('--batch_ratio', default='1', help='assign ratio for each selected data in the batch')
 
     # parser.add_argument('--total_data_usage_ratio', type=str, default='1.0',
+    #                     help='total data usage ratio, this ratio is multiplied to total number of data.')
+    # parser.add_argument('--total_data_usage_ratio', type=str, default='0.5',
     #                     help='total data usage ratio, this ratio is multiplied to total number of data.')
     parser.add_argument('--total_data_usage_ratio', type=str, default='0.5',
                         help='total data usage ratio, this ratio is multiplied to total number of data.')
@@ -1826,13 +1896,33 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/training/ttf7"
     opt.valid_data = "data_lmdb_release/validation/ttf8"
     opt.train_data = "data_lmdb_release/training/ttf8"
+    opt.valid_data = "data_lmdb_release/ttf14/train"
+    opt.train_data = "data_lmdb_release/ttf14/val"
+    opt.valid_data = "data_lmdb_release/ttf14/train"
+    opt.train_data = "data_lmdb_release/ttf14/train"
+    opt.valid_data = "data_lmdb_release/ttf15/val"
+    opt.train_data = "data_lmdb_release/ttf15/train"
+    opt.valid_data = "data_lmdb_release/ttf15/val"
+    opt.train_data = "data_lmdb_release/ttf15/train"
+    # opt.valid_data = "data_lmdb_release/ttf14/val"
+    # opt.train_data = "data_lmdb_release/ttf14/val"
+    # opt.valid_data = "data_lmdb_release/ttf14/test"
+    # opt.train_data = "data_lmdb_release/ttf14/test"
+    # opt.valid_data = "data_lmdb_release/ttf15/train"
+    # opt.train_data = "data_lmdb_release/ttf15/val"
     opt.Transformation = "None"
     opt.FeatureExtraction = "VGG"
     opt.SequenceModeling = "BiLSTM"
     opt.Prediction = "CTC"
+    # 배치 경사 하강법(Batch Gradient Descent) 적용시 train() 함수 반복시 root
     opt.select_data = "th"
     opt.batch_ratio = "1"
     opt.batch_ratio = "0.5"
+    opt.batch_ratio = "0.0005"
+    opt.batch_ratio = "0.5"
+    opt.total_data_usage_ratio = "0.5"
+    #opt.total_data_usage_ratio = "1"
+    #opt.batch_ratio = "1"
 
     print(opt.valid_data)
     print(opt.train_data)
@@ -1912,4 +2002,22 @@ if __name__ == '__main__':
     #     # 'ๆ' 문자가 없을 경우
     #     print('train 에 마지막 넘겨주기 전 여기서 디코드해도 정상으로 감  없음')
 
-    train(opt)
+    #train(opt)
+    #train(opt)
+
+    path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train'
+    path = opt.train_data
+
+    for root, dirs, files in os.walk(opt.train_data):
+        # print(f'root: {root}')
+        # print(f'dirs: {dirs}')
+        # print(f'files: {files}')
+        if (not dirs):
+            print(f'root: {root}')
+            head, tail = os.path.split(root)
+            print(f"head: {head}")
+            print(f"tail: {tail}")
+
+            opt.select_data = tail
+
+            train(opt)

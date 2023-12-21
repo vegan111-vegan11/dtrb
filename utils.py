@@ -145,10 +145,12 @@ class CTCLabelConverter(object):
     def decode(self, text_index, length):
         # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode text_index : {text_index}')
         # print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode length : {length}')
-        print(
-            f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode text_index.shape : {text_index.shape}')
-        print(
-            f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode length.shape : {length.shape}')
+
+        # 로그용
+        # print(
+        #     f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode text_index.shape : {text_index.shape}')
+        # print(
+        #     f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  preds_str = converter.decode(preds_index.data, preds_size.data) decode length.shape : {length.shape}')
 
         """ convert text-index into text-label. """
         texts = []
@@ -219,8 +221,10 @@ class CTCLabelConverterForBaiduWarpctc(object):
     #def encode(self, text, batch_max_length=25):
     #def encode(self, text, batch_max_length=200):
     def encode(self, text, batch_max_length=300):
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode text: {text}')
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode batch_max_length: {batch_max_length}')
+
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode text: {text}')
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode batch_max_length: {batch_max_length}')
         """convert text-label into text-index.
         input:
             text: text labels of each image. [batch_size]
@@ -231,22 +235,29 @@ class CTCLabelConverterForBaiduWarpctc(object):
         """
         length = [len(s) for s in text]
         text = ''.join(text)
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode self.dict: {self.dict}')
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode self.dict: {self.dict}')
 
         # 수정된 코드
         for char in text:
             try:
                 char_value = self.dict[char]
-                print(f"utils.py  encode self.dict[char] : {self.dict[char]}")
+                # 로그용
+                #print(f"utils.py  encode self.dict[char] : {self.dict[char]}")
                 # text = [self.dict[char] for char in text]
-                print(f"utils.py  encode Character ( for char in text ): {char}, Value ( self.dict[char] ): {char_value}")
+                # 로그용
+                #print(f"utils.py  encode Character ( for char in text ): {char}, Value ( self.dict[char] ): {char_value}")
             except KeyError:
-                print(f"utils.py  encode Character '{char}' not found in the dictionary.")
+                pass
+                # 로그용
+                #print(f"utils.py  encode Character '{char}' not found in the dictionary.")
 
 
 
         text = [self.dict[char] for char in text]
-        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode text: {text}')
+
+        # 로그용
+        #print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!utils.py  encode text: {text}')
         # 원래 코드
         # text = [self.dict[char] for char in text]
 
