@@ -1194,6 +1194,7 @@ def train(opt):
             pass
 
     start_time = time.time()
+    best_valid_loss = -1
     best_accuracy = -1
     best_norm_ED = -1
     best_prediction_accuracy = -1
@@ -1439,15 +1440,23 @@ def train(opt):
                         #            f'./saved_models/{opt.exp_name}/best_accuracy_{current_time}_{current_accuracy:.4f}.pth')
                         torch.save(model.state_dict(),
                                 f'./saved_models/{opt.exp_name}/{current_date}/best_accuracy_{current_time}_{current_accuracy:.4f}_{iteration + 1}.pth')
-                    if current_norm_ED > best_norm_ED:
+                    if current_norm_ED < best_norm_ED:
                         best_norm_ED = current_norm_ED
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/best_norm_ED_{current_time}_{current_norm_ED:.4f}.pth')
                         torch.save(model.state_dict(),
                                 f'./saved_models/{opt.exp_name}/{current_date}/best_norm_ED_{current_time}_{current_norm_ED:.4f}_{iteration + 1}.pth')
 
+                    if valid_loss < best_valid_loss:
+                        best_valid_loss = valid_loss
+                        # torch.save(model.state_dict(),
+                        #            f'./saved_models/{opt.exp_name}/best_Valid_loss_{current_time}_{current_Validn_loss:.4f}.pth')
+                        torch.save(model.state_dict(),
+                                f'./saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
+
                     print(f"current_accuracy: {current_accuracy}")
                     print(f"current_norm_ED: {current_norm_ED:.4f}")
+                    print(f"valid_loss: {valid_loss:.4f}")
 
                     # best_model_log = f'{"Best_accuracy":17s}: {best_accuracy:0.3f}, {"Best_norm_ED":17s}: {best_norm_ED:0.2f}'
 
@@ -2003,21 +2012,21 @@ if __name__ == '__main__':
     #     print('train 에 마지막 넘겨주기 전 여기서 디코드해도 정상으로 감  없음')
 
     #train(opt)
-    #train(opt)
+    train(opt)
 
     path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train'
     path = opt.train_data
 
-    for root, dirs, files in os.walk(opt.train_data):
-        # print(f'root: {root}')
-        # print(f'dirs: {dirs}')
-        # print(f'files: {files}')
-        if (not dirs):
-            print(f'root: {root}')
-            head, tail = os.path.split(root)
-            print(f"head: {head}")
-            print(f"tail: {tail}")
-
-            opt.select_data = tail
-
-            train(opt)
+    # for root, dirs, files in os.walk(opt.train_data):
+    #     # print(f'root: {root}')
+    #     # print(f'dirs: {dirs}')
+    #     # print(f'files: {files}')
+    #     if (not dirs):
+    #         print(f'root: {root}')
+    #         head, tail = os.path.split(root)
+    #         print(f"head: {head}")
+    #         print(f"tail: {tail}")
+    #
+    #         opt.select_data = tail
+    #
+    #         train(opt)
