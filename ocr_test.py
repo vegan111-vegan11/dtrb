@@ -198,6 +198,7 @@ from PIL import Image
 # 엑셀 파일 경로
 file_path = 'D:/data/ocr/1018/태국어_전처리_with_result_updated.xlsx'
 file_path = 'D:/data/ocr/1215/태국어_전처리_with_result_updated.xlsx'
+file_path = 'D:/data/ocr/1226/태국어_전처리_with_result_updated.xlsx'
 df = pd.read_excel(file_path)
 ks_list = [1, 3, 5, 7, 9]
 ks_list = [1]
@@ -238,9 +239,12 @@ def imageProcessing(image_path):
 
     #logger.debug("전처리 변경 완료")
 
+    # 변경된 이미지를 반환합니다.
+    return binary_image
+
 
 # 전처리 단계 리스트
-preprocessing_steps = [
+#preprocessing_steps = [
 #     ('Original', lambda img: img),  # ,  # 원본 이미지를 그대로 반환
 #     ('CannyEdge', lambda img: cv2.Canny(img, 50, 150)),
 #     ('Dilation', lambda img: cv2.dilate(img, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)), iterations=1)),
@@ -261,6 +265,16 @@ preprocessing_steps = [
 
 ]
 
+# preprocessing_steps = [
+#     # ('Original', lambda img: img),  # ,  # 원본 이미지를 그대로 반환
+#     # ('CannyEdge', lambda img: cv2.Canny(img, 50, 150)),
+#     # ('Dilation', lambda img: cv2.dilate(img, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)), iterations=1)),
+#     ('Sharpening', lambda img: cv2.filter2D(img, -1, np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])))#,
+#     # #('BinaryThresholding', lambda img: cv2.threshold(img, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1])
+#     #('imageProcessing', lambda img: imageProcessing(img, 128, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1])
+#     #('imageProcessing', lambda img: imageProcessing(image_path))
+#
+# ]
 
 # preprocessing_steps = [
 #     ('Original', lambda img: img)  # ,  # 원본 이미지를 그대로 반환
@@ -270,22 +284,33 @@ preprocessing_steps = [
 # ]
 
 # OCR 초기화
-reader = easyocr.Reader(['th'])
-reader = easyocr.Reader(['th', 'en'])
+#reader = easyocr.Reader(['th'])
+#reader = easyocr.Reader(['th', 'en'])
+# #reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC')
+# user_network_directory = r'C:/Users/TAMSystech/.EasyOCR/user_network'
+user_network_directory = r'C:/Users/TAMSystech/.EasyOCR/user_network'
+#reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC')
+reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC_custom')
 
 # 이미지 디렉토리 설정
 image_dir = 'C:/Users/TAMSystech/yjh/img/태국어'
 image_dir = 'C:/Users/TAMSystech/yjh/img/라인명4/태국어'
+image_dir = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/data/ttf14/train/img/skew_angle(0.0)/blur(0.0)'
 
 import os
 
 # 주어진 경로
 base_path = r'C:\Users\TAMSystech\yjh\img\라인명4\태국어'
+base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\img\skew_angle(0.0)\blur(0.0)'
+
+#테스트용
+base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test\train\img\skew_angle(0.0)\blur(0.0)'
 import os
 
 # 경로 설정
 gt_base_path = r'C:\Users\TAMSystech\yjh\gt\태국어'
 gt_base_path = r'C:\Users\TAMSystech\yjh\gt\태국어'
+gt_base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 gt_file_path = os.path.join(gt_base_path, 'gt.txt')
 
 # 딕셔너리 생성
@@ -382,7 +407,7 @@ for root, dirs, files in os.walk(base_path):
 
                         # 이미지에서 텍스트 인식
                         results = reader.readtext(preprocessed_image)
-                        #print(f'results : {results}')
+                        print(f'ocr_test.py results : {results}')
 
                         # OCR 결과를 저장할 리스트
                         recognized_words = []
@@ -425,14 +450,15 @@ for root, dirs, files in os.walk(base_path):
 
                         # filename과 같은 태국어 열의 인덱스를 찾습니다.
                         idx = df.index[df['태국어'] == filename].tolist()
-                        print(f'같은 열 없음 idx 리스트: {idx}')
+                        print(f'filename: {filename}')
+                        print(f'idx: {idx}')
 
                         if not idx:
                             print(f'같은 열 없음 filename : {filename}')
                         else:
-                            #print(f'========같은 열 있음 filename : {filename}')
+                            print(f'========같은 열 있음 filename : {filename}')
                             #print(f'========같은 열 있음 idx : {idx}')
-                            #print(f'========같은 열 있음 recognized_text : {recognized_text}')
+                            print(f'========같은 열 있음 recognized_text : {recognized_text}')
 
                             # 추출된 텍스트를 '태국어_ocr_text' 열에 넣습니다.
                             df.at[idx[0], ocr_text_열명] = recognized_text
@@ -478,6 +504,7 @@ for root, dirs, files in os.walk(base_path):
 
                 print(f"태국어_suc_cnt:@@@@@@@@@@@@@@@@@@@@@@@@@ {태국어_suc_cnt}")
                 # df.to_excel('D:/data/ocr/1018/태국어_전처리_with_result_updated.xlsx', index=False)
-                df.to_excel('D:/data/ocr/1215/태국어_전처리_with_result_updated.xlsx', index=False)
+                #df.to_excel('D:/data/ocr/1215/태국어_전처리_with_result_updated.xlsx', index=False)
+                df.to_excel('D:/data/ocr/1226/태국어_전처리_with_result_updated.xlsx', index=False)
 
         print(f"일치하는 항목 수: {태국어_suc_cnt}")

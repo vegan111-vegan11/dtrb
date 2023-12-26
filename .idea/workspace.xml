@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="90df7bf3-81e3-4ddd-bfb0-07dff525c951" name="Changes" comment="1124">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ocr_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/ocr_test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,12 +121,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$USER_HOME$/anaconda3/envs/ocr2/Lib/site-packages/easyocr/easyocr.py</url>
-          <line>445</line>
+          <line>450</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$USER_HOME$/anaconda3/envs/ocr2/Lib/site-packages/easyocr/easyocr.py</url>
-          <line>495</line>
+          <line>541</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -211,7 +211,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$USER_HOME$/anaconda3/envs/ocr2/Lib/site-packages/easyocr/model/modules.py</url>
-          <line>32</line>
+          <line>23</line>
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
