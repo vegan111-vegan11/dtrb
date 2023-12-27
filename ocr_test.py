@@ -199,6 +199,8 @@ from PIL import Image
 file_path = 'D:/data/ocr/1018/태국어_전처리_with_result_updated.xlsx'
 file_path = 'D:/data/ocr/1215/태국어_전처리_with_result_updated.xlsx'
 file_path = 'D:/data/ocr/1226/태국어_전처리_with_result_updated.xlsx'
+file_path = 'C:/Users/TAMSystech\yjh\ipynb\deep-text-recognition-benchmark/ocr_test/1226/태국어_전처리_with_result_updated.xlsx'
+
 df = pd.read_excel(file_path)
 ks_list = [1, 3, 5, 7, 9]
 ks_list = [1]
@@ -365,7 +367,7 @@ for root, dirs, files in os.walk(base_path):
                     # if filename.endswith(".png"):
                     if filename.endswith(".jpg"):
 
-                        image_path = os.path.join(image_dir, filename)
+                        #image_path = os.path.join(image_dir, filename)
                         image_path = os.path.join(image_dir, filename)
                         image = Image.open(image_path)
                         # 이미지에서 텍스트 인식
@@ -391,12 +393,15 @@ for root, dirs, files in os.walk(base_path):
                         # 작은 커널 크기(3x3)를 사용하여 OCR 전처리를 수행
                         # results = reader.readtext(img_cv_filtered)
 
-                        image_path = os.path.join(image_dir, filename)
-                        #print(f'========image_path : {image_path}')
+                        #image_path = os.path.join(image_dir, filename)
+                        print(f'========image_path : {image_path}')
+                        print(f'========preprocessing_name : {preprocessing_name}')
+                        print(f'========image_path : {image_path}')
 
                         # image = cv2.imread(image_path)
                         #preprocessed_image = preprocessing_func(img_cv_filtered)
-                        if preprocessing_name != imageProcessing:
+                        #if preprocessing_name != imageProcessing:
+                        if preprocessing_name != 'imageProcessing':
                             preprocessed_image = preprocessing_func(img_cv_filtered)
                         else:
                             preprocessed_image = preprocessing_func(image_path)
@@ -506,5 +511,6 @@ for root, dirs, files in os.walk(base_path):
                 # df.to_excel('D:/data/ocr/1018/태국어_전처리_with_result_updated.xlsx', index=False)
                 #df.to_excel('D:/data/ocr/1215/태국어_전처리_with_result_updated.xlsx', index=False)
                 df.to_excel('D:/data/ocr/1226/태국어_전처리_with_result_updated.xlsx', index=False)
+                df.to_excel('C:/Users/TAMSystech\yjh\ipynb\deep-text-recognition-benchmark/ocr_test/1226/태국어_전처리_with_result_updated.xlsx', index=False)
 
         print(f"일치하는 항목 수: {태국어_suc_cnt}")

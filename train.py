@@ -1194,9 +1194,11 @@ def train(opt):
             pass
 
     start_time = time.time()
-    best_valid_loss = -1
+    #best_valid_loss = -1
+    best_valid_loss = 1
     best_accuracy = -1
-    best_norm_ED = -1
+    #best_norm_ED = -1
+    best_norm_ED = 1
     best_prediction_accuracy = -1
     # 기존 저장된 가중치 이터레이션이 클 경우 처음부터 로그 저장하기 위해서 start_iter = 0 으로 초기화
     start_iter = 0
