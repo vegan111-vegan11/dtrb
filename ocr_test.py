@@ -292,7 +292,9 @@ preprocessing_steps = [
 # user_network_directory = r'C:/Users/TAMSystech/.EasyOCR/user_network'
 user_network_directory = r'C:/Users/TAMSystech/.EasyOCR/user_network'
 #reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC')
-reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC_custom')
+#reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC_custom')
+#reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC_custom')
+reader = easyocr.Reader(['th', 'en'], model_storage_directory = user_network_directory, recog_network='None_VGG_BiLSTM_CTC_th')
 
 # 이미지 디렉토리 설정
 image_dir = 'C:/Users/TAMSystech/yjh/img/태국어'
