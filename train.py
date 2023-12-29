@@ -52,7 +52,6 @@ if torch.cuda.is_available():
 else:
     print("No GPU available.")
 
-
 # CPU Cores: 32
 # Total GPUs: 1
 # GPU 1: NVIDIA GeForce RTX 4090, Memory: 23.99 GB
@@ -64,6 +63,8 @@ from PIL import Image
 def train(opt):
     global original_log_file_name
     cnt = 0
+
+    log_folder = r"D:/dtrb"
 
     current_prediction_accuracy_list = []
     current_date = datetime.datetime.now().strftime("%m-%d")
@@ -78,6 +79,7 @@ def train(opt):
 
     # 원래 경로를 설정합니다.
     original_path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\{current_date}"
+    original_path_to_weights = fr"{log_folder}/saved_models\None-VGG-BiLSTM-CTC-Seed1111\{current_date}"
     # original_path_to_weights = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\TPS-ResNet-BiLSTM-Attn-Seed1111\{current_date}"
     print(f'original_path_to_weights : {original_path_to_weights}')
 
@@ -117,7 +119,7 @@ def train(opt):
             # print(f'트레인 학습된 모델 경로 가져오기 for file in files file : {file}')
 
             # if "best_prediction_accuracy_" in file:
-            #if "best_prediction_accuracy_" in file:
+            # if "best_prediction_accuracy_" in file:
             if accuracy_file_str in file:
                 # print("Found matching file:", os.path.join(root, file))
 
@@ -164,10 +166,9 @@ def train(opt):
     max_accuracy_file_path = ''
     for root, dirs, files in os.walk(path_to_weights):
         for file in files:
-            #if max_accuracy_str in file:
-            #if max_accuracy_str in file and "best_prediction_accuracy_" in file:
+            # if max_accuracy_str in file:
+            # if max_accuracy_str in file and "best_prediction_accuracy_" in file:
             if max_accuracy_str in file and accuracy_file_str in file:
-
                 # if "max_accuracy_str" in file or "best_prediction_accuracy_" in file:
                 # Your code here
 
@@ -181,8 +182,8 @@ def train(opt):
     # opt.saved_model = 'opt.saved_model : C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
     # file = 'best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
     # 테스트용
-    #opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
-    #opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    # opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
+    # opt.saved_model = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\saved_models\None-VGG-BiLSTM-CTC-Seed1111\11-23\best_prediction_accuracy_원본_2023-11-17_17-04-20_0.2226_2.pth'
 
     # print(f' train.py 기존 모델 불러오기 opt.saved_model : {opt.saved_model}')
 
@@ -206,7 +207,7 @@ def train(opt):
 
     opt.select_data = opt.select_data.split('-')
     opt.batch_ratio = opt.batch_ratio.split('-')
-    #print(f'트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 opt : {opt}')
+    # print(f'트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 opt : {opt}')
     # if 'ๆ' in opt.character:
     #     # 'ๆ' 문자가 있을 경우
     #     print('트레인 처음 들어와서 Batch_Balanced_Dataset 에 opt 넘겨줄때 ๆ 없음')
@@ -223,6 +224,7 @@ def train(opt):
 
     # 원하는 폴더 경로 생성
     directory = f'./saved_models/{opt.exp_name}/{current_date}/'
+    directory = f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/'
 
     # 폴더가 존재하지 않으면 생성
     if not os.path.exists(directory):
@@ -772,7 +774,6 @@ def train(opt):
         #     if i >= len(model) - update_layers:  # 마지막 몇 개의 레이어만 업데이트
         #         param.requires_grad = True
 
-
         for name, param in model.named_parameters():
             # print(f'가중치 잘 가져와야함! model 가중치 name: {name}')
             # print(f'가중치 잘 가져와야함! model 가중치 param: {param}')
@@ -785,19 +786,19 @@ def train(opt):
             # print('============================================================')
             # print(f'처음 name :  {name} ')
             # print(f'처음 param.requires_grad 변경전 :  {param.requires_grad} ')
-            #if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
+            # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
 
             try:
                 # if "Prediction" in name:  # 마지막 레이어에 대해서만 학습
 
                 if "module.Prediction" in name:  # 마지막 레이어에 대해서만 학습
-                    #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 name: {name}')
-                    #print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
+                    # print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 name: {name}')
+                    # print(f'not batchnorm and 마지막 레이어 ( module.Prediction ) model 가중치 param: {param}')
                     param.requires_grad = True
                     # print(f'기존 가중치 Name: {name}\n, 기존 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n, 기존 가중치 data: {param.data}\n')
                     # print(
                     #     f'가중치 Name: {name}\n, 가중치 Shape ( 기존 177 + ( ✓ 체크 ) + blank => 179 ): {param.shape}\n')
-                    #print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    # print(f'not batchnorm and 마지막 레이어에 대해서만 학습 param.requires_grad 변경후 :  {param.requires_grad} ')
                     # try:
                     #     if 'bias' in name:
                     #         init.constant_(param, 0.0)
@@ -807,49 +808,49 @@ def train(opt):
                     #     pass
 
                     # 가중치 초기화
-                    #print(f'not batchnorm and 마지막 레이어 param name :  {name} ')
-                    #print(f'not batchnorm and 마지막 레이어 param 변경전 :  {param} ')
+                    # print(f'not batchnorm and 마지막 레이어 param name :  {name} ')
+                    # print(f'not batchnorm and 마지막 레이어 param 변경전 :  {param} ')
                     if 'bias' in name:
-                        #pass
+                        # pass
                         init.constant_(param, 0.0)
 
                     elif 'weight' in name:
-                        #pass
+                        # pass
                         init.kaiming_normal_(param)
 
-                    #print('===========================================================')
-                    #print(f'not batchnorm and 마지막 레이어 param 변경후 :  {param} ')
+                    # print('===========================================================')
+                    # print(f'not batchnorm and 마지막 레이어 param 변경후 :  {param} ')
 
 
                 else:
-                    #param.requires_grad = False  # 나머지 레이어는 동결
-                    #print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
-                    #print(f'not batchnorm and 나머지 레이어 param 변경전 :  {param} ')
+                    # param.requires_grad = False  # 나머지 레이어는 동결
+                    # print(f'not batchnorm and 나머지 레이어 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
+                    # print(f'not batchnorm and 나머지 레이어 param 변경전 :  {param} ')
                     if 'bias' in name:
                         init.constant_(param, 0.0)
-                        #pass
+                        # pass
 
                     elif 'weight' in name:
                         init.kaiming_normal_(param)
-                        #pass
+                        # pass
 
-                    #print('===========================================================')
-                    #print(f'not batchnorm and 나머지 레이어 param 변경후 :  {param} ')
+                    # print('===========================================================')
+                    # print(f'not batchnorm and 나머지 레이어 param 변경후 :  {param} ')
 
             except Exception as e:  # for batchnorm.
-                #print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
-                #print(f'for batchnorm weight param 변경전 :  {param} ')
+                # print(f"Exception during Batch Normalization initialization for parameter {name}: {e}")
+                # print(f'for batchnorm weight param 변경전 :  {param} ')
                 # param.requires_grad = False  # 나머지 레이어는 동결
                 # print(
                 #     f'batchnorm ( 마지막 레이어 나머지 레이어) 는 requires_grad 동결 param.requires_grad 변경후 :  {param.requires_grad} ')
 
                 # Batch Normalization의 스케일 파라미터를 초기화할 때는 init.normal_ 함수를 사용하여 평균이 0이고 표준 편차가 0.02인 정규 분포로 초기화하는 방법이 일반적으로 사용
                 if 'weight' in name:
-                    #pass
+                    # pass
                     # 원본 ( 1로 채움 )
                     param.data.fill_(1)
-                    #init.normal_(param)
-                    #print(f'for batchnorm weight param 변경후 :  {param} ')
+                    # init.normal_(param)
+                    # print(f'for batchnorm weight param 변경후 :  {param} ')
 
                 continue
 
@@ -1022,8 +1023,8 @@ def train(opt):
 
     ##############################################################
 
-    #기존 학습된 가중치 로드
-    #pretrained_weights = torch.load(opt.saved_model)
+    # 기존 학습된 가중치 로드
+    # pretrained_weights = torch.load(opt.saved_model)
     # 초기화 안하면 정확도가 0 나옴
     # 모델의 각 매개변수에 대해 가중치 초기화 또는 기존 가중치로 설정
     # for name, param in model.named_parameters():
@@ -1057,7 +1058,6 @@ def train(opt):
     #             print(f'for batchnorm param 변경후 param :  {param} ')
     #         continue
 
-
     """ setup loss """
     if 'CTC' in opt.Prediction:
         if opt.baiduCTC:
@@ -1090,7 +1090,7 @@ def train(opt):
         optimizer = optim.Adam(filtered_parameters, lr=opt.lr, betas=(opt.beta1, 0.999))
     else:
         print('train.py opt.lr 변경전 : ', opt.lr)
-        #opt.lr = 0.0001
+        # opt.lr = 0.0001
         opt.lr = 0.0001
         opt.lr = 0.001
         # 원본
@@ -1115,7 +1115,8 @@ def train(opt):
 
     """ final options """
     # print(opt)
-    with open(f'./saved_models/{opt.exp_name}/{current_date}/opt.txt', 'a') as opt_file:
+    #with open(f'./saved_models/{opt.exp_name}/{current_date}/opt.txt', 'a') as opt_file:
+    with open(f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/opt.txt', 'a') as opt_file:
         opt_log = '------------ Options -------------\n'
         args = vars(opt)
         for k, v in args.items():
@@ -1194,10 +1195,10 @@ def train(opt):
             pass
 
     start_time = time.time()
-    #best_valid_loss = -1
+    # best_valid_loss = -1
     best_valid_loss = 1
     best_accuracy = -1
-    #best_norm_ED = -1
+    # best_norm_ED = -1
     best_norm_ED = 1
     best_prediction_accuracy = -1
     # 기존 저장된 가중치 이터레이션이 클 경우 처음부터 로그 저장하기 위해서 start_iter = 0 으로 초기화
@@ -1225,23 +1226,23 @@ def train(opt):
 
     print(f'전체 반복 횟수를 지정 opt.num_iter : {opt.num_iter}')
     # 테스트용
-    #opt.num_iter = 3
+    # opt.num_iter = 3
     total_iterations = opt.num_iter
 
     # tqdm을 사용하여 진행 상황을 표시하는 부분
-    #with tqdm(total=total_iterations, desc='Training Loop', unit='iteration') as pbar:
+    # with tqdm(total=total_iterations, desc='Training Loop', unit='iteration') as pbar:
     # bar_format 매개변수를 사용하여 그래프 모양을 지정
     # with tqdm(total=total_iterations, desc='Training Loop', unit='iteration', ncols=100,
     #           bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]',
     #           dynamic_ncols=True, colour='green') as pbar:
     with tqdm(total=total_iterations, desc='Training Loop', unit='iteration', ncols=100,
-                  bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]',
-                  dynamic_ncols=True, colour='green') as pbar:
-    #with tqdm(desc='Training Loop', unit='iteration', dynamic_ncols=True) as pbar:
+              bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}, {rate_fmt}]',
+              dynamic_ncols=True, colour='green') as pbar:
+        # with tqdm(desc='Training Loop', unit='iteration', dynamic_ncols=True) as pbar:
         time.sleep(1)
         pbar.update(1)
-        print('@'*50)
-        #print(f'pbar : {pbar}')
+        print('@' * 50)
+        # print(f'pbar : {pbar}')
 
         while (True):
 
@@ -1337,8 +1338,15 @@ def train(opt):
             # print(f'결과 출력하기 전 iteration 1 증가시키기 전 마지막도 출력해라  opt.num_iter: {opt.num_iter}')
 
             # if ( iteration + 1) % opt.valInterval == 0 or iteration == 0:  # To see training progress, we also conduct validation when 'iteration == 0'
+            # if (iteration + 1) % opt.valInterval == 0 or iteration == 0 or (
+            #         iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
+
             if (iteration + 1) % opt.valInterval == 0 or iteration == 0 or (
-                    iteration + 1) == opt.num_iter or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
+                # 마지막 학습시 가중치 저장
+                (iteration + 1) == opt.num_iter or (iteration + 1) >= opt.num_iter
+                ) or iteration == start_iter:  # To see training progress, we also conduct validation when 'iteration == 0'
+
+                #if (iteration + 1) == opt.num_iter or (iteration + 1) >= opt.num_iter
 
                 print('결과 출력한다')
                 print(f'iteration : {iteration}')
@@ -1351,6 +1359,7 @@ def train(opt):
                 elapsed_time = time.time() - start_time
 
                 log_file = f'./saved_models/{opt.exp_name}/{current_date}/log_train.txt'
+                log_file = f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/log_train.txt'
 
                 # 현재 시간을 얻어옵니다.
                 current_time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -1370,22 +1379,28 @@ def train(opt):
                 print(f'파일 저장전 iteration + 1: {iteration + 1}')
 
                 original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+                original_log_file_name = f"{log_folder}/saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+                # log_folder = os.path.join("D:\\dtrb", opt.exp_name, current_date)
+                #log_folder = r"D:/dtrb"
+                # os.makedirs(log_folder, exist_ok=True)
+                # original_log_file_name = os.path.join(log_folder, f"log_train_{current_time}_{iteration + 1}.txt")
+                original_log_file_name = fr"{log_folder}/saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
 
                 #         f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt
                 # with open(f'./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt', 'a',
                 #           encoding='utf-8') as log:
                 with open(original_log_file_name, 'a',
-                        encoding='utf-8') as log:
+                          encoding='utf-8') as log:
                     # 나머지 코드
-                    #print(f' validation 함수 넘겨주기전 OPT: {opt}')
+                    # print(f' validation 함수 넘겨주기전 OPT: {opt}')
 
                     model.eval()
-                    #print(f' validation 함수 넘겨주기전 model.eval() OPT: {opt}')
+                    # print(f' validation 함수 넘겨주기전 model.eval() OPT: {opt}')
 
                     with torch.no_grad():
                         valid_loss, current_accuracy, current_norm_ED, preds, confidence_score, labels, infer_time, length_of_data = validation(
                             model, criterion, valid_loader, converter, opt)
-                    #print(f' validation 함수 넘겨주기전 with torch.no_grad() OPT: {opt}')
+                    # print(f' validation 함수 넘겨주기전 with torch.no_grad() OPT: {opt}')
 
                     # 모델을 학습 모드로 전환
                     model.train()
@@ -1440,21 +1455,28 @@ def train(opt):
                         best_accuracy = current_accuracy
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/best_accuracy_{current_time}_{current_accuracy:.4f}.pth')
-                        torch.save(model.state_dict(),
-                                f'./saved_models/{opt.exp_name}/{current_date}/best_accuracy_{current_time}_{current_accuracy:.4f}_{iteration + 1}.pth')
+                        # torch.save(model.state_dict(),
+                        #         f'./saved_models/{opt.exp_name}/{current_date}/best_accuracy_{current_time}_{current_accuracy:.4f}_{iteration + 1}.pth')
                     if current_norm_ED < best_norm_ED:
                         best_norm_ED = current_norm_ED
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/best_norm_ED_{current_time}_{current_norm_ED:.4f}.pth')
-                        torch.save(model.state_dict(),
-                                f'./saved_models/{opt.exp_name}/{current_date}/best_norm_ED_{current_time}_{current_norm_ED:.4f}_{iteration + 1}.pth')
+                        # torch.save(model.state_dict(),
+                        #         f'./saved_models/{opt.exp_name}/{current_date}/best_norm_ED_{current_time}_{current_norm_ED:.4f}_{iteration + 1}.pth')
 
                     if valid_loss < best_valid_loss:
                         best_valid_loss = valid_loss
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/best_Valid_loss_{current_time}_{current_Validn_loss:.4f}.pth')
+                        # torch.save(model.state_dict(),
+                        #            f'./saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
+
                         torch.save(model.state_dict(),
-                                f'./saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
+                                   f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth',
+                                   pickle_module=pickle)
+
+                        # torch.save(model.state_dict(),
+                        #            f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
 
                     print(f"current_accuracy: {current_accuracy}")
                     print(f"current_norm_ED: {current_norm_ED:.4f}")
@@ -1546,6 +1568,7 @@ def train(opt):
 
                     # Save only failed predictions and corresponding lines to a text file
                     gt_output_file_path = f'./saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
+                    gt_output_file_path = f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
                     with open(gt_output_file_path, 'w', encoding='utf-8') as output_file:
                         output_file.write('\n'.join(failed_gt_predictions) + '\n')
 
@@ -1673,8 +1696,10 @@ def train(opt):
                     #                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
                     if current_prediction_accuracy > best_prediction_accuracy:
                         best_prediction_accuracy = current_prediction_accuracy
+                        # torch.save(model.state_dict(),
+                        #            f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
                         torch.save(model.state_dict(),
-                                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+                                   f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
 
                     print(f'로그 다 찍고 저장 !best_prediction_accuracy : {best_prediction_accuracy}')
                     print(
@@ -1700,21 +1725,23 @@ def train(opt):
             print(f'iteration  : {iteration}')
             print(f'opt.num_iter  : {opt.num_iter}')
             # if (iteration + 1) % (opt.num_iter // 2) == 0:
-            if (opt.num_iter != 0 and iteration != 0) and (
-                    (opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
-                # 해당 코드 블록 실행
 
-                print(f'iter 마다 주기적으로 가중치 저장 시작 (num_iter // 2) 저장 : {(opt.num_iter // 2)}')
-                torch.save(
-                    # model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
-                    model.state_dict(),
-                    f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
+            # 주기적으로 저장하지 않고 정확도가 좋을때만 저장하도록 한다.
+            # if (opt.num_iter != 0 and iteration != 0) and (
+            #         (opt.num_iter >= 2) and (iteration + 1) % (opt.num_iter // 2) == 0):
+            #     # 해당 코드 블록 실행
+            #
+            #     print(f'iter 마다 주기적으로 가중치 저장 시작 (num_iter // 2) 저장 : {(opt.num_iter // 2)}')
+            #     torch.save(
+            #         # model.state_dict(), f'./saved_models/{opt.exp_name}/{current_date}/iter_{iteration + 1}.pth')
+            #         model.state_dict(),
+            #         f'./saved_models/{opt.exp_name}/{current_date}/iter_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
 
             # print(f'@@@@@@@@@@@@@@@@@@@@@@@@opt.num_iter : {opt.num_iter}')
 
             # 원래 파일 경로 및 파일명
-            #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
-            #original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
+            # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration + 1}.txt"
             # original_log_file_name = f"./saved_models/{opt.exp_name}/{current_date}/log_train_{current_time}_{iteration}.txt"
 
             # 파일 이름 변경
@@ -1782,7 +1809,6 @@ def train(opt):
                 # 추가: 루프가 종료되기 전에 100%에 도달하도록 업데이트
                 pbar.update(1)
 
-
                 sys.exit()
             iteration += 1
             pbar.update(1)
@@ -1806,10 +1832,10 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=300, help='input batch size')
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=40000, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1932,8 +1958,8 @@ if __name__ == '__main__':
     opt.batch_ratio = "0.0005"
     opt.batch_ratio = "0.5"
     opt.total_data_usage_ratio = "0.5"
-    #opt.total_data_usage_ratio = "1"
-    #opt.batch_ratio = "1"
+    # opt.total_data_usage_ratio = "1"
+    # opt.batch_ratio = "1"
 
     print(opt.valid_data)
     print(opt.train_data)
@@ -1951,7 +1977,9 @@ if __name__ == '__main__':
         opt.exp_name += f'-Seed{opt.manualSeed}'
         # print(opt.exp_name)
 
+    log_folder = r"D:/dtrb"
     os.makedirs(f'./saved_models/{opt.exp_name}', exist_ok=True)
+    os.makedirs(f'{log_folder}/saved_models/{opt.exp_name}', exist_ok=True)
 
     """ vocab / character number configuration """
     if opt.sensitive:
@@ -2013,7 +2041,7 @@ if __name__ == '__main__':
     #     # 'ๆ' 문자가 없을 경우
     #     print('train 에 마지막 넘겨주기 전 여기서 디코드해도 정상으로 감  없음')
 
-    #train(opt)
+    # train(opt)
     train(opt)
 
     path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train'
