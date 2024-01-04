@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="90df7bf3-81e3-4ddd-bfb0-07dff525c951" name="Changes" comment="1124">
+      <change afterPath="$PROJECT_DIR$/util/run_create_dataset/run_create_dataset4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ocr_test/1226/태국어_전처리_with_result_updated.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/ocr_test/1226/태국어_전처리_with_result_updated.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/test/train/img/skew_angle(0.0)/blur(0.0)/NotoSansThaiLooped-Black/image-000000000.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -55,7 +58,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/ocr_test.py",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   },
   "keyToStringList": {
@@ -67,9 +70,9 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt_from_img" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_val_data" />
     </key>
@@ -372,12 +375,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>544</line>
+          <line>548</line>
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>543</line>
+          <line>547</line>
           <option name="timeStamp" value="144" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

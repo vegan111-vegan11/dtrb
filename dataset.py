@@ -595,14 +595,21 @@ class NormalizePAD(object):
 
 class AlignCollate(object):
 
-    def __init__(self, imgH=32, imgW=100, keep_ratio_with_pad=False):
+    #def __init__(self, imgH=32, imgW=100, keep_ratio_with_pad=False):
+    def __init__(self, imgH=111.0, imgW=141.0, keep_ratio_with_pad=False):
+
         self.imgH = imgH
         self.imgW = imgW
+        self.imgH = int(imgH)
+        self.imgW = int(imgW)
+
         self.keep_ratio_with_pad = keep_ratio_with_pad
 
         print(f'dataset.py AlignCollate imgH : {imgH}')
         print(f'dataset.py AlignCollate imgW : {imgW}')
         print(f'dataset.py AlignCollate keep_ratio_with_pad : {keep_ratio_with_pad}')
+
+
 
     def __call__(self, batch):
         batch = filter(lambda x: x is not None, batch)

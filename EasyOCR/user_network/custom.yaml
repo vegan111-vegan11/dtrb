@@ -2,7 +2,8 @@ network_params:
   input_channel: 1
   output_channel: 256
   hidden_size: 256
-imgH: 32
+imgH: 1110
+imgW: 1410
 lang_list:
          - 'th'
 character_list: "¢£¤¥!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓"

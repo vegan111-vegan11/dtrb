@@ -501,6 +501,10 @@ def train(opt):
         output_channel = config['network_params']['output_channel']
         hidden_size = config['network_params']['hidden_size']
         opt.character = config['character_list']
+
+        #opt.imgH = recog_config['imgH']
+        #opt.imgW = recog_config['imgW']
+
         # len(opt.character) 와 len(converter.character) 둘 중 뭐가 맞는지 확인 필요 ( 기존 모델은 len(opt.character) 로 돼있는데 len(converter.character) 는 train.py 코드에 있음
         # opt.num_class = len(opt.character)
         print(f'try opt.num_class = len(opt.character) yaml 파일에서 읽어온 거 opt.num_class : {opt.num_class}')
@@ -1471,12 +1475,12 @@ def train(opt):
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
 
-                        torch.save(model.state_dict(),
-                                   f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth',
-                                   pickle_module=pickle)
-
                         # torch.save(model.state_dict(),
-                        #            f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
+                        #            f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth',
+                        #            pickle_module=pickle)
+
+                        torch.save(model.state_dict(),
+                                   f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/best_valid_loss_{current_time}_{valid_loss:.4f}_{iteration + 1}.pth')
 
                     print(f"current_accuracy: {current_accuracy}")
                     print(f"current_norm_ED: {current_norm_ED:.4f}")
@@ -1832,10 +1836,10 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=300, help='input batch size')
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1861,9 +1865,14 @@ if __name__ == '__main__':
     # parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
     # parser.add_argument('--batch_max_length', type=int, default=200, help='maximum-label-length')
     parser.add_argument('--batch_max_length', type=int, default=300, help='maximum-label-length')
-    parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
-    parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
+    #parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
+    #parser.add_argument('--imgH', type=int, default=1110, help='the height of the input image')
+    parser.add_argument('--imgH', type=int, default=111.0, help='the height of the input image')
+    #parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
+    #parser.add_argument('--imgW', type=int, default=1410, help='the width of the input image')
+    parser.add_argument('--imgW', type=int, default=141.0, help='the width of the input image')
     parser.add_argument('--rgb', action='store_true', help='use rgb input')
+    #parser.add_argument('--rgb', action='store_true', help='use rgb input')
     # parser.add_argument('--character', type=str,
     #                     default='0123456789abcdefghijklmnopqrstuvwxyz', help='character label')
 
