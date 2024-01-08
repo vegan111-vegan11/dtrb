@@ -234,6 +234,10 @@ def train(opt):
     log = open(f'{directory}/log_dataset.txt', 'a')
 
     # log = open(f'./saved_models/{opt.exp_name}/{current_date}/log_dataset.txt', 'a')
+    #AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
+    opt.imgH = 55.5
+    opt.imgW = 70.5
+
     AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
     # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt)
 
@@ -1837,9 +1841,11 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
+    #parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
     parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
+    #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1867,10 +1873,12 @@ if __name__ == '__main__':
     parser.add_argument('--batch_max_length', type=int, default=300, help='maximum-label-length')
     #parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
     #parser.add_argument('--imgH', type=int, default=1110, help='the height of the input image')
-    parser.add_argument('--imgH', type=int, default=111.0, help='the height of the input image')
+    #parser.add_argument('--imgH', type=int, default=111.0, help='the height of the input image')
+    parser.add_argument('--imgH', type=int, default=55.5, help='the height of the input image')
     #parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
     #parser.add_argument('--imgW', type=int, default=1410, help='the width of the input image')
-    parser.add_argument('--imgW', type=int, default=141.0, help='the width of the input image')
+    #parser.add_argument('--imgW', type=int, default=141.0, help='the width of the input image')
+    parser.add_argument('--imgW', type=int, default=70.5, help='the width of the input image')
     parser.add_argument('--rgb', action='store_true', help='use rgb input')
     #parser.add_argument('--rgb', action='store_true', help='use rgb input')
     # parser.add_argument('--character', type=str,

@@ -596,7 +596,8 @@ class NormalizePAD(object):
 class AlignCollate(object):
 
     #def __init__(self, imgH=32, imgW=100, keep_ratio_with_pad=False):
-    def __init__(self, imgH=111.0, imgW=141.0, keep_ratio_with_pad=False):
+    #def __init__(self, imgH=111.0, imgW=141.0, keep_ratio_with_pad=False):
+    def __init__(self, imgH=55.5, imgW=70.5, keep_ratio_with_pad=False):
 
         self.imgH = imgH
         self.imgW = imgW
