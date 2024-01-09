@@ -237,6 +237,35 @@ def train(opt):
     #AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
     opt.imgH = 55.5
     opt.imgW = 70.5
+    opt.imgH = 600
+    opt.imgW = 1800
+    opt.imgH = 300
+    opt.imgW = 900
+    opt.imgH = 55.5
+    opt.imgW = 70.5
+
+    # 생성된 이미지 크기
+    opt.imgH = 300
+    opt.imgW = 900
+
+    # 리사이즈 하려는 이미지 크기
+    opt.imgH = 555
+    opt.imgW = 705
+
+    opt.imgH = 55.5
+    opt.imgW = 70.5
+
+    opt.imgH = 32
+    opt.imgW = 100
+
+    opt.imgH = 64
+    opt.imgW = 200
+
+    opt.imgH = 32
+    opt.imgW = 100
+
+    opt.imgH = 64
+    opt.imgW = 200
 
     AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
     # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt)
@@ -1502,7 +1531,7 @@ def train(opt):
                     # gt.txt 에서 실패한 행 읽어와서 저장
                     # Read gt.txt file and get failed predictions
                     gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
-                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
+                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf15\train\gt\gt.txt'
 
                     failed_gt_predictions = []
 
@@ -1840,6 +1869,7 @@ if __name__ == '__main__':
     parser.add_argument('--batch_size', type=int, default=300, help='input batch size')
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
+    #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
     parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
@@ -1874,10 +1904,12 @@ if __name__ == '__main__':
     #parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
     #parser.add_argument('--imgH', type=int, default=1110, help='the height of the input image')
     #parser.add_argument('--imgH', type=int, default=111.0, help='the height of the input image')
+    #parser.add_argument('--imgH', type=int, default=55.5, help='the height of the input image')
     parser.add_argument('--imgH', type=int, default=55.5, help='the height of the input image')
     #parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
     #parser.add_argument('--imgW', type=int, default=1410, help='the width of the input image')
     #parser.add_argument('--imgW', type=int, default=141.0, help='the width of the input image')
+    #parser.add_argument('--imgW', type=int, default=70.5, help='the width of the input image')
     parser.add_argument('--imgW', type=int, default=70.5, help='the width of the input image')
     parser.add_argument('--rgb', action='store_true', help='use rgb input')
     #parser.add_argument('--rgb', action='store_true', help='use rgb input')
@@ -1950,18 +1982,18 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/training/ttf7"
     opt.valid_data = "data_lmdb_release/validation/ttf8"
     opt.train_data = "data_lmdb_release/training/ttf8"
-    opt.valid_data = "data_lmdb_release/ttf14/train"
-    opt.train_data = "data_lmdb_release/ttf14/val"
-    opt.valid_data = "data_lmdb_release/ttf14/train"
-    opt.train_data = "data_lmdb_release/ttf14/train"
-    opt.valid_data = "data_lmdb_release/ttf15/val"
+    opt.valid_data = "data_lmdb_release/ttf15/train"
+    opt.train_data = "data_lmdb_release/ttf15/val"
+    opt.valid_data = "data_lmdb_release/ttf15/train"
     opt.train_data = "data_lmdb_release/ttf15/train"
     opt.valid_data = "data_lmdb_release/ttf15/val"
     opt.train_data = "data_lmdb_release/ttf15/train"
-    # opt.valid_data = "data_lmdb_release/ttf14/val"
-    # opt.train_data = "data_lmdb_release/ttf14/val"
-    # opt.valid_data = "data_lmdb_release/ttf14/test"
-    # opt.train_data = "data_lmdb_release/ttf14/test"
+    opt.valid_data = "data_lmdb_release/ttf15/val"
+    opt.train_data = "data_lmdb_release/ttf15/train"
+    # opt.valid_data = "data_lmdb_release/ttf15/val"
+    # opt.train_data = "data_lmdb_release/ttf15/val"
+    # opt.valid_data = "data_lmdb_release/ttf15/test"
+    # opt.train_data = "data_lmdb_release/ttf15/test"
     # opt.valid_data = "data_lmdb_release/ttf15/train"
     # opt.train_data = "data_lmdb_release/ttf15/val"
     opt.Transformation = "None"
