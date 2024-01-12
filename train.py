@@ -264,9 +264,14 @@ def train(opt):
     opt.imgH = 32
     opt.imgW = 100
 
-    opt.imgH = 64
-    opt.imgW = 200
+    opt.imgH = 111.0
+    opt.imgW = 141.0
 
+
+    # opt.imgH = 64
+    # opt.imgW = 200
+
+    # def __init__(self, imgH=111.0, imgW=141.0, keep_ratio_with_pad=False):
     AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
     # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt)
 
@@ -1531,7 +1536,7 @@ def train(opt):
                     # gt.txt 에서 실패한 행 읽어와서 저장
                     # Read gt.txt file and get failed predictions
                     gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
-                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf15\train\gt\gt.txt'
+                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
 
                     failed_gt_predictions = []
 
@@ -1871,10 +1876,12 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
     parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
+    #parser.add_argument('--num_iter', type=int, default=1000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
+    #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
@@ -1982,20 +1989,28 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/training/ttf7"
     opt.valid_data = "data_lmdb_release/validation/ttf8"
     opt.train_data = "data_lmdb_release/training/ttf8"
-    opt.valid_data = "data_lmdb_release/ttf15/train"
-    opt.train_data = "data_lmdb_release/ttf15/val"
-    opt.valid_data = "data_lmdb_release/ttf15/train"
-    opt.train_data = "data_lmdb_release/ttf15/train"
+    opt.valid_data = "data_lmdb_release/ttf14/train"
+    opt.train_data = "data_lmdb_release/ttf14/val"
+    opt.valid_data = "data_lmdb_release/ttf14/train"
+    opt.train_data = "data_lmdb_release/ttf14/train"
+    opt.valid_data = "data_lmdb_release/ttf14/val"
+    opt.train_data = "data_lmdb_release/ttf14/train"
+    opt.valid_data = "data_lmdb_release/ttf14/val"
+    opt.train_data = "data_lmdb_release/ttf14/train"
     opt.valid_data = "data_lmdb_release/ttf15/val"
     opt.train_data = "data_lmdb_release/ttf15/train"
-    opt.valid_data = "data_lmdb_release/ttf15/val"
-    opt.train_data = "data_lmdb_release/ttf15/train"
-    # opt.valid_data = "data_lmdb_release/ttf15/val"
-    # opt.train_data = "data_lmdb_release/ttf15/val"
-    # opt.valid_data = "data_lmdb_release/ttf15/test"
-    # opt.train_data = "data_lmdb_release/ttf15/test"
-    # opt.valid_data = "data_lmdb_release/ttf15/train"
-    # opt.train_data = "data_lmdb_release/ttf15/val"
+    opt.valid_data = "data_lmdb_release/test/val"
+    opt.train_data = "data_lmdb_release/test/train"
+    opt.valid_data = "data_lmdb_release/test/val"
+    opt.train_data = "data_lmdb_release/test/train"
+    # opt.valid_data = "data_lmdb_release/test/val"
+    # opt.train_data = "data_lmdb_release/test/train"
+    # opt.valid_data = "data_lmdb_release/ttf14/val"
+    # opt.train_data = "data_lmdb_release/ttf14/val"
+    # opt.valid_data = "data_lmdb_release/ttf14/test"
+    # opt.train_data = "data_lmdb_release/ttf14/test"
+    # opt.valid_data = "data_lmdb_release/ttf14/train"
+    # opt.train_data = "data_lmdb_release/ttf14/val"
     opt.Transformation = "None"
     opt.FeatureExtraction = "VGG"
     opt.SequenceModeling = "BiLSTM"
@@ -2007,6 +2022,9 @@ if __name__ == '__main__':
     opt.batch_ratio = "0.0005"
     opt.batch_ratio = "0.5"
     opt.total_data_usage_ratio = "0.5"
+
+    opt.batch_ratio = "0.1"
+    opt.total_data_usage_ratio = "0.1"
     # opt.total_data_usage_ratio = "1"
     # opt.batch_ratio = "1"
 
@@ -2093,7 +2111,7 @@ if __name__ == '__main__':
     # train(opt)
     train(opt)
 
-    path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train'
+    path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf14\train'
     path = opt.train_data
 
     # for root, dirs, files in os.walk(opt.train_data):

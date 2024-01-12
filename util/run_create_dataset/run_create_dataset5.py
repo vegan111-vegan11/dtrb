@@ -42,14 +42,14 @@ def find_last_directory_with_jpg(directory_path, base_path):
                 # \data를 \data_lmdb_release로 교체
                 # copy_path = last_directory_with_jpg.replace(r'\12-07-2', r'\ttf5')
                 #copy_path = last_directory_with_jpg.replace(r'\12-07-2', r'\val')
-                train_path = last_directory_with_jpg.replace(r'\ttf15', r'\train')
-                validation_path = last_directory_with_jpg.replace(r'\ttf15', r'\val')
+                train_path = last_directory_with_jpg.replace(r'\test', r'\train')
+                validation_path = last_directory_with_jpg.replace(r'\test', r'\val')
 
                 # \data를 \data_lmdb_release로 교체
                 # modified_path = last_directory_with_jpg.replace(r'\data', r'\data_lmdb_release\training')
                 # mdb_path = last_directory_with_jpg.replace(r'\data\12-07-2', r'\data_lmdb_release\training\ttf5')
-                training_mdb_path = last_directory_with_jpg.replace(r'\data\ttf15', r'\data_lmdb_release\training\ttf15')
-                validation_mdb_path = last_directory_with_jpg.replace(r'\data\ttf15', r'\data_lmdb_release\validation\ttf15')
+                training_mdb_path = last_directory_with_jpg.replace(r'\data\test', r'\data_lmdb_release\training\test')
+                validation_mdb_path = last_directory_with_jpg.replace(r'\data\test', r'\data_lmdb_release\validation\test')
                 mdb_path = last_directory_with_jpg.replace(r'\data', r'\data_lmdb_release')
                 mdb_path = last_directory_with_jpg.replace(r'\data', r'\data_lmdb_release')
                 print(f'mdb_path : {mdb_path}')
@@ -60,7 +60,7 @@ def find_last_directory_with_jpg(directory_path, base_path):
                 gt_path = os.path.join(gt_dir_path, 'gt.txt')
                 print(f'gt_path : {gt_path}')
 
-                #mdb_path = mdb_path.replace(r'\data\ttf15', r'\data_lmdb_release\validation\ttf15')
+                #mdb_path = mdb_path.replace(r'\data\test', r'\data_lmdb_release\validation\test')
 
         # 특정 부분 제거
                 target_subpath = r'\distorsion(0)\distorsion_orientation(0)\resize_orientation(0)\background(3)'
@@ -158,9 +158,9 @@ directory_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark
 base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\12-07-2'
 
 
-src_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf15'
-directory_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf15'
-base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf15'
+src_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test'
+directory_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test'
+base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test'
 
 src_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test'
 
@@ -169,10 +169,12 @@ base_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data
 
 img_folder =  'test2/train'
 img_folder =  'test2/train'
-img_folder =  'ttf15/train'
-img_folder =  'ttf15/train'
-img_folder =  'ttf15/val'
-
+img_folder =  'test/train'
+img_folder =  'test/train'
+img_folder =  'test/val'
+img_folder =  'test/train'
+img_folder =  'test/val'
+#img_folder =  'test/train'
 
 directory_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
 base_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
