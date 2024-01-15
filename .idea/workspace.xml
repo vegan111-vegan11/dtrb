@@ -70,13 +70,16 @@
     "Python.ocr_test4.executor": "Run",
     "Python.recognition.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
+    "Python.run_create_dataset7.executor": "Run",
+    "Python.run_create_dataset8.executor": "Run",
+    "Python.run_create_dataset9.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_0111.executor": "Run",
     "Python.train.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/easyocr_test/vi",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/run_create_dataset",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -94,11 +97,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\easyocr_test\vi" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\modify_img_size" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\bounding_rect" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\easyocr_test" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\modify_img_convert" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -405,12 +408,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>583</line>
+          <line>596</line>
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>582</line>
+          <line>595</line>
           <option name="timeStamp" value="144" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -435,12 +438,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>263</line>
+          <line>268</line>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>1886</line>
+          <line>1907</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>

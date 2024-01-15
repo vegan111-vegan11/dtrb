@@ -24,6 +24,11 @@ import datetime
 import yaml
 
 from tqdm import tqdm
+import sys
+
+# 출력을 UTF-8로 설정
+sys.stdout.reconfigure(encoding='utf-8')
+
 
 # 모듈을 다시 로드
 importlib.reload(sys)
@@ -267,7 +272,15 @@ def train(opt):
     opt.imgH = 111.0
     opt.imgW = 141.0
 
+    opt.imgH = 32.0
+    opt.imgW = 100.0
 
+    opt.imgH = 111.0
+    opt.imgW = 141.0
+    opt.imgH = 1110.0
+    opt.imgW = 1410.0
+    opt.imgH = 111.0
+    opt.imgW = 141.0
     # opt.imgH = 64
     # opt.imgW = 200
 
@@ -1108,6 +1121,10 @@ def train(opt):
             criterion = CTCLoss()
         else:
             criterion = torch.nn.CTCLoss(zero_infinity=True).to(device)
+            # CTC 손실 함수의 예시 (하이퍼파라미터 조절 가능)
+            # CTC 손실 함수의 하이퍼파라미터를 조절하여 모델이 중복을 허용하지 않도록 강제
+            criterion = torch.nn.CTCLoss(blank=0, zero_infinity=False).to(device)
+
     else:
         criterion = torch.nn.CrossEntropyLoss(ignore_index=0).to(device)  # ignore [GO] token = ignore index 0
         print(f'try.py align with Attention.forward criterion : {criterion}')
@@ -1134,7 +1151,9 @@ def train(opt):
         print('train.py opt.lr 변경전 : ', opt.lr)
         # opt.lr = 0.0001
         opt.lr = 0.0001
+        opt.lr = 0.0001
         opt.lr = 0.001
+        opt.lr = 0.0005
         # 원본
         # adam: False
         # lr: 1
@@ -1875,11 +1894,13 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
+    #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=50000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=1000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
+    #parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
     parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
     #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
     #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
@@ -2003,6 +2024,22 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/test/train"
     opt.valid_data = "data_lmdb_release/test/val"
     opt.train_data = "data_lmdb_release/test/train"
+    opt.valid_data = "data_lmdb_release/test_0110/val"
+    opt.train_data = "data_lmdb_release/test_0110/train"
+    opt.valid_data = "data_lmdb_release/test/0110/val"
+    opt.train_data = "data_lmdb_release/test/0110/train"
+    opt.valid_data = "data_lmdb_release/th/test/0110/val"
+    opt.train_data = "data_lmdb_release/th/test/0110/train"
+    opt.valid_data = "data_lmdb_release/test/0110/val"
+    opt.train_data = "data_lmdb_release/test/0110/train"
+    opt.train_data = "data_lmdb_release/test_0110/train"
+    opt.valid_data = "data_lmdb_release/test_0110/val"
+    opt.valid_data = "data_lmdb_release/th/test/0115/val"
+    opt.train_data = "data_lmdb_release/th/test/0115/train"
+    opt.valid_data = "data_lmdb_release/th/test/0115_3/val"
+    opt.train_data = "data_lmdb_release/th/test/0115_3/train"
+    opt.valid_data = "data_lmdb_release/th/test/0115/val"
+    opt.train_data = "data_lmdb_release/th/test/0115/train"
     # opt.valid_data = "data_lmdb_release/test/val"
     # opt.train_data = "data_lmdb_release/test/train"
     # opt.valid_data = "data_lmdb_release/ttf14/val"
@@ -2015,6 +2052,7 @@ if __name__ == '__main__':
     opt.FeatureExtraction = "VGG"
     opt.SequenceModeling = "BiLSTM"
     opt.Prediction = "CTC"
+    #opt.baiduCTC = True
     # 배치 경사 하강법(Batch Gradient Descent) 적용시 train() 함수 반복시 root
     opt.select_data = "th"
     opt.batch_ratio = "1"
@@ -2025,8 +2063,9 @@ if __name__ == '__main__':
 
     opt.batch_ratio = "0.1"
     opt.total_data_usage_ratio = "0.1"
-    # opt.total_data_usage_ratio = "1"
-    # opt.batch_ratio = "1"
+    opt.total_data_usage_ratio = "1"
+    opt.batch_ratio = "1"
+    opt.PAD = True
 
     print(opt.valid_data)
     print(opt.train_data)

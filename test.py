@@ -235,7 +235,8 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
             print(f'tes.py validation 함수  gt  : {gt}')
             print(f'tes.py validation 함수  pred  : {pred}')
-            print(f'tes.py validation 함수  pred_max_prob  : {pred_max_prob}')
+            #print('========================================')
+            #print(f'tes.py validation 함수  pred_max_prob  : {pred_max_prob}')
 
             if 'Attn' in opt.Prediction:
                 gt = gt[:gt.find('[s]')]

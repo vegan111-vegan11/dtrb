@@ -32,6 +32,7 @@ def resize_and_save(image_path, output_path, scale_factor=2.0):
 
 # 주어진 디렉토리 설정
 lan = 'vi'
+lan = 'test'
 input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test7_white_background_2\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test7_white_background_2\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black_resized'
 input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test7_white_background_1410_1110_2\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
@@ -52,6 +53,15 @@ output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchm
 input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test7_white_background_1800_760_{4}\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test7_white_background_1800_760_{8}\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\0115\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\0115\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+
+lan = 'th'
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
 
 
@@ -59,6 +69,6 @@ output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchm
 for filename in os.listdir(input_directory):
     if filename.endswith(".jpg") or filename.endswith(".png"):
         image_path = os.path.join(input_directory, filename)
-        resize_and_save(image_path, output_directory, scale_factor=2.0)
+        resize_and_save(image_path, output_directory, scale_factor=5.0)
 
 print("크기 조정이 완료되었습니다.")
