@@ -63,12 +63,20 @@ output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchm
 input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0116\val\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0115\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\0116\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+
+input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\ttf13\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\ttf13\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
 # 디렉토리 내의 모든 이미지 파일에 대해 크기 조정 적용
 for filename in os.listdir(input_directory):
     if filename.endswith(".jpg") or filename.endswith(".png"):
         image_path = os.path.join(input_directory, filename)
-        resize_and_save(image_path, output_directory, scale_factor=5.0)
+        #resize_and_save(image_path, output_directory, scale_factor=2.0)
+        resize_and_save(image_path, output_directory, scale_factor=2.0)
 
 print("크기 조정이 완료되었습니다.")

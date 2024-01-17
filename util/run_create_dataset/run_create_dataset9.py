@@ -185,6 +185,8 @@ img_folder =  fr'{lan}/test/0115/train'
 img_folder =  fr'{lan}/test/0115'
 img_folder =  fr'{lan}/test/0115_2'
 img_folder =  fr'{lan}/test/0115_3'
+img_folder =  fr'{lan}/test/0116'
+img_folder =  fr'{lan}/test/ttf13'
 #img_folder =  'test/0115/train'
 #img_folder =  'test/train'
 

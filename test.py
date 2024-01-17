@@ -153,8 +153,6 @@ def validation(model, criterion, evaluation_loader, converter, opt):
             # print(f'tes.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
             # print(
             #     f'tes.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
-
-
             # # 첫 번째 시퀀스에서 첫 번째 위치에 대한 확률 분포
             # prob_distribution = preds[0, 0, :]
             #
@@ -232,12 +230,6 @@ def validation(model, criterion, evaluation_loader, converter, opt):
         preds_max_prob, _ = preds_prob.max(dim=2)
         confidence_score_list = []
         for gt, pred, pred_max_prob in zip(labels, preds_str, preds_max_prob):
-
-            print(f'tes.py validation 함수  gt  : {gt}')
-            print(f'tes.py validation 함수  pred  : {pred}')
-            #print('========================================')
-            #print(f'tes.py validation 함수  pred_max_prob  : {pred_max_prob}')
-
             if 'Attn' in opt.Prediction:
                 gt = gt[:gt.find('[s]')]
                 pred_EOS = pred.find('[s]')
