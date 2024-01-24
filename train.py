@@ -1569,8 +1569,8 @@ def train(opt):
                     # Save only failed predictions and corresponding lines to a text file
                     gt_output_file_path = f'./saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
                     gt_output_file_path = f'{log_folder}/saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
-                    with open(gt_output_file_path, 'w', encoding='utf-8') as output_file:
-                        output_file.write('\n'.join(failed_gt_predictions) + '\n')
+                    # with open(gt_output_file_path, 'w', encoding='utf-8') as output_file:
+                    #     output_file.write('\n'.join(failed_gt_predictions) + '\n')
 
                     print(f'실패한 GT 행과 이미지 저장 gt_output_file_path : {gt_output_file_path}')
 
@@ -1833,11 +1833,11 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=120000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=120000, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=150000, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
    # parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1947,8 +1947,10 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/th/test/0116/train"
     opt.valid_data = "data_lmdb_release/ttf14/train"
     opt.train_data = "data_lmdb_release/ttf14/train"
-    opt.valid_data = "data_lmdb_release/ttf15/val"
-    opt.train_data = "data_lmdb_release/ttf15/train"
+    # opt.valid_data = "data_lmdb_release/ttf15/val"
+    # opt.train_data = "data_lmdb_release/ttf15/train"
+    opt.imgH = 111.1
+    opt.imgW = 141.1
     # opt.valid_data = "data_lmdb_release/ttf15/val"
     # opt.train_data = "data_lmdb_release/ttf15/train"
     # opt.valid_data = "data_lmdb_release/ttf14/val"
@@ -1968,10 +1970,11 @@ if __name__ == '__main__':
     opt.batch_ratio = "0.0005"
     opt.batch_ratio = "0.5"
     opt.total_data_usage_ratio = "0.5"
-    opt.batch_ratio = "0.3"
-    opt.total_data_usage_ratio = "0.3"
+    opt.batch_ratio = "0.2"
+    opt.total_data_usage_ratio = "0.2"
     # opt.total_data_usage_ratio = "1"
     # opt.batch_ratio = "1"
+    opt.PAD = True
 
     print(opt.valid_data)
     print(opt.train_data)

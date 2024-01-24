@@ -274,9 +274,13 @@ def hierarchical_dataset(root, opt, select_data=''):
     """ select_data='/' contains all sub-directory of root directory """
     dataset_list = []
 
-    # print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ root : {root}')
-    # print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data : {select_data}')
-    # print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data[0] : {select_data[0]}')
+    selected_d = 'th'
+
+    select_data=[selected_d]
+
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ root : {root}')
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data : {select_data}')
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data[0] : {select_data[0]}')
 
     dataset_log = f'dataset_root:    {root}\t dataset: {select_data[0]}'
     print(dataset_log)

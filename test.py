@@ -13,6 +13,9 @@ from nltk.metrics.distance import edit_distance
 
 from utils import CTCLabelConverter, AttnLabelConverter, Averager
 from dataset import hierarchical_dataset, AlignCollate
+from custom.models.model import CustomModel
+
+import yaml
 from model import Model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -23,8 +26,10 @@ def benchmark_all_eval(model, criterion, converter, opt, calculate_infer_time=Fa
     eval_data_list = ['IIIT5k_3000', 'SVT', 'IC03_860', 'IC03_867', 'IC13_857',
                       'IC13_1015', 'IC15_1811', 'IC15_2077', 'SVTP', 'CUTE80']
 
+    eval_data_list = ['th']
+
     # # To easily compute the total accuracy of our paper.
-    # eval_data_list = ['IIIT5k_3000', 'SVT', 'IC03_867', 
+    # eval_data_list = ['IIIT5k_3000', 'SVT', 'IC03_867',
     #                   'IC13_1015', 'IC15_2077', 'SVTP', 'CUTE80']
 
     if calculate_infer_time:
@@ -40,18 +45,56 @@ def benchmark_all_eval(model, criterion, converter, opt, calculate_infer_time=Fa
     dashed_line = '-' * 80
     print(dashed_line)
     log.write(dashed_line + '\n')
+
+    selected_d = 'th'
+    # selected_d = 'ttf'
+    # print(f'==============밸리드도 나는 트레인으로 일단 하기로 selected_d : {selected_d}')
+
+
+    # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
+    # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt, select_data=[selected_d])
+    #valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt, select_data=[selected_d])
+    valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.eval_data, opt=opt, select_data=[selected_d])
+
+    print(f'!!!!!!!!!!!test.py eval_data_list : {eval_data_list}')
+
     for eval_data in eval_data_list:
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data : {eval_data}')
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval opt.eval_data : {opt.eval_data}')
+
         eval_data_path = os.path.join(opt.eval_data, eval_data)
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data_path : {eval_data_path}')
+
         AlignCollate_evaluation = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
+
+        eval_data_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\th\test\0118\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
+
         eval_data, eval_data_log = hierarchical_dataset(root=eval_data_path, opt=opt)
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data : {eval_data}')
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data_log : {eval_data_log}')
+
+        # evaluation_loader = torch.utils.data.DataLoader(
+        #     eval_data, batch_size=evaluation_batch_size,
+        #     shuffle=False,
+        #     num_workers=int(opt.workers),
+        #     collate_fn=AlignCollate_evaluation, pin_memory=True)
+
+        # 멀티프로세싱을 사용하지 않도록 변경
         evaluation_loader = torch.utils.data.DataLoader(
             eval_data, batch_size=evaluation_batch_size,
             shuffle=False,
-            num_workers=int(opt.workers),
+            #num_workers=int(opt.workers),
+            num_workers=0,
             collate_fn=AlignCollate_evaluation, pin_memory=True)
+        #evaluation_loader = DataLoader(dataset, batch_size=..., shuffle=..., num_workers=0)
+
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval evaluation_loader : {evaluation_loader}')
 
         _, accuracy_by_best_model, norm_ED_by_best_model, _, _, _, infer_time, length_of_data = validation(
             model, criterion, evaluation_loader, converter, opt)
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval accuracy_by_best_model : {accuracy_by_best_model}')
+        print(f'!!!!!!!!!!!test.py benchmark_all_eval norm_ED_by_best_model : {norm_ED_by_best_model}')
+
         list_accuracy.append(f'{accuracy_by_best_model:0.3f}')
         total_forward_time += infer_time
         total_evaluation_data_number += len(eval_data)
@@ -86,28 +129,66 @@ def validation(model, criterion, evaluation_loader, converter, opt):
     infer_time = 0
     valid_loss_avg = Averager()
 
-    # print(f'tes.py validation 함수  opt : {opt}')
-    # print(f'tes.py validation 함수  evaluation_loader : {evaluation_loader}')
+    #print(f'test.py validation 함수  model : {model}')
+    print(f'test.py validation 함수  criterion : {criterion}')
+    #print(f'test.py validation 함수  opt : {opt}')
+    print(f'test.py validation 함수  evaluation_loader : {evaluation_loader}')
+
+    print('=============================================')
+    import matplotlib.pyplot as plt
+    import torchvision.transforms as transforms
+    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+
     for i, (image_tensors, labels) in enumerate(evaluation_loader):
-        #print(f'tes.py validation 함수  enumerate(evaluation_loader) i : {i}')
-        #print(f'tes.py validation 함수  len(labels) : {len(labels)}')
-        # print(f'tes.py validation 함수  (image_tensors, labels) : {(image_tensors, labels)}')
-        #
-        #print(f'tes.py validation 함수  labels : {labels}')
+        # 첫 번째 이미지만 확인
+        sample_image = image_tensors[0].cpu().numpy()  # PyTorch Tensor를 NumPy 배열로 변환
+        print(f'test.py validation 함수  sample_image : {sample_image}')
+
+        # 이미지 플로팅
+        plt.imshow(np.transpose(sample_image, (1, 2, 0)))  # 이미지 차원 순서 변경 (C, H, W) -> (H, W, C)
+        #plt.show()
+
+
+    # 가정: 이미지 데이터는 첫 번째 배치에서 확인한다고 가정합니다.
+    for i, (image_tensors, labels) in enumerate(evaluation_loader):
+        # 첫 번째 이미지만 확인
+        sample_image = transforms.ToPILImage()(image_tensors[0].cpu())  # PyTorch Tensor를 PIL 이미지로 변환
+        print(f'test.py validation 함수  sample_image : {sample_image}')
+        # 이미지 출력
+        plt.imshow(sample_image)
+        plt.title(f"Sample Image - Batch {i + 1}")
+        #plt.show()
+
+        # 라벨 출력
+        print(f"Labels for Batch {i + 1}: {labels}")
+
+        # 더 이상 확인할 필요 없으면 루프 종료
+        break
+
+
+    for i, (image_tensors, labels) in enumerate(evaluation_loader):
+        print(f'test.py validation 함수  enumerate(evaluation_loader) i : {i}')
+        print(f'test.py validation 함수  len(labels) : {len(labels)}')
+        print(f'test.py validation 함수  (image_tensors, labels) : {(image_tensors, labels)}')
+
+        print(f'test.py validation 함수  labels : {labels}')
 
         batch_size = image_tensors.size(0)
         # 로그용
-        #print(f'tes.py validation 함수  batch_size {batch_size}')
-        #print(f'tes.py validation 함수  image_tensors {image_tensors}')
-        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size}')
-        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(0)}')
-        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(1)}')
-        # print(f'tes.py validation 함수  image_tensors.size {image_tensors.size(2)}')
-        # print(f'tes.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
+        print(f'test.py validation 함수  batch_size {batch_size}')
+        print(f'test.py validation 함수  image_tensors {image_tensors}')
+        print(f'test.py validation 함수  image_tensors.size {image_tensors.size}')
+        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(0)}')
+        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(1)}')
+        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(2)}')
+        print(f'test.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
         length_of_data = length_of_data + batch_size
 
         # 로그용
-        #print(f'tes.py validation 함수  length_of_data {length_of_data}')
+        print(f'test.py validation 함수  length_of_data {length_of_data}')
         image = image_tensors.to(device)
         # For max length prediction
         length_for_pred = torch.IntTensor([opt.batch_max_length] * batch_size).to(device)
@@ -115,73 +196,73 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
         #opt.batch_max_length = opt.num_class
 
-        # print(f'tes.py validation 함수  인코드전 opt.num_class : {opt.num_class}')
-        # print(f'tes.py validation 함수  인코드전 length_for_pred : {length_for_pred}')
-        # print(f'tes.py validation 함수  인코드전 text_for_pred : {text_for_pred}')
-        # print(f'tes.py validation 함수  인코드전 length_for_pred.shape : {length_for_pred.shape}')
-        # print(f'tes.py validation 함수  인코드전 text_for_pred.shape : {text_for_pred.shape}')
-        #
-        # print(f'tes.py validation 함수  인코드전 labels : {labels}')
-        # print(f'tes.py validation 함수  인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
+        print(f'test.py validation 함수  인코드전 opt.num_class : {opt.num_class}')
+        print(f'test.py validation 함수  인코드전 length_for_pred : {length_for_pred}')
+        print(f'test.py validation 함수  인코드전 text_for_pred : {text_for_pred}')
+        print(f'test.py validation 함수  인코드전 length_for_pred.shape : {length_for_pred.shape}')
+        print(f'test.py validation 함수  인코드전 text_for_pred.shape : {text_for_pred.shape}')
+
+        print(f'test.py validation 함수  인코드전 labels : {labels}')
+        print(f'test.py validation 함수  인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
 
         text_for_loss, length_for_loss = converter.encode(labels, batch_max_length=opt.batch_max_length)
-        # print(f'tes.py validation 함수  인코드후 text_for_loss : {text_for_loss}')
-        # print(f'tes.py validation 함수  인코드후  length_for_loss : {length_for_loss}')
-        #
-        # print(f'tes.py validation 함수  len(length_for_pred) : {len(length_for_pred)}')
-        # print(f'tes.py validation 함수  batch_size : {batch_size}')
-        #
-        #
-        # print(f'tes.py validation 함수  batch_size : {batch_size}')
-        # print(f'tes.py validation 함수  length_of_data : {length_of_data}')
-        # print(f'tes.py validation 함수  length_of_data: {length_of_data}')
-        # print(f'tes.py validation 함수  opt.batch_max_length: {opt.batch_max_length}')
-        # print(f'tes.py validation 함수  opt: {opt}')
-        # print(f'tes.py validation 함수  [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
+        print(f'test.py validation 함수  인코드후 text_for_loss : {text_for_loss}')
+        print(f'test.py validation 함수  인코드후  length_for_loss : {length_for_loss}')
+
+        print(f'test.py validation 함수  len(length_for_pred) : {len(length_for_pred)}')
+        print(f'test.py validation 함수  batch_size : {batch_size}')
+
+
+        print(f'test.py validation 함수  batch_size : {batch_size}')
+        print(f'test.py validation 함수  length_of_data : {length_of_data}')
+        print(f'test.py validation 함수  length_of_data: {length_of_data}')
+        print(f'test.py validation 함수  opt.batch_max_length: {opt.batch_max_length}')
+        print(f'test.py validation 함수  opt: {opt}')
+        print(f'test.py validation 함수  [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
 
         start_time = time.time()
         if 'CTC' in opt.Prediction:
             preds = model(image, text_for_pred)
-            # print(
-            #     f'tes.py validation 함수  preds = model(image, text_for_pred) image : {image }')
-            # print(
-            #     f'tes.py validation 함수  preds = model(image, text_for_pred)  image.shape: { image.shape}')
-            # print(
-            #     f'tes.py validation 함수  preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
-            # print(
-            #     f'tes.py validation 함수  preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
-            # print(f'tes.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
-            # print(
-            #     f'tes.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
+            print(
+                f'test.py validation 함수  preds = model(image, text_for_pred) image : {image }')
+            print(
+                f'test.py validation 함수  preds = model(image, text_for_pred)  image.shape: { image.shape}')
+            print(
+                f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
+            print(
+                f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
+            print(f'test.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
+            print(
+                f'test.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
             # # 첫 번째 시퀀스에서 첫 번째 위치에 대한 확률 분포
             # prob_distribution = preds[0, 0, :]
             #
             # # 출력 예시
-            # print(f'tes.py validation 함수  prob_distribution: {prob_distribution}')
+            # print(f'test.py validation 함수  prob_distribution: {prob_distribution}')
 
             forward_time = time.time() - start_time
 
             # Calculate evaluation loss for CTC deocder.
             preds_size = torch.IntTensor([preds.size(1)] * batch_size)
-            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) batch_size: {batch_size}')
-            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size}')
+            # print(f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) batch_size: {batch_size}')
+            # print(f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size}')
             # print(
-            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(0): {preds.size(0)}')
-            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size(1)}')
+            #     f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(0): {preds.size(0)}')
+            # print(f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(1): {preds.size(1)}')
             # print(
-            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(2): {preds.size(2)}')
-            # print(f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size: {preds_size}')
+            #     f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds.size(2): {preds.size(2)}')
+            # print(f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size: {preds_size}')
 
             # 로그용
             # print(
-            #     f'tes.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
+            #     f'test.py validation 함수  preds_size = torch.IntTensor([preds.size(1)] * batch_size) preds_size.shape: {preds_size.shape}')
 
             # permute 'preds' to use CTCloss format
             if opt.baiduCTC:
                 cost = criterion(preds.permute(1, 0, 2), text_for_loss, preds_size, length_for_loss) / batch_size
             else:
                 cost = criterion(preds.log_softmax(2).permute(1, 0, 2), text_for_loss, preds_size, length_for_loss)
-                #print(f'tes.py validation 함수  cost =: {cost  }')
+                #print(f'test.py validation 함수  cost =: {cost  }')
 
             # Select max probabilty (greedy decoding) then decode index to character
             if opt.baiduCTC:
@@ -189,24 +270,38 @@ def validation(model, criterion, evaluation_loader, converter, opt):
                 preds_index = preds_index.view(-1)
             else:
                 _, preds_index = preds.max(2)
-                # print(f'tes.py validation 함수  preds_index  : {preds_index}')
-                # print(f'tes.py validation 함수  preds_size  : {preds_size}')
-                # print(f'tes.py validation 함수  preds_index.data  : {preds_index}')
-                # print(f'tes.py validation 함수  preds_size  : {preds_size}')
-                # print(f'tes.py validation 함수  converter.decode 반환 preds_index.data  : {preds_index.data}')
-                # print(f'tes.py validation 함수  converter.decode 반환 preds_size.data  : {preds_size.data}')
+                # print(f'test.py validation 함수  preds_index  : {preds_index}')
+                # print(f'test.py validation 함수  preds_size  : {preds_size}')
+                # print(f'test.py validation 함수  preds_index.data  : {preds_index}')
+                # print(f'test.py validation 함수  preds_size  : {preds_size}')
+                # print(f'test.py validation 함수  converter.decode 반환 preds_index.data  : {preds_index.data}')
+                # print(f'test.py validation 함수  converter.decode 반환 preds_size.data  : {preds_size.data}')
 
                 # 로그용 ( 정확도 떨어질때는 보통 26 ~ 27 )
                 # print('=================================================================================================')
                 # print(
-                #     f'tes.py validation 함수  converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
+                #     f'test.py validation 함수  converter.decode 반환 preds_index.data.shape  : {preds_index.data.shape}')
                 # print(
                 #     '=================================================================================================')
                 # print(
-                #     f'tes.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
+                #     f'test.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
 
             preds_str = converter.decode(preds_index.data, preds_size.data)
-            #print(f'tes.py validation 함수  preds_str  : {preds_str}')
+            print(f'test.py validation 함수  preds_str  : {preds_str}')
+
+            # original_string = '¢สวัส¢ดี£'
+            # normalized_string = original_string.encode('utf-8').decode('unicode-escape')
+            # print(normalized_string)
+            #
+            # # original_string = preds_str
+            # # normalized_string = original_string.encode('utf-8').decode('unicode-escape')
+            # # print(normalized_string)
+            # print(f'test.py validation 함수  normalized_string  : {normalized_string}')
+            #
+            # original_string = 'Â¢à¸ªà¸§à¸±à¸ªÂ¢à¸à¸µÂ£'
+            # original_string = '¢สวัส¢ดี£'
+            # decoded_string = original_string.encode('utf-8').decode('utf-8')
+            # print(f'test.py validation 함수  decoded_string  : {decoded_string}')
 
 
         else:
@@ -290,6 +385,22 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
 def test(opt):
     """ model configuration """
+    print(f'test.py opt: {opt}')
+    print(f'test.py opt.character: {opt.character}')
+
+    # yaml 파일 읽기
+    yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom.yaml'
+
+    with open(yaml_path, 'r', encoding='utf-8') as stream:
+        config = yaml.safe_load(stream)
+
+    input_channel = config['network_params']['input_channel']
+    output_channel = config['network_params']['output_channel']
+    hidden_size = config['network_params']['hidden_size']
+    opt.character = config['character_list']
+
+    print(f'test.py opt.character yaml 파일 읽기 후 : {opt.character}')
+
     if 'CTC' in opt.Prediction:
         converter = CTCLabelConverter(opt.character)
     else:
@@ -298,7 +409,50 @@ def test(opt):
 
     if opt.rgb:
         opt.input_channel = 3
-    model = Model(opt)
+    #model = Model(opt)
+
+    # # yaml 파일 읽기
+    # yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom.yaml'
+    #
+    # with open(yaml_path, 'r', encoding='utf-8') as stream:
+    #     config = yaml.safe_load(stream)
+
+    # print(f'내가 만든 모델 opt : {opt}')
+
+    # 모델 초기화
+    # input_channel = config['network_params']['input_channel']
+    # output_channel = config['network_params']['output_channel']
+    # hidden_size = config['network_params']['hidden_size']
+    # opt.character = config['character_list']
+    # len(opt.character) 와 len(converter.character) 둘 중 뭐가 맞는지 확인 필요 ( 기존 모델은 len(opt.character) 로 돼있는데 len(converter.character) 는 train.py 코드에 있음
+    # opt.num_class = len(opt.character)
+    print(f'try opt.num_class = len(opt.character) yaml 파일에서 읽어온 거 opt.num_class : {opt.num_class}')
+
+    # opt.num_class = len(converter.character)
+    # 기존 가중치 사용하려고
+    # opt.num_class = 177
+    print(
+        f'try opt.num_class = len(opt.character) len(converter.character) 로 수정후 ( 1이 더해짐 ) opt.num_class : {opt.num_class}')
+    print(f'test.py 내가 만든 모델 opt : {opt}')
+    print(f'test.py 내가 만든 모델 input_channel : {input_channel}')
+    print(f'test.py 내가 만든 모델 output_channel {output_channel}')
+    print(f'test.py 내가 만든 모델 hidden_size : {hidden_size}')
+    print(f'test.py 내가 만든 모델 opt.character : {opt.character}')
+    #print(f'train 내가 만든 모델 len(opt.character) : {len(opt.character)}')
+    print(f'test.py 내가 만든 모델 len(opt.character) : {len(opt.character)}')
+    print(f'test.py 내가 만든 모델 opt.num_class : {opt.num_class}')
+
+    output_channel = output_channel * 2
+    hidden_size = hidden_size * 2
+
+    opt.num_class = len(converter.character)
+    # 원본인 경우
+    #opt.num_class = 177
+
+    model = CustomModel(input_channel, output_channel, hidden_size, opt.num_class)
+
+    print(f'test.py model: {model}')
+
     print('model input parameters', opt.imgH, opt.imgW, opt.num_fiducial, opt.input_channel, opt.output_channel,
           opt.hidden_size, opt.num_class, opt.batch_max_length, opt.Transformation, opt.FeatureExtraction,
           opt.SequenceModeling, opt.Prediction)
@@ -322,33 +476,112 @@ def test(opt):
 
     """ evaluation """
     model.eval()
+
+    print(f'###############test.py opt.benchmark_all_eval : {opt.benchmark_all_eval }')
+
+    #opt.benchmark_all_eval = True
+
+    print(f'###############test.py opt.benchmark_all_eval True 로 수정 후 : {opt.benchmark_all_eval}')
+
     with torch.no_grad():
         if opt.benchmark_all_eval:  # evaluation with 10 benchmark evaluation datasets
             benchmark_all_eval(model, criterion, converter, opt)
         else:
             log = open(f'./result/{opt.exp_name}/log_evaluation.txt', 'a')
             AlignCollate_evaluation = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-            eval_data, eval_data_log = hierarchical_dataset(root=opt.eval_data, opt=opt)
-            evaluation_loader = torch.utils.data.DataLoader(
-                eval_data, batch_size=opt.batch_size,
-                shuffle=False,
-                num_workers=int(opt.workers),
-                collate_fn=AlignCollate_evaluation, pin_memory=True)
-            _, accuracy_by_best_model, _, _, _, _, _, _ = validation(
-                model, criterion, evaluation_loader, converter, opt)
-            log.write(eval_data_log)
-            print(f'{accuracy_by_best_model:0.3f}')
-            log.write(f'{accuracy_by_best_model:0.3f}\n')
-            log.close()
+
+            selected_d = 'th'
+            # selected_d = 'ttf'
+            # print(f'==============밸리드도 나는 트레인으로 일단 하기로 selected_d : {selected_d}')
+
+            # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.train_data, opt=opt, select_data=[selected_d])
+            # valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt, select_data=[selected_d])
+            eval_data, eval_data_log = hierarchical_dataset(root=opt.eval_data, opt=opt,
+                                                                    select_data=[selected_d])
+            #eval_data, eval_data_log = hierarchical_dataset(root=opt.eval_data, opt=opt)
+            # 원본
+            #eval_data, eval_data_log = hierarchical_dataset(root=opt.eval_data, opt=opt)
+
+            opt.valid_data = opt.eval_data
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0116\train"
+            opt.valid_data = fr"data_lmdb_release/ttf15/val"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0116\train"
+            opt.valid_data = fr"data_lmdb_release/ttf15/val"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0116\train"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0118\train"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\th\test\0118\train"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\val"
+
+            valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt,
+                                                                    select_data=[selected_d])
+
+            print(f'###############test.py valid_dataset hierarchical_dataset : {valid_dataset}')
+            print(f'###############test.py valid_dataset hierarchical_dataset len(valid_dataset) : {len(valid_dataset)}')
+            print(f'###################test.py valid_dataset_log hierarchical_dataset 트레인이랑 같다니까? : {valid_dataset_log}')
+            print(f'test.py valid_dataset opt.batch_size : {opt.batch_size}')
+            AlignCollate_valid = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
+
+            valid_loader = torch.utils.data.DataLoader(
+                valid_dataset, batch_size=opt.batch_size,
+                shuffle=True,  # 'True' to check training progress with validation function.
+                #num_workers=int(opt.workers),
+                num_workers=0,
+                collate_fn=AlignCollate_valid, pin_memory=True)
+            print(f'valid_loader opt.batch_size : {opt.batch_size}')
+            print(f'valid_loader len(valid_dataset) : {len(valid_dataset)}')
+
+            # 원본
+            # _, accuracy_by_best_model, _, _, _, _, _, _ = validation(
+            #     model, criterion, valid_loader, converter, opt)
+
+            model.eval()
+
+            valid_loss, current_accuracy, current_norm_ED, preds, confidence_score, labels, infer_time, length_of_data = validation(
+                model, criterion, valid_loader, converter, opt)
+
+            print(f'!!!!!!!!!!! test.py model : {model}')
+            print(f'!!!!!!!!!!! test.py current_accuracy : {current_accuracy}')
+            print(f'!!!!!!!!!!! test.py current_norm_ED : {current_norm_ED}')
+            print(f'!!!!!!!!!!! test.py preds : {preds}')
+
+            #print(f'!!!!!!!!!!! test.py confidence_score : {confidence_score}')
+            print(f'!!!!!!!!!!! test.py labels : {labels}')
+            print(f'!!!!!!!!!!! test.py infer_time : {infer_time}')
+            print(f'!!!!!!!!!!! test.py length_of_data : {length_of_data}')
+            #print(f'!!!!!!!!!!! test.py accuracy_by_best_model : {accuracy_by_best_model}')
+
+            # evaluation_loader = torch.utils.data.DataLoader(
+            #     eval_data, batch_size=opt.batch_size,
+            #     shuffle=False,
+            #     num_workers=int(opt.workers),
+            #     collate_fn=AlignCollate_evaluation, pin_memory=True)
+            # _, accuracy_by_best_model, _, _, _, _, _, _ = validation(
+            #     model, criterion, valid_loader, converter, opt)
+
+            # 원본
+            # evaluation_loader = torch.utils.data.DataLoader(
+            #     eval_data, batch_size=opt.batch_size,
+            #     shuffle=False,
+            #     num_workers=int(opt.workers),
+            #     collate_fn=AlignCollate_evaluation, pin_memory=True)
+            # _, accuracy_by_best_model, _, _, _, _, _, _ = validation(
+            #     model, criterion, evaluation_loader, converter, opt)
+            # log.write(eval_data_log)
+            # print(f'{accuracy_by_best_model:0.3f}')
+            # log.write(f'{accuracy_by_best_model:0.3f}\n')
+            # log.close()
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--eval_data', required=True, help='path to evaluation dataset')
+    #parser.add_argument('--eval_data', required=True, help='path to evaluation dataset')
+    parser.add_argument('--eval_data', required=False, help='path to evaluation dataset')
     parser.add_argument('--benchmark_all_eval', action='store_true', help='evaluate 10 benchmark evaluation datasets')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
     parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
-    parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
+    #parser.add_argument('--saved_model', required=True, help="path to saved_model to evaluation")
+    parser.add_argument('--saved_model', required=False, help="path to saved_model to evaluation")
     """ Data processing """
     parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
     parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
@@ -360,10 +593,14 @@ if __name__ == '__main__':
     parser.add_argument('--data_filtering_off', action='store_true', help='for data_filtering_off mode')
     parser.add_argument('--baiduCTC', action='store_true', help='for data_filtering_off mode')
     """ Model Architecture """
-    parser.add_argument('--Transformation', type=str, required=True, help='Transformation stage. None|TPS')
-    parser.add_argument('--FeatureExtraction', type=str, required=True, help='FeatureExtraction stage. VGG|RCNN|ResNet')
-    parser.add_argument('--SequenceModeling', type=str, required=True, help='SequenceModeling stage. None|BiLSTM')
-    parser.add_argument('--Prediction', type=str, required=True, help='Prediction stage. CTC|Attn')
+    # parser.add_argument('--Transformation', type=str, required=True, help='Transformation stage. None|TPS')
+    # parser.add_argument('--FeatureExtraction', type=str, required=True, help='FeatureExtraction stage. VGG|RCNN|ResNet')
+    # parser.add_argument('--SequenceModeling', type=str, required=True, help='SequenceModeling stage. None|BiLSTM')
+    # parser.add_argument('--Prediction', type=str, required=True, help='Prediction stage. CTC|Attn')
+    parser.add_argument('--Transformation', type=str, required=False, help='Transformation stage. None|TPS')
+    parser.add_argument('--FeatureExtraction', type=str, required=False, help='FeatureExtraction stage. VGG|RCNN|ResNet')
+    parser.add_argument('--SequenceModeling', type=str, required=False, help='SequenceModeling stage. None|BiLSTM')
+    parser.add_argument('--Prediction', type=str, required=False, help='Prediction stage. CTC|Attn')
     parser.add_argument('--num_fiducial', type=int, default=20, help='number of fiducial points of TPS-STN')
     parser.add_argument('--input_channel', type=int, default=1, help='the number of input channel of Feature extractor')
     parser.add_argument('--output_channel', type=int, default=512,
@@ -372,6 +609,11 @@ if __name__ == '__main__':
 
     opt = parser.parse_args()
 
+    opt.Transformation = "None"
+    opt.FeatureExtraction = "VGG"
+    opt.SequenceModeling = "BiLSTM"
+    opt.Prediction = "CTC"
+
     """ vocab / character number configuration """
     if opt.sensitive:
         opt.character = string.printable[:-6]  # same with ASTER setting (use 94 char).
@@ -379,5 +621,32 @@ if __name__ == '__main__':
     cudnn.benchmark = True
     cudnn.deterministic = True
     opt.num_gpu = torch.cuda.device_count()
+
+    opt.Transformation = "None"
+    opt.FeatureExtraction = "VGG"
+    opt.SequenceModeling = "BiLSTM"
+    opt.Prediction = "CTC"
+    opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images"
+    opt.saved_model = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\model\model.pth"
+
+    # 수정된 파일 경로 예시
+    opt.saved_model = "C:\\Users\\TAMSystech\\yjh\\ipynb\\deep-text-recognition-benchmark\\CRAFT-pytorch-master\\model\\model.pth"
+
+    # 모델 로드
+    loaded_model = torch.load(opt.saved_model)
+    print(f'파일 저장전 iteration: {loaded_model}')
+
+    # 배치 경사 하강법(Batch Gradient Descent) 적용시 train() 함수 반복시 root
+    opt.select_data = "th"
+    opt.batch_ratio = "1"
+    opt.batch_ratio = "0.5"
+    opt.batch_ratio = "0.0005"
+    opt.batch_ratio = "0.5"
+    opt.total_data_usage_ratio = "0.5"
+    opt.batch_ratio = "0.2"
+    opt.total_data_usage_ratio = "0.2"
+    # opt.total_data_usage_ratio = "1"
+    # opt.batch_ratio = "1"
+    opt.PAD = True
 
     test(opt)

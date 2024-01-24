@@ -47,61 +47,62 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.bounding_rect4.executor&quot;: &quot;Run&quot;,
-    &quot;Python.bounding_rect5.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_directory.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_gt4.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_img5.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_text_file.executor&quot;: &quot;Run&quot;,
-    &quot;Python.create_text_img3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.dataset.executor&quot;: &quot;Run&quot;,
-    &quot;Python.delete_blank_line.executor&quot;: &quot;Run&quot;,
-    &quot;Python.easyocr.executor&quot;: &quot;Run&quot;,
-    &quot;Python.easyocr_test3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.image_processiong.executor&quot;: &quot;Run&quot;,
-    &quot;Python.modify_img_convert.executor&quot;: &quot;Run&quot;,
-    &quot;Python.modify_img_size.executor&quot;: &quot;Run&quot;,
-    &quot;Python.modify_img_size2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.modify_img_size3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ocr_test - 복사본.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ocr_test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ocr_test2.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ocr_test3.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ocr_test4.executor&quot;: &quot;Run&quot;,
-    &quot;Python.recognition.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run_create_dataset5.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run_create_dataset7.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run_create_dataset8.executor&quot;: &quot;Run&quot;,
-    &quot;Python.run_create_dataset9.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test_0111.executor&quot;: &quot;Run&quot;,
-    &quot;Python.train.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/easyocr_test/th&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.bounding_rect4.executor": "Run",
+    "Python.bounding_rect5.executor": "Run",
+    "Python.create_directory.executor": "Run",
+    "Python.create_gt4.executor": "Run",
+    "Python.create_img5.executor": "Run",
+    "Python.create_text_file.executor": "Run",
+    "Python.create_text_img3.executor": "Run",
+    "Python.dataset.executor": "Debug",
+    "Python.delete_blank_line.executor": "Run",
+    "Python.easyocr.executor": "Run",
+    "Python.easyocr_test3.executor": "Run",
+    "Python.image_processiong.executor": "Run",
+    "Python.modify_img_convert.executor": "Run",
+    "Python.modify_img_size.executor": "Run",
+    "Python.modify_img_size2.executor": "Run",
+    "Python.modify_img_size3.executor": "Run",
+    "Python.ocr_test - 복사본.executor": "Run",
+    "Python.ocr_test.executor": "Run",
+    "Python.ocr_test2.executor": "Run",
+    "Python.ocr_test3.executor": "Run",
+    "Python.ocr_test4.executor": "Run",
+    "Python.ocr_test5.executor": "Run",
+    "Python.recognition.executor": "Run",
+    "Python.run_create_dataset5.executor": "Run",
+    "Python.run_create_dataset7.executor": "Run",
+    "Python.run_create_dataset8.executor": "Run",
+    "Python.run_create_dataset9.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.test_0111.executor": "Run",
+    "Python.train.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/easyocr_test/th",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;ChangesTree.GroupingKeys&quot;: [
-      &quot;directory&quot;,
-      &quot;repository&quot;
+  "keyToStringList": {
+    "ChangesTree.GroupingKeys": [
+      "directory",
+      "repository"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\easyocr_test\th" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\easyocr_test\vi" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\modify_img_size" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\bounding_rect" />
     </key>
@@ -410,12 +411,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>499</line>
+          <line>457</line>
           <option name="timeStamp" value="143" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>498</line>
+          <line>456</line>
           <option name="timeStamp" value="144" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -435,7 +436,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dataset.py</url>
-          <line>611</line>
+          <line>615</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -445,7 +446,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/train.py</url>
-          <line>1795</line>
+          <line>1749</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
       </breakpoints>
