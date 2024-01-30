@@ -55,6 +55,7 @@
     "Python.create_gt4.executor": "Run",
     "Python.create_img5.executor": "Run",
     "Python.create_img6.executor": "Run",
+    "Python.create_img9.executor": "Run",
     "Python.create_img_from_exel2.executor": "Run",
     "Python.create_img_from_exel3.executor": "Run",
     "Python.create_img_from_exel4.executor": "Run",
@@ -64,9 +65,12 @@
     "Python.create_img_from_exel6.executor": "Run",
     "Python.create_img_long6.executor": "Run",
     "Python.create_img_long7.executor": "Run",
+    "Python.create_img_long8.executor": "Run",
     "Python.create_text_file.executor": "Run",
     "Python.create_text_file2.executor": "Run",
+    "Python.create_text_file3.executor": "Run",
     "Python.create_text_img3.executor": "Run",
+    "Python.create_text_img4.executor": "Run",
     "Python.dataset.executor": "Debug",
     "Python.delete_blank_line.executor": "Run",
     "Python.easyocr.executor": "Run",
@@ -92,6 +96,7 @@
     "Python.run_create_dataset9.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_0111.executor": "Run",
+    "Python.test_0129.executor": "Run",
     "Python.train.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -115,10 +120,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img_long\vi" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_text_img\vi" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_text_file\vi" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0124" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img_from_excel" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img_long" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img" />
     </key>
   </component>
   <component name="SharedIndexes">
