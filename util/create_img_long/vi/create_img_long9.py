@@ -19,13 +19,16 @@ import subprocess
 font = 'NotoSansThaiLooped-Thin'
 
 font = 'Black'
-# font = 'Bold'
+font = 'Bold'
 # font = 'ExtraBold'
 font = 'ExtraLight'
 font = 'Light'
 # font = 'Medium'
 # font = 'Regular'
 # font = 'SemiBold'
+
+
+font = 'SemiBold'
 
 
 # 글꼴 스타일 리스트 =
@@ -97,9 +100,13 @@ folder_path = fr'C:\Users\TAMSystech\yjh\text_file\라인명\{lan}2\{font}'
 folder_path = fr'D:\text_file\라인명\{lan}\{font}'
 folder_path = fr'D:\text_file\라인명\{lan}'
 # 테스트용
+#folder_path = fr'D:\text_file\라인명\test'
+###########################################################################
+
+# 테스트용
 #folder_path = fr'C:\Users\TAMSystech\yjh\text_file\라인명2\테스트\{lan}'
 # 테스트용
-#folder_path = fr'C:\Users\TAMSystech\yjh\text_file\라인명\{lan}\테스트'
+folder_path = fr'D:\text_file\라인명\test'
 #############################################################################
 
 #folder_path = fr'C:\Users\TAMSystech\yjh\text_file\라인명2\테스트\{lan}'
@@ -111,6 +118,10 @@ output_folder = fr'C:\Users\TAMSystech\yjh\img\라인명\{lan}\{font}'
 output_folder = fr'C:\Users\TAMSystech\yjh\img\라인명\{lan}\{font}'
 output_folder = fr'C:\Users\TAMSystech\yjh\img\라인명\{lan}2\{font}'
 output_folder = fr'D:\img\라인명\{lan}\{font}'
+# 테스트용
+output_folder = fr'D:\img\라인명\test'
+###########################################################################
+
 #output_folder = fr'C:\Users\TAMSystech\yjh\img\라인명\{lan}\테스트'
 # output_folder = fr'C:\Users\TAMSystech\yjh\img\라인명2\테스트\{lan}\{font}'
 # folder_path = r'C:\Users\TAMSystech\yjh\text_file\테스트\테스트'
@@ -141,7 +152,7 @@ long_set_num = set()
 # 파일 내용 읽기
 with open(file_path, 'r', encoding='utf-8') as file:
     content = file.read()
-    print(fr'content : {content}')
+    #print(fr'content : {content}')
 
 # 정규식 패턴 설정
 pattern = re.compile(r'image-(\d+)')
@@ -177,15 +188,77 @@ for txt_file in txt_files:
 
     # 특정 길이 이상인 경우 엔터 추가하여 두 줄로 만들기
     modified_content = ""
+    # for line in content.splitlines():
+    #     if len(line) > max_line_length:
+    #         while len(line) > max_line_length:
+    #             modified_content += line[:max_line_length] + '\n'
+    #             line = line[max_line_length:]
+    #             line = "  " + line[max_line_length:]
+    #
+    #
+    #
+    #     else:
+    #         modified_content += line + '\n'
+
     for line in content.splitlines():
+        print(fr'line : {line}')
+
         if len(line) > max_line_length:
             while len(line) > max_line_length:
-                modified_content += line[:max_line_length] + '\n'
+                modified_content += "  " + line[:max_line_length] + "  " + '\n'
                 line = line[max_line_length:]
-                line = "  " + line[max_line_length:]
 
+            # 남은 부분이 max_line_length 미만인 경우에도 줄바꿈 추가
+            if len(line) > 0:
+                modified_content += "  " + line + "  " + '\n'
+                print(fr'############# if len(line) > 0 line : {line}')
+                print(fr'#############if len(line) > 0 modified_content : {modified_content}')
         else:
             modified_content += line + '\n'
+            print(fr'############# else 짧은 경우 modified_content : {modified_content}')
+
+        # if len(line) > max_line_length:
+        #     chunks = [line[i:i + max_line_length] for i in range(0, len(line), max_line_length)]
+        #
+        #     # 각 chunk에 앞뒤로 공백을 추가하여 modified_content에 추가
+        #     # modified_content += "\n".join(["  " + chunk + "  " for chunk in chunks]) + "\n"
+        #     modified_content += "".join(["  " + chunk + "  " for chunk in chunks]) + "\n"
+        #     print(fr'modified_content : {modified_content}')
+        #
+        #     # 다음 라인 준비
+        #     # line = "  " + line[max_line_length:]
+        #     line = line[max_line_length:]
+        #     print(fr'line : {line}')
+
+            # while len(line) > max_line_length:
+            #     #modified_content += line[:max_line_length] + '\n'
+            #     #modified_content += "  " + line[:max_line_length].strip() + "  \n"
+            #     #modified_content += "  " + line[:max_line_length].strip() + "  " + "\n"
+            #     # modified_content += "  " + line[:max_line_length]+ "  ==\n"
+            #     # line = line[max_line_length:]
+            #
+            #     # line을 max_line_length만큼 나눠서 리스트에 저장
+            #     chunks = [line[i:i + max_line_length] for i in range(0, len(line), max_line_length)]
+            #
+            #     # 각 chunk에 앞뒤로 공백을 추가하여 modified_content에 추가
+            #     #modified_content += "\n".join(["  " + chunk + "  " for chunk in chunks]) + "\n"
+            #     modified_content += "".join(["  " + chunk + "  " for chunk in chunks]) + "\n"
+            #     print(fr'modified_content : {modified_content}')
+            #
+            #     # 다음 라인 준비
+            #     #line = "  " + line[max_line_length:]
+            #     line = line[max_line_length:]
+            #     print(fr'line : {line}')
+
+
+            # 남은 부분이 max_line_length 미만인 경우에도 줄바꿈 추가
+            # if len(line) > 0:
+            #     modified_content += "  " + line + '\n'
+            #     print(fr'############# if len(line) > 0 line : {line}')
+            #     print(fr'#############if len(line) > 0 modified_content : {modified_content}')
+
+        # else:
+        #     modified_content += line + '\n'
 
     # 수정된 내용을 파일에 쓰기
     modified_file_path = file_path.replace('.txt', '_modified.txt')
@@ -206,6 +279,7 @@ for txt_file in txt_files:
 
         txt_file_path = os.path.join(folder_path, txt_file)
         txt_file_path = modified_file_path
+
         print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!txt_file_path : {txt_file_path}')
 
         # 모든 열려있는 창 가져오기
@@ -273,42 +347,69 @@ for txt_file in txt_files:
         x, y, width, height = 10, 1, 1000, 760  # 캡처하려는 화면 영역의 좌표와 크기
         x, y, width, height = 30, 60, 1000, 760  # 캡처하려는 화면 영역의 좌표와 크기
         x, y, width, height = 30, 60, 1800, 760  # 캡처하려는 화면 영역의 좌표와 크기
+        x, y, width, height = 30, 60, 1850, 760  # 캡처하려는 화면 영역의 좌표와 크기
+        x, y, width, height = 30, 60, 1870, 760  # 캡처하려는 화면 영역의 좌표와 크기
+        x, y, width, height = 30, 60, 1875, 760  # 캡처하려는 화면 영역의 좌표와 크기
         screenshot = pyautogui.screenshot(region=(x, y, width, height))
         #time.sleep(1)
         # 이미지를 저장합니다
         # time.sleep(0.5)  # 조절에 시간이 필요한 경우 대기시간 추가
 
+        line_number = int(txt_file[:-4])
+        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!line_number : {line_number}')
+
+        output_file_path = os.path.join(output_folder, f'image-{line_number:09d}.jpg')
+        print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!output_file_path : {output_file_path}')
+        # screenshot.save(output_file_path)
+        # print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
+
+        # 이미 파일이 존재하는지 체크
+        if os.path.exists(output_file_path):
+            # print(f'파일이 이미 존재합니다: {output_file_path}')
+            os.remove(output_file_path)
+
+            # print(f'기존 파일 삭제: {output_file_path}')
+
+            screenshot.save(output_file_path)
+            print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
+            # time.sleep(0.5)  # 조절에 시간이 필요한 경우 대기시간 추가
+            # print(f'{line_number} 개의 txt 파일의 스크린샷 이미지를 저장했습니다.')
+            # 여기에 필요한 처리를 추가하세요 (덮어쓰기, 새로운 이름 사용 등)
+        else:
+            screenshot.save(output_file_path)
+            print(f'스크린샷 이미지를 저장했습니다2: {output_file_path}')
+
         # for line in open(txt_file_path):
-        for line in open(txt_file_path, 'r', encoding='utf-8'):
-            # line_number += 1
-            # print(f'line_number : {line_number}')
-            # print(f'txt_file : {txt_file}')
-            # txt_file = txt_file[:-4]
-            # txt_file = int(txt_file)
-            # output_file_path = os.path.join(output_folder, f'image-{txt_file:09d}.jpg')
-            line_number = int(txt_file[:-4])
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!line_number : {line_number}')
-
-            output_file_path = os.path.join(output_folder, f'image-{line_number:09d}.jpg')
-            print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!output_file_path : {output_file_path}')
-            # screenshot.save(output_file_path)
-            # print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
-
-            # 이미 파일이 존재하는지 체크
-            if os.path.exists(output_file_path):
-                # print(f'파일이 이미 존재합니다: {output_file_path}')
-                os.remove(output_file_path)
-
-                # print(f'기존 파일 삭제: {output_file_path}')
-
-                screenshot.save(output_file_path)
-                print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
-                # time.sleep(0.5)  # 조절에 시간이 필요한 경우 대기시간 추가
-                # print(f'{line_number} 개의 txt 파일의 스크린샷 이미지를 저장했습니다.')
-                # 여기에 필요한 처리를 추가하세요 (덮어쓰기, 새로운 이름 사용 등)
-            else:
-                screenshot.save(output_file_path)
-                print(f'스크린샷 이미지를 저장했습니다2: {output_file_path}')
+        # for line in open(txt_file_path, 'r', encoding='utf-8'):
+        #     # line_number += 1
+        #     # print(f'line_number : {line_number}')
+        #     # print(f'txt_file : {txt_file}')
+        #     # txt_file = txt_file[:-4]
+        #     # txt_file = int(txt_file)
+        #     # output_file_path = os.path.join(output_folder, f'image-{txt_file:09d}.jpg')
+        #     line_number = int(txt_file[:-4])
+        #     print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!line_number : {line_number}')
+        #
+        #     output_file_path = os.path.join(output_folder, f'image-{line_number:09d}.jpg')
+        #     print(f'!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!output_file_path : {output_file_path}')
+        #     # screenshot.save(output_file_path)
+        #     # print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
+        #
+        #     # 이미 파일이 존재하는지 체크
+        #     if os.path.exists(output_file_path):
+        #         # print(f'파일이 이미 존재합니다: {output_file_path}')
+        #         os.remove(output_file_path)
+        #
+        #         # print(f'기존 파일 삭제: {output_file_path}')
+        #
+        #         screenshot.save(output_file_path)
+        #         print(f'스크린샷 이미지를 저장했습니다: {output_file_path}')
+        #         # time.sleep(0.5)  # 조절에 시간이 필요한 경우 대기시간 추가
+        #         # print(f'{line_number} 개의 txt 파일의 스크린샷 이미지를 저장했습니다.')
+        #         # 여기에 필요한 처리를 추가하세요 (덮어쓰기, 새로운 이름 사용 등)
+        #     else:
+        #         screenshot.save(output_file_path)
+        #         print(f'스크린샷 이미지를 저장했습니다2: {output_file_path}')
 
     # 메모장 창을 닫습니다
     os.system('taskkill /f /im notepad.exe')
