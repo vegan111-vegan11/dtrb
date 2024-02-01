@@ -49,11 +49,14 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.add_margin3.executor": "Run",
     "Python.bounding_rect4.executor": "Run",
     "Python.bounding_rect5.executor": "Run",
+    "Python.bounding_rect7.executor": "Run",
     "Python.convert_img9.executor": "Run",
     "Python.create_directory.executor": "Run",
     "Python.create_gt4.executor": "Run",
+    "Python.create_gt5.executor": "Run",
     "Python.create_img5.executor": "Run",
     "Python.create_img6.executor": "Run",
     "Python.create_img9.executor": "Run",
@@ -93,6 +96,7 @@
     "Python.ocr_test4.executor": "Run",
     "Python.ocr_test5.executor": "Run",
     "Python.recognition.executor": "Run",
+    "Python.run_create_dataset10.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
     "Python.run_create_dataset7.executor": "Run",
     "Python.run_create_dataset8.executor": "Run",
@@ -104,7 +108,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/convert_img",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/0111",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -122,11 +126,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\convert_img" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_img_long\vi" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_text_img\vi" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_text_file\vi" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0124" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0111" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_val_data" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\add_margin" />
     </key>
   </component>
   <component name="SharedIndexes">

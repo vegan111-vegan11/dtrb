@@ -62,13 +62,17 @@ def benchmark_all_eval(model, criterion, converter, opt, calculate_infer_time=Fa
         print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data : {eval_data}')
         print(f'!!!!!!!!!!!test.py benchmark_all_eval opt.eval_data : {opt.eval_data}')
 
+        #opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0116\train"
+        opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0115\train"
+        opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images"
+        #opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\th\test\0116\train"
+
+
         eval_data_path = os.path.join(opt.eval_data, eval_data)
+        #eval_data_path = opt.eval_data
         print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data_path : {eval_data_path}')
 
         AlignCollate_evaluation = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-
-        eval_data_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\th\test\0118\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
-
         eval_data, eval_data_log = hierarchical_dataset(root=eval_data_path, opt=opt)
         print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data : {eval_data}')
         print(f'!!!!!!!!!!!test.py benchmark_all_eval eval_data_log : {eval_data_log}')
@@ -479,7 +483,7 @@ def test(opt):
 
     print(f'###############test.py opt.benchmark_all_eval : {opt.benchmark_all_eval }')
 
-    #opt.benchmark_all_eval = True
+    opt.benchmark_all_eval = True
 
     print(f'###############test.py opt.benchmark_all_eval True 로 수정 후 : {opt.benchmark_all_eval}')
 
@@ -512,6 +516,8 @@ def test(opt):
             opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\th\test\0118\train"
             opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\train"
             opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\val"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\ttf15\val"
+            opt.valid_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data_lmdb_release\th\test\0118\train"
 
             valid_dataset, valid_dataset_log = hierarchical_dataset(root=opt.valid_data, opt=opt,
                                                                     select_data=[selected_d])
@@ -540,15 +546,15 @@ def test(opt):
             valid_loss, current_accuracy, current_norm_ED, preds, confidence_score, labels, infer_time, length_of_data = validation(
                 model, criterion, valid_loader, converter, opt)
 
-            print(f'!!!!!!!!!!! test.py model : {model}')
-            print(f'!!!!!!!!!!! test.py current_accuracy : {current_accuracy}')
-            print(f'!!!!!!!!!!! test.py current_norm_ED : {current_norm_ED}')
-            print(f'!!!!!!!!!!! test.py preds : {preds}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False model : {model}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False current_accuracy : {current_accuracy}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False current_norm_ED : {current_norm_ED}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False preds : {preds}')
 
             #print(f'!!!!!!!!!!! test.py confidence_score : {confidence_score}')
-            print(f'!!!!!!!!!!! test.py labels : {labels}')
-            print(f'!!!!!!!!!!! test.py infer_time : {infer_time}')
-            print(f'!!!!!!!!!!! test.py length_of_data : {length_of_data}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False labels : {labels}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False infer_time : {infer_time}')
+            print(f'!!!!!!!!!!! test.py benchmark_all_eval = False length_of_data : {length_of_data}')
             #print(f'!!!!!!!!!!! test.py accuracy_by_best_model : {accuracy_by_best_model}')
 
             # evaluation_loader = torch.utils.data.DataLoader(
@@ -631,6 +637,7 @@ if __name__ == '__main__':
 
     # 수정된 파일 경로 예시
     opt.saved_model = "C:\\Users\\TAMSystech\\yjh\\ipynb\\deep-text-recognition-benchmark\\CRAFT-pytorch-master\\model\\model.pth"
+    opt.saved_model = "C:\\Users\\TAMSystech\\yjh\\ipynb\\deep-text-recognition-benchmark\\CRAFT-pytorch-master\\model\\model_ft.pth"
 
     # 모델 로드
     loaded_model = torch.load(opt.saved_model)

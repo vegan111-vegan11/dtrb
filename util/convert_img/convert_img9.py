@@ -15,6 +15,8 @@ base_dest_path = r'C:\Users\TAMSystech\yjh\img\line9\th'
 base_dest_path = r'C:\Users\TAMSystech\yjh\img\line10\th'
 base_dest_path = r'D:\img\line\vi'
 base_dest_path = r'D:\img\line_invert\vi'
+base_src_path = r'D:\img\vi\rect'
+base_dest_path = r'D:\img\vi\rect_invert'
 # 목적지 디렉토리가 없으면 생성
 # if not os.path.exists(base_dest_path):
 #     os.makedirs(base_dest_path)
