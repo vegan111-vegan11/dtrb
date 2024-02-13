@@ -96,6 +96,9 @@ target_path = fr'D:\img\vi\rect'
 source_path = fr'D:\img\vi\margin'
 target_path = fr'D:\img\vi\rect'
 
+
+'D:\img\라인명\la'
+
 # 패딩 크기 정의
 padding_size = 10
 padding_size = 100

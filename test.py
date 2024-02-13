@@ -149,7 +149,7 @@ def validation(model, criterion, evaluation_loader, converter, opt):
     for i, (image_tensors, labels) in enumerate(evaluation_loader):
         # 첫 번째 이미지만 확인
         sample_image = image_tensors[0].cpu().numpy()  # PyTorch Tensor를 NumPy 배열로 변환
-        print(f'test.py validation 함수  sample_image : {sample_image}')
+        #print(f'test.py validation 함수  sample_image : {sample_image}')
 
         # 이미지 플로팅
         plt.imshow(np.transpose(sample_image, (1, 2, 0)))  # 이미지 차원 순서 변경 (C, H, W) -> (H, W, C)
@@ -160,35 +160,35 @@ def validation(model, criterion, evaluation_loader, converter, opt):
     for i, (image_tensors, labels) in enumerate(evaluation_loader):
         # 첫 번째 이미지만 확인
         sample_image = transforms.ToPILImage()(image_tensors[0].cpu())  # PyTorch Tensor를 PIL 이미지로 변환
-        print(f'test.py validation 함수  sample_image : {sample_image}')
+        #print(f'test.py validation 함수  sample_image : {sample_image}')
         # 이미지 출력
         plt.imshow(sample_image)
         plt.title(f"Sample Image - Batch {i + 1}")
         #plt.show()
 
         # 라벨 출력
-        print(f"Labels for Batch {i + 1}: {labels}")
+        #print(f"Labels for Batch {i + 1}: {labels}")
 
         # 더 이상 확인할 필요 없으면 루프 종료
         break
 
 
     for i, (image_tensors, labels) in enumerate(evaluation_loader):
-        print(f'test.py validation 함수  enumerate(evaluation_loader) i : {i}')
-        print(f'test.py validation 함수  len(labels) : {len(labels)}')
-        print(f'test.py validation 함수  (image_tensors, labels) : {(image_tensors, labels)}')
+        # print(f'test.py validation 함수  enumerate(evaluation_loader) i : {i}')
+        # print(f'test.py validation 함수  len(labels) : {len(labels)}')
+        # print(f'test.py validation 함수  (image_tensors, labels) : {(image_tensors, labels)}')
 
-        print(f'test.py validation 함수  labels : {labels}')
+        #print(f'test.py validation 함수  labels : {labels}')
 
         batch_size = image_tensors.size(0)
         # 로그용
-        print(f'test.py validation 함수  batch_size {batch_size}')
-        print(f'test.py validation 함수  image_tensors {image_tensors}')
-        print(f'test.py validation 함수  image_tensors.size {image_tensors.size}')
-        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(0)}')
-        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(1)}')
-        print(f'test.py validation 함수  image_tensors.size {image_tensors.size(2)}')
-        print(f'test.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
+        # print(f'test.py validation 함수  batch_size {batch_size}')
+        # print(f'test.py validation 함수  image_tensors {image_tensors}')
+        # print(f'test.py validation 함수  image_tensors.size {image_tensors.size}')
+        # print(f'test.py validation 함수  image_tensors.size {image_tensors.size(0)}')
+        # print(f'test.py validation 함수  image_tensors.size {image_tensors.size(1)}')
+        # print(f'test.py validation 함수  image_tensors.size {image_tensors.size(2)}')
+        # print(f'test.py validation 함수  opt.batch_max_length {opt.batch_max_length}')
         length_of_data = length_of_data + batch_size
 
         # 로그용
@@ -200,44 +200,44 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
         #opt.batch_max_length = opt.num_class
 
-        print(f'test.py validation 함수  인코드전 opt.num_class : {opt.num_class}')
-        print(f'test.py validation 함수  인코드전 length_for_pred : {length_for_pred}')
-        print(f'test.py validation 함수  인코드전 text_for_pred : {text_for_pred}')
-        print(f'test.py validation 함수  인코드전 length_for_pred.shape : {length_for_pred.shape}')
-        print(f'test.py validation 함수  인코드전 text_for_pred.shape : {text_for_pred.shape}')
-
-        print(f'test.py validation 함수  인코드전 labels : {labels}')
-        print(f'test.py validation 함수  인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
+        # print(f'test.py validation 함수  인코드전 opt.num_class : {opt.num_class}')
+        # print(f'test.py validation 함수  인코드전 length_for_pred : {length_for_pred}')
+        # print(f'test.py validation 함수  인코드전 text_for_pred : {text_for_pred}')
+        # print(f'test.py validation 함수  인코드전 length_for_pred.shape : {length_for_pred.shape}')
+        # print(f'test.py validation 함수  인코드전 text_for_pred.shape : {text_for_pred.shape}')
+        #
+        # print(f'test.py validation 함수  인코드전 labels : {labels}')
+        # print(f'test.py validation 함수  인코드전 opt.batch_max_length num_class 수로 변경 : {opt.batch_max_length}')
 
         text_for_loss, length_for_loss = converter.encode(labels, batch_max_length=opt.batch_max_length)
-        print(f'test.py validation 함수  인코드후 text_for_loss : {text_for_loss}')
-        print(f'test.py validation 함수  인코드후  length_for_loss : {length_for_loss}')
-
-        print(f'test.py validation 함수  len(length_for_pred) : {len(length_for_pred)}')
-        print(f'test.py validation 함수  batch_size : {batch_size}')
-
-
-        print(f'test.py validation 함수  batch_size : {batch_size}')
-        print(f'test.py validation 함수  length_of_data : {length_of_data}')
-        print(f'test.py validation 함수  length_of_data: {length_of_data}')
-        print(f'test.py validation 함수  opt.batch_max_length: {opt.batch_max_length}')
-        print(f'test.py validation 함수  opt: {opt}')
-        print(f'test.py validation 함수  [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
+        # print(f'test.py validation 함수  인코드후 text_for_loss : {text_for_loss}')
+        # print(f'test.py validation 함수  인코드후  length_for_loss : {length_for_loss}')
+        #
+        # print(f'test.py validation 함수  len(length_for_pred) : {len(length_for_pred)}')
+        # print(f'test.py validation 함수  batch_size : {batch_size}')
+        #
+        #
+        # print(f'test.py validation 함수  batch_size : {batch_size}')
+        # print(f'test.py validation 함수  length_of_data : {length_of_data}')
+        # print(f'test.py validation 함수  length_of_data: {length_of_data}')
+        # print(f'test.py validation 함수  opt.batch_max_length: {opt.batch_max_length}')
+        # print(f'test.py validation 함수  opt: {opt}')
+        # print(f'test.py validation 함수  [opt.batch_max_length] * batch_size: {[opt.batch_max_length] * batch_size}')
 
         start_time = time.time()
         if 'CTC' in opt.Prediction:
             preds = model(image, text_for_pred)
-            print(
-                f'test.py validation 함수  preds = model(image, text_for_pred) image : {image }')
-            print(
-                f'test.py validation 함수  preds = model(image, text_for_pred)  image.shape: { image.shape}')
-            print(
-                f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
-            print(
-                f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
-            print(f'test.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
-            print(
-                f'test.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
+            # print(
+            #     f'test.py validation 함수  preds = model(image, text_for_pred) image : {image }')
+            # print(
+            #     f'test.py validation 함수  preds = model(image, text_for_pred)  image.shape: { image.shape}')
+            # print(
+            #     f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred: {text_for_pred}')
+            # print(
+            #     f'test.py validation 함수  preds = model(image, text_for_pred) text_for_pred.shape: {text_for_pred.shape}')
+            # print(f'test.py validation 함수  preds = model(image, text_for_pred) preds: {preds}')
+            # print(
+            #     f'test.py validation 함수  preds = model(image, text_for_pred) preds.shape: {preds.shape}')
             # # 첫 번째 시퀀스에서 첫 번째 위치에 대한 확률 분포
             # prob_distribution = preds[0, 0, :]
             #
@@ -291,7 +291,7 @@ def validation(model, criterion, evaluation_loader, converter, opt):
                 #     f'test.py validation 함수  converter.decode 반환 preds_size.data.shape  : {preds_size.data.shape}')
 
             preds_str = converter.decode(preds_index.data, preds_size.data)
-            print(f'test.py validation 함수  preds_str  : {preds_str}')
+            #print(f'test.py validation 함수  preds_str  : {preds_str}')
 
             # original_string = '¢สวัส¢ดี£'
             # normalized_string = original_string.encode('utf-8').decode('unicode-escape')
@@ -327,6 +327,10 @@ def validation(model, criterion, evaluation_loader, converter, opt):
         # calculate accuracy & confidence score
         preds_prob = F.softmax(preds, dim=2)
         preds_max_prob, _ = preds_prob.max(dim=2)
+
+        #print(f'#################### test.py preds_max_prob F.softmax : {preds_max_prob}')
+
+
         confidence_score_list = []
         for gt, pred, pred_max_prob in zip(labels, preds_str, preds_max_prob):
             if 'Attn' in opt.Prediction:
@@ -368,6 +372,7 @@ def validation(model, criterion, evaluation_loader, converter, opt):
             # calculate confidence score (= multiply of pred_max_prob)
             try:
                 confidence_score = pred_max_prob.cumprod(dim=0)[-1]
+                #print(f'test.py validation  confidence_score : {confidence_score}')
             except:
                 confidence_score = 0  # for empty pred case, when prune after "end of sentence" token ([s])
             confidence_score_list.append(confidence_score)
@@ -378,7 +383,7 @@ def validation(model, criterion, evaluation_loader, converter, opt):
 
     #print(f'test.py validation  labels : {labels}')
     print(f'test.py validation  len(labels) : {len(labels)}')
-    #print(f'test.py validation  preds_str : {preds_str}')
+    print(f'test.py validation  preds_str : {preds_str}')
     # print(f'test.py validation  valid_loss_avg.val() : {valid_loss_avg.val()}')
     # print(f'test.py validation  accuracy : {accuracy}')
     # print(f'test.py validation  norm_ED : {norm_ED}')

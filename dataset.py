@@ -275,6 +275,7 @@ def hierarchical_dataset(root, opt, select_data=''):
     dataset_list = []
 
     selected_d = 'th'
+    selected_d = 'vi'
 
     select_data=[selected_d]
 

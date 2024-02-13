@@ -2,12 +2,14 @@ import os
 import random
 import shutil
 
+lan = 'vi'
+
 # 원본 이미지 경로 및 gt.txt 파일 경로
 train_image_folder = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test\train\img'
 train_gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test\train\gt\gt.txt'
 
-train_image_folder = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\img'
-train_gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
+train_image_folder = fr'D:\deep-text-recognition-benchmark\data\{lan}\rect_invert\train\img'
+train_gt_file_path = fr'C:\Users\TAMSystech\yjh\ipynb\TextRecognitionDataGenerator\trdg\dicts\전체언어텍스트파일\{lan}\{lan}_gt.txt'
 
 # 대상 이미지 경로와 gt.txt 파일 저장 경로
 val_image_folder = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\test\val\img'
@@ -42,8 +44,8 @@ with open(train_gt_file_path, 'r', encoding='utf-8') as train_gt_file:
 
 
 # 원본 이미지 폴더에서 랜덤으로 선택한 파일을 검증 세트로 복사
-#for root, dirs, files in os.walk(train_image_folder):
-for root, dirs, files in os.walk(val_image_folder):
+for root, dirs, files in os.walk(train_image_folder):
+#for root, dirs, files in os.walk(val_image_folder):
 
     #print(f'root : {root}')
     #print(f'dirs : {dirs}')

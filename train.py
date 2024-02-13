@@ -1947,6 +1947,8 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/th/test/0116/train"
     opt.valid_data = "data_lmdb_release/ttf14/train"
     opt.train_data = "data_lmdb_release/ttf14/train"
+    opt.valid_data = "data_lmdb_release/vi/0201/rect_invert/val"
+    opt.train_data = "data_lmdb_release/vi/0201/rect_invert/train"
     # opt.valid_data = "data_lmdb_release/ttf15/val"
     # opt.train_data = "data_lmdb_release/ttf15/train"
     opt.imgH = 111.1

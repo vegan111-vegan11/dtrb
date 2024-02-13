@@ -72,6 +72,11 @@ output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchm
 input_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\ttf13\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 output_directory = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{lan}\test\ttf13\train\img\skew_angle(0.0)\blur(0.0)\NotoSansThaiLooped-Black'
 
+lan = 'vi'
+input_directory = fr'D:\deep-text-recognition-benchmark\data\{lan}\rect_invert\train\img'
+output_directory = fr'D:\deep-text-recognition-benchmark\data\{lan}\rect_invert_2\train\img'
+
+
 # 디렉토리 내의 모든 이미지 파일에 대해 크기 조정 적용
 for filename in os.listdir(input_directory):
     if filename.endswith(".jpg") or filename.endswith(".png"):

@@ -53,10 +53,15 @@
     "Python.bounding_rect4.executor": "Run",
     "Python.bounding_rect5.executor": "Run",
     "Python.bounding_rect7.executor": "Run",
+    "Python.compare_auto_man.executor": "Run",
     "Python.convert_img9.executor": "Run",
+    "Python.create_character.executor": "Run",
+    "Python.create_dict.executor": "Run",
     "Python.create_directory.executor": "Run",
     "Python.create_gt4.executor": "Run",
     "Python.create_gt5.executor": "Run",
+    "Python.create_gt_from_img4.executor": "Run",
+    "Python.create_gt_from_img6.executor": "Run",
     "Python.create_img5.executor": "Run",
     "Python.create_img6.executor": "Run",
     "Python.create_img9.executor": "Run",
@@ -77,6 +82,7 @@
     "Python.create_text_file3.executor": "Run",
     "Python.create_text_img3.executor": "Run",
     "Python.create_text_img4.executor": "Run",
+    "Python.create_val_data5.executor": "Run",
     "Python.dataset.executor": "Debug",
     "Python.delete_blank_line.executor": "Run",
     "Python.easyocr.executor": "Run",
@@ -88,6 +94,7 @@
     "Python.modify_img_size.executor": "Run",
     "Python.modify_img_size2.executor": "Run",
     "Python.modify_img_size3.executor": "Run",
+    "Python.modify_img_size4.executor": "Run",
     "Python.move_cursor.executor": "Run",
     "Python.ocr_test - 복사본.executor": "Run",
     "Python.ocr_test.executor": "Run",
@@ -95,6 +102,7 @@
     "Python.ocr_test3.executor": "Run",
     "Python.ocr_test4.executor": "Run",
     "Python.ocr_test5.executor": "Run",
+    "Python.opt_character.executor": "Run",
     "Python.recognition.executor": "Run",
     "Python.run_create_dataset10.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
@@ -108,7 +116,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/0111",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/modify_img_size",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -126,11 +134,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0111" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\modify_img_size" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0202\create_dict\vi" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt_from_img\val" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt_from_img\train" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_val_data" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\add_margin" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -462,7 +470,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dataset.py</url>
-          <line>615</line>
+          <line>616</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
