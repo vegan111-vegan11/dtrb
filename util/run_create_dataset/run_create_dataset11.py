@@ -10,12 +10,18 @@ cmd = []
 cmds = []
 split_ratio = 0.8
 lan = 'th'
+lan = 'vi_all'
 
 def find_last_directory_with_jpg(directory_path, base_path):
     last_directory_with_jpg = None
-
+    print(fr'find_last_directory_with_jpg directory_path : {directory_path}')
     for dirpath, dirnames, filenames in os.walk(directory_path):
+        print(fr'find_last_directory_with_jpg dirpath : {dirpath}')
+        print(fr'find_last_directory_with_jpg dirnames : {dirnames}')
+        print(fr'find_last_directory_with_jpg filenames : {filenames}')
+
         if any(filename.lower().endswith('.jpg') for filename in filenames):
+                print(fr'jpg 파일 있음 filename : { filenames }')
         # for filename in filenames:
         #     if filename.lower().endswith('.jpg'):
                 # 만약 확장자가 '.jpg'로 끝난다면, 원하는 작업을 수행
@@ -148,7 +154,7 @@ def find_last_directory_with_jpg(directory_path, base_path):
                 # print(f' cmd_str : {cmd_str}')
                 cmds.append(cmd_str)
                 subprocess.run(cmd)
-    return cmds
+    return cmd
 
 
 # 사용 예시
@@ -180,7 +186,10 @@ img_folder =  'test/val'
 img_folder =  'test/0115/train'
 
 lan = 'th'
+lan = 'vi'
+lan = 'la'
 lan = 'vi_all'
+lan = 'la2'
 img_folder =  fr'{lan}/test/0115/val'
 img_folder =  fr'{lan}/test/0115/train'
 img_folder =  fr'{lan}/test/0115'
@@ -189,12 +198,19 @@ img_folder =  fr'{lan}/test/0115_3'
 img_folder =  fr'{lan}/test/0116'
 img_folder =  fr'{lan}/test/ttf13'
 img_folder =  fr'{lan}/test/0118'
+img_folder =  fr'{lan}/test/0118'
+img_folder =  fr'{lan}/rect_invert'
+img_folder =  fr'{lan}/rect_invert_2'
 img_folder =  fr'{lan}/rect_invert'
 #img_folder =  'test/0115/train'
 #img_folder =  'test/train'
 
 directory_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
 base_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
+directory_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
+base_path = fr'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\{img_folder}'
+directory_path = fr'D:\deep-text-recognition-benchmark\data\{img_folder}'
+base_path = fr'D:\deep-text-recognition-benchmark\data\{img_folder}'
 
 cmd = find_last_directory_with_jpg(directory_path, base_path)
 # 결과 출력

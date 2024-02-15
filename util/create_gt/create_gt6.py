@@ -3,11 +3,13 @@ import os
 lan = "베트남어"
 lan = "vi"
 lan = "la"
+lan = "vi_all"
 # 입력 파일 경로
 input_file_path = fr'C:\Users\TAMSystech\yjh\text_file\전체 언어 텍스트 파일\ttf3\common\{lan}_빈문자열 제거.txt'
 input_file_path = fr'C:\Users\TAMSystech\yjh\text_file\전체 언어 텍스트 파일\ttf3\common\{lan}_빈문자열 제거.txt'
 input_file_path = fr'C:\Users\TAMSystech\yjh\ipynb\TextRecognitionDataGenerator\trdg\dicts\전체언어텍스트파일\vi\{lan}_빈문자열 제거.txt'
 input_file_path = fr'C:\Users\TAMSystech\yjh\text_file\전체 언어 텍스트 파일\ttf3\common\{lan}.txt'
+input_file_path = fr'C:\Users\TAMSystech\yjh\text_file\전체 언어 텍스트 파일\ttf3\common\{lan}\{lan}.txt'
 
 # 출력 파일 경로
 output_file_path = os.path.join(os.path.dirname(input_file_path), fr'{lan}_gt.txt')

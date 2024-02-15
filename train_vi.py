@@ -245,6 +245,7 @@ def train(opt):
     selected_d = 'JH3'
     selected_d = 'th'
     selected_d = 'vi'
+    selected_d = 'latin'
     # selected_d = 'ttf'
     # print(f'==============밸리드도 나는 트레인으로 일단 하기로 selected_d : {selected_d}')
 
@@ -1840,7 +1841,7 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=120000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=300000, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
    # parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
@@ -1983,8 +1984,20 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/vi/0201/rect_invert/train"
     opt.valid_data = "data_lmdb_release/vi/0201/rect_invert_2/val"
     opt.train_data = "data_lmdb_release/vi/0201/rect_invert_2/train"
+    opt.valid_data = "data_lmdb_release/latin/rect_invert_2/val"
+    opt.train_data = "data_lmdb_release/latin/rect_invert_2/train"
+    opt.valid_data = "data_lmdb_release/latin/rect_invert/val"
+    opt.train_data = "data_lmdb_release/latin/rect_invert/train"
+    opt.valid_data = "data_lmdb_release/latin/val"
+    opt.train_data = "data_lmdb_release/latin/train"
+    opt.valid_data = "data_lmdb_release/vi/0201/rect_invert_2/val"
+    opt.train_data = "data_lmdb_release/vi/0201/rect_invert_2/train"
     # opt.valid_data = "data_lmdb_release/ttf15/val"
     # opt.train_data = "data_lmdb_release/ttf15/train"
+    opt.imgH = 111.1
+    opt.imgW = 141.1
+    opt.imgH = 236
+    opt.imgW = 564
     opt.imgH = 111.1
     opt.imgW = 141.1
     # opt.valid_data = "data_lmdb_release/ttf15/val"
@@ -2007,7 +2020,11 @@ if __name__ == '__main__':
     opt.batch_ratio = "0.5"
     opt.total_data_usage_ratio = "0.5"
     opt.batch_ratio = "0.2"
+    opt.batch_ratio = "0.5"
     opt.total_data_usage_ratio = "0.2"
+    opt.total_data_usage_ratio = "0.5"
+    opt.batch_ratio = "1.0"
+    opt.total_data_usage_ratio = "1.0"
     # opt.total_data_usage_ratio = "1"
     # opt.batch_ratio = "1"
     opt.PAD = True
