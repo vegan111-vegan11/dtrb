@@ -49,7 +49,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.3th.executor": "Run",
+    "Python.3th_2.executor": "Run",
+    "Python.3th_3.executor": "Run",
+    "Python.3th_4.executor": "Run",
+    "Python.3th_5.executor": "Run",
+    "Python.3th_6.executor": "Run",
+    "Python.3th_7.executor": "Run",
+    "Python.3th_8.executor": "Run",
+    "Python.3th_8_2.executor": "Run",
+    "Python.5th.executor": "Run",
+    "Python.5th_2.executor": "Run",
+    "Python.5th_3.executor": "Run",
     "Python.add_margin3.executor": "Run",
+    "Python.black_background_kernel_3_2.executor": "Run",
+    "Python.black_background_margin_kernel_3.executor": "Run",
     "Python.bounding_rect4.executor": "Run",
     "Python.bounding_rect5.executor": "Run",
     "Python.bounding_rect7.executor": "Run",
@@ -99,7 +113,12 @@
     "Python.graph2_1.executor": "Run",
     "Python.graph3.executor": "Run",
     "Python.graph4.executor": "Run",
+    "Python.graph4_2.executor": "Run",
+    "Python.hm.executor": "Run",
+    "Python.hs.executor": "Run",
+    "Python.hs2.executor": "Run",
     "Python.image_processiong.executor": "Run",
+    "Python.make_excel_file.executor": "Run",
     "Python.modify_img_convert.executor": "Run",
     "Python.modify_img_size.executor": "Run",
     "Python.modify_img_size2.executor": "Run",
@@ -126,7 +145,12 @@
     "Python.pre_processioing13_되는거6.executor": "Run",
     "Python.pre_processioing13_되는거6_2배.executor": "Run",
     "Python.pre_processioing13_되는거7.executor": "Run",
+    "Python.pre_processioing13_되는거7_2분의1.executor": "Run",
     "Python.pre_processioing13_되는거8.executor": "Run",
+    "Python.pre_processioing14.executor": "Run",
+    "Python.pre_processioing15.executor": "Run",
+    "Python.pre_processioing16.executor": "Run",
+    "Python.pre_processioing17.executor": "Run",
     "Python.pre_processioing2.executor": "Run",
     "Python.pre_processioing3.executor": "Run",
     "Python.pre_processioing4.executor": "Run",
@@ -147,10 +171,20 @@
     "Python.test_0111.executor": "Run",
     "Python.test_0129.executor": "Run",
     "Python.train.executor": "Run",
+    "Python.white_background_1410_1110_2_kernel_3.executor": "Run",
+    "Python.white_background_1410_1110_2_rect_2_kernel_3.executor": "Run",
+    "Python.white_background_1410_1110_4_filter_kernel_3.executor": "Run",
+    "Python.white_background_1410_1110_8_kernel_3.executor": "Run",
+    "Python.white_background_1800_760_2_kernel_3.executor": "Run",
+    "Python.white_background_1800_760_kernel_3.executor": "Run",
+    "Python.white_background_kernel_3.executor": "Run",
+    "Python.white_background_kernel_3_원본_size_1.executor": "Run",
+    "Python.white_background_kernel_3_원본_size_2.executor": "Run",
+    "Python.white_background_kernel_5_7_9.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/0214/graph/0110/2",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/0214/graph/th/scatter",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -168,11 +202,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\0110\2" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\0110\1" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\vi_all" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\scatter" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\3th" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\pre_processing" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\0110" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -526,10 +560,6 @@
           <url>file://$PROJECT_DIR$/util/create_img_from_excel/create_img_from_exel5_되는거_backup.py</url>
           <line>131</line>
           <option name="timeStamp" value="153" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/util/test/0214/graph/0110/1/pre_processioing3.py</url>
-          <option name="timeStamp" value="154" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
