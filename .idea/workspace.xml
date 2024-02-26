@@ -71,6 +71,7 @@
     "Python.compare_auto_man.executor": "Run",
     "Python.convert_img10.executor": "Run",
     "Python.convert_img9.executor": "Run",
+    "Python.count_file.executor": "Run",
     "Python.create_character.executor": "Run",
     "Python.create_dict.executor": "Run",
     "Python.create_directory.executor": "Run",
@@ -119,6 +120,16 @@
     "Python.hs2.executor": "Run",
     "Python.image_processiong.executor": "Run",
     "Python.make_excel_file.executor": "Run",
+    "Python.make_exel_stat.executor": "Run",
+    "Python.make_exel_stat2.executor": "Run",
+    "Python.make_exel_stat3.executor": "Run",
+    "Python.make_exel_stat4.executor": "Run",
+    "Python.model_1.executor": "Run",
+    "Python.model_2.executor": "Run",
+    "Python.model_3.executor": "Run",
+    "Python.model_4.executor": "Run",
+    "Python.model_5.executor": "Run",
+    "Python.model_6.executor": "Run",
     "Python.modify_img_convert.executor": "Run",
     "Python.modify_img_size.executor": "Run",
     "Python.modify_img_size2.executor": "Run",
@@ -160,16 +171,48 @@
     "Python.pre_processioing8.executor": "Run",
     "Python.pre_processioing9.executor": "Run",
     "Python.print_dict.executor": "Run",
+    "Python.print_exel_data.executor": "Run",
     "Python.recognition.executor": "Run",
     "Python.run_create_dataset10.executor": "Run",
     "Python.run_create_dataset11.executor": "Run",
+    "Python.run_create_dataset12.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
     "Python.run_create_dataset7.executor": "Run",
     "Python.run_create_dataset8.executor": "Run",
     "Python.run_create_dataset9.executor": "Run",
+    "Python.stat.executor": "Run",
+    "Python.stat10.executor": "Run",
+    "Python.stat11.executor": "Run",
+    "Python.stat12.executor": "Run",
+    "Python.stat13.executor": "Run",
+    "Python.stat14.executor": "Run",
+    "Python.stat2.executor": "Run",
+    "Python.stat3.executor": "Run",
+    "Python.stat4.executor": "Run",
+    "Python.stat5.executor": "Run",
+    "Python.stat6.executor": "Run",
+    "Python.stat7.executor": "Run",
+    "Python.stat8.executor": "Run",
+    "Python.stat9.executor": "Run",
     "Python.test.executor": "Run",
     "Python.test_0111.executor": "Run",
     "Python.test_0129.executor": "Run",
+    "Python.total)3.executor": "Run",
+    "Python.total)_10.executor": "Run",
+    "Python.total)_11.executor": "Run",
+    "Python.total)_12.executor": "Run",
+    "Python.total)_4.executor": "Run",
+    "Python.total)_5.executor": "Run",
+    "Python.total)_6.executor": "Run",
+    "Python.total)_7.executor": "Run",
+    "Python.total)_8.executor": "Run",
+    "Python.total)_9.executor": "Run",
+    "Python.total.executor": "Run",
+    "Python.total2.executor": "Run",
+    "Python.total3.executor": "Run",
+    "Python.total4.executor": "Run",
+    "Python.total5.executor": "Run",
+    "Python.total_2.executor": "Run",
     "Python.train.executor": "Run",
     "Python.white_background_1410_1110_2_kernel_3.executor": "Run",
     "Python.white_background_1410_1110_2_rect_2_kernel_3.executor": "Run",
@@ -184,7 +227,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/0214/graph/th/scatter",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/run_create_dataset",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -202,11 +245,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\scatter" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\3th" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\pre_processing" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th\0110" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\th" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\model\1" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\model\total" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0222\make_exel_stat\model" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0222\make_exel_stat" />
     </key>
   </component>
   <component name="SharedIndexes">
