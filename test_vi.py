@@ -601,8 +601,14 @@ if __name__ == '__main__':
     parser.add_argument('--saved_model', required=False, help="path to saved_model to evaluation")
     """ Data processing """
     parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
-    parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
-    parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
+    # parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
+    # parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
+    # parser.add_argument('--imgH', type=int, default=158, help='the height of the input image')
+    # parser.add_argument('--imgW', type=int, default=436, help='the width of the input image')
+    # parser.add_argument('--imgH', type=int, default=316, help='the height of the input image')
+    # parser.add_argument('--imgW', type=int, default=872, help='the width of the input image')
+    parser.add_argument('--imgH', type=int, default=111, help='the height of the input image')
+    parser.add_argument('--imgW', type=int, default=141, help='the width of the input image')
     parser.add_argument('--rgb', action='store_true', help='use rgb input')
     parser.add_argument('--character', type=str, default='0123456789abcdefghijklmnopqrstuvwxyz', help='character label')
     parser.add_argument('--sensitive', action='store_true', help='for sensitive character mode')
@@ -644,6 +650,7 @@ if __name__ == '__main__':
     opt.SequenceModeling = "BiLSTM"
     opt.Prediction = "CTC"
     opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images"
+    opt.eval_data = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\test_images\vi\test3"
     opt.saved_model = fr"C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\CRAFT-pytorch-master\model\model.pth"
 
     # 수정된 파일 경로 예시

@@ -78,6 +78,7 @@
     "Python.create_gt4.executor": "Run",
     "Python.create_gt5.executor": "Run",
     "Python.create_gt6.executor": "Run",
+    "Python.create_gt7.executor": "Run",
     "Python.create_gt_from_img4.executor": "Run",
     "Python.create_gt_from_img6.executor": "Run",
     "Python.create_img5.executor": "Run",
@@ -95,6 +96,7 @@
     "Python.create_img_long8.executor": "Run",
     "Python.create_img_long9.executor": "Run",
     "Python.create_img_long910.executor": "Run",
+    "Python.create_img_long911.executor": "Run",
     "Python.create_long_line.executor": "Run",
     "Python.create_text_file.executor": "Run",
     "Python.create_text_file2.executor": "Run",
@@ -104,6 +106,7 @@
     "Python.create_val_data5.executor": "Run",
     "Python.create_val_data6.executor": "Run",
     "Python.dataset.executor": "Debug",
+    "Python.del_blank)line.executor": "Run",
     "Python.delete_blank_line.executor": "Run",
     "Python.easyocr.executor": "Run",
     "Python.easyocr_test3.executor": "Run",
@@ -176,6 +179,7 @@
     "Python.run_create_dataset10.executor": "Run",
     "Python.run_create_dataset11.executor": "Run",
     "Python.run_create_dataset12.executor": "Run",
+    "Python.run_create_dataset13.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
     "Python.run_create_dataset7.executor": "Run",
     "Python.run_create_dataset8.executor": "Run",
@@ -246,10 +250,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\model\1" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0214\graph\model\total" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0222\make_exel_stat\model" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\0222\make_exel_stat" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\es" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt\es" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_val_data\es" />
     </key>
   </component>
   <component name="SharedIndexes">
