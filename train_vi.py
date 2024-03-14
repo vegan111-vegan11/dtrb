@@ -1992,6 +1992,9 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/latin/train"
     opt.valid_data = "data_lmdb_release/vi/0201/rect_invert_2/val"
     opt.train_data = "data_lmdb_release/vi/0201/rect_invert_2/train"
+    lan = 'es'
+    opt.valid_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\rect_invert\val"
+    opt.train_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\rect_invert\train"
     # opt.valid_data = "data_lmdb_release/ttf15/val"
     # opt.train_data = "data_lmdb_release/ttf15/train"
     opt.imgH = 111.1

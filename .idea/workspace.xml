@@ -68,6 +68,7 @@
     "Python.bounding_rect5.executor": "Run",
     "Python.bounding_rect7.executor": "Run",
     "Python.bounding_rect8.executor": "Run",
+    "Python.bounding_rect82.executor": "Run",
     "Python.compare_auto_man.executor": "Run",
     "Python.convert_img10.executor": "Run",
     "Python.convert_img9.executor": "Run",
@@ -79,6 +80,8 @@
     "Python.create_gt5.executor": "Run",
     "Python.create_gt6.executor": "Run",
     "Python.create_gt7.executor": "Run",
+    "Python.create_gt8.executor": "Run",
+    "Python.create_gt9.executor": "Run",
     "Python.create_gt_from_img4.executor": "Run",
     "Python.create_gt_from_img6.executor": "Run",
     "Python.create_img5.executor": "Run",
@@ -97,6 +100,7 @@
     "Python.create_img_long9.executor": "Run",
     "Python.create_img_long910.executor": "Run",
     "Python.create_img_long911.executor": "Run",
+    "Python.create_img_long912.executor": "Run",
     "Python.create_long_line.executor": "Run",
     "Python.create_text_file.executor": "Run",
     "Python.create_text_file2.executor": "Run",
@@ -105,8 +109,11 @@
     "Python.create_text_img4.executor": "Run",
     "Python.create_val_data5.executor": "Run",
     "Python.create_val_data6.executor": "Run",
+    "Python.creator_character_opt.executor": "Run",
     "Python.dataset.executor": "Debug",
     "Python.del_blank)line.executor": "Run",
+    "Python.del_blank_lin_cmp.executor": "Run",
+    "Python.del_blank_lin_cmp2.executor": "Run",
     "Python.delete_blank_line.executor": "Run",
     "Python.easyocr.executor": "Run",
     "Python.easyocr_test3.executor": "Run",
@@ -175,11 +182,17 @@
     "Python.pre_processioing9.executor": "Run",
     "Python.print_dict.executor": "Run",
     "Python.print_exel_data.executor": "Run",
+    "Python.print_file_size.executor": "Run",
+    "Python.print_file_size2.executor": "Run",
+    "Python.print_file_size3.executor": "Run",
     "Python.recognition.executor": "Run",
     "Python.run_create_dataset10.executor": "Run",
     "Python.run_create_dataset11.executor": "Run",
     "Python.run_create_dataset12.executor": "Run",
     "Python.run_create_dataset13.executor": "Run",
+    "Python.run_create_dataset14.executor": "Run",
+    "Python.run_create_dataset15.executor": "Run",
+    "Python.run_create_dataset16.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
     "Python.run_create_dataset7.executor": "Run",
     "Python.run_create_dataset8.executor": "Run",
@@ -218,6 +231,8 @@
     "Python.total5.executor": "Run",
     "Python.total_2.executor": "Run",
     "Python.train.executor": "Run",
+    "Python.train_es.executor": "Run",
+    "Python.union_doc.executor": "Run",
     "Python.white_background_1410_1110_2_kernel_3.executor": "Run",
     "Python.white_background_1410_1110_2_rect_2_kernel_3.executor": "Run",
     "Python.white_background_1410_1110_4_filter_kernel_3.executor": "Run",
@@ -231,7 +246,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/run_create_dataset",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/create_character/en",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -249,11 +264,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\create_character\en" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\create_character_opt\en" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\count_file\en" />
       <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\es" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt\es" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_val_data\es" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt_from_img\en" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -585,7 +600,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dataset.py</url>
-          <line>616</line>
+          <line>620</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -607,6 +622,16 @@
           <url>file://$PROJECT_DIR$/util/create_img_from_excel/create_img_from_exel5_되는거_backup.py</url>
           <line>131</line>
           <option name="timeStamp" value="153" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/util/create_img_long/ko/create_img_long912.py</url>
+          <line>32</line>
+          <option name="timeStamp" value="155" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/util/create_img_long/en/create_img_long912.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="156" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

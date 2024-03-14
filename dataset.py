@@ -14,7 +14,9 @@ from torch._utils import _accumulate
 import torchvision.transforms as transforms
 import datetime
 import random
-
+lan = 'pt'
+lan = 'ko'
+lan = 'en'
 get_batch_cnt = 0
 class Batch_Balanced_Dataset(object):
 
@@ -276,12 +278,14 @@ def hierarchical_dataset(root, opt, select_data=''):
 
     selected_d = 'th'
     selected_d = 'vi'
+    selected_d = 'es'
+    selected_d = lan
 
     select_data=[selected_d]
 
-    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ root : {root}')
-    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data : {select_data}')
-    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ select_data[0] : {select_data[0]}')
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ dataset.py hierarchical_dataset root : {root}')
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ dataset.py hierarchical_dataset select_data : {select_data}')
+    print(f'@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ dataset.py hierarchical_dataset select_data[0] : {select_data[0]}')
 
     dataset_log = f'dataset_root:    {root}\t dataset: {select_data[0]}'
     print(dataset_log)
