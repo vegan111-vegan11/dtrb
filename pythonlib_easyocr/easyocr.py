@@ -1,0 +1,905 @@
+# -*- coding: utf-8 -*-
+print(r'@@@@@@@@@@@@@@@@@@=======================D:\pythonlib\easyocr\easyocr.py')
+from .recognition import get_recognizer, get_text
+from .utils import group_text_box, get_image_list, calculate_md5, get_paragraph, \
+    download_and_unzip, printProgressBar, diff, reformat_input, \
+    make_rotated_img_list, set_result_with_confidence, \
+    reformat_input_batched, merge_to_free
+from .config import *
+from bidi.algorithm import get_display
+import numpy as np
+import cv2
+import torch
+import os
+import sys
+from PIL import Image
+from logging import getLogger
+import yaml
+import json
+
+lan = 'th'
+
+current_path = os.path.abspath(os.path.dirname(__file__))
+print(current_path)
+print(fr'current_path : {current_path}')
+
+import os
+
+current_path = os.path.abspath(__file__)
+directory, filename = os.path.split(current_path)
+
+print("Directory:", directory)
+print("Filename:", filename)
+
+
+LOGGER = getLogger(__name__)
+
+
+class Reader(object):
+
+    def __init__(self, lang_list, gpu=True, model_storage_directory=None,
+                 user_network_directory=None, detect_network="craft",
+                 recog_network='standard', download_enabled=True,
+                 detector=True, recognizer=True, verbose=True,
+                 quantize=True, cudnn_benchmark=False):
+
+        current_path = os.path.abspath(os.path.dirname(__file__))
+        print(current_path)
+        print(f'current_path Reader __init__ : {current_path}')
+
+        model_storage_directory = fr'D:\pythonlib\model'
+
+        self.detect_network = detect_network
+        self.recog_network = recog_network
+        self.download_enabled = download_enabled
+        self.detector = detector
+        self.recognizer = recognizer
+        self.cudnn_benchmark = cudnn_benchmark
+        self.model_storage_directory = model_storage_directory
+
+        """Create an EasyOCR Reader
+
+        Parameters:
+            lang_list (list): Language codes (ISO 639) for languages to be recognized during analysis.
+
+            gpu (bool): Enable GPU support (default)
+
+            model_storage_directory (string): Path to directory for model data. If not specified,
+            models will be read from a directory as defined by the environment variable
+            EASYOCR_MODULE_PATH (preferred), MODULE_PATH (if defined), or ~/.EasyOCR/.
+
+            user_network_directory (string): Path to directory for custom network architecture.
+            If not specified, it is as defined by the environment variable
+            EASYOCR_MODULE_PATH (preferred), MODULE_PATH (if defined), or ~/.EasyOCR/.
+
+            download_enabled (bool): Enabled downloading of model data via HTTP (default).
+        """
+        self.verbose = verbose
+        self.download_enabled = download_enabled
+
+        MODULE_PATH = fr'D:\pythonlib'
+
+        self.model_storage_directory = MODULE_PATH + '/model/'
+        self.user_network_directory = MODULE_PATH + '/user_network/'
+
+        print(fr'current_path MODULE_PATH: {current_path} {MODULE_PATH}')
+        print(fr'current_path self.model_storage_directory : {current_path} {self.model_storage_directory}')
+        print(fr'current_path self.user_network_directory : {current_path} {self.user_network_directory}')
+
+        #MODULE_PATH = fr'D:\pythonlib'
+
+        print(fr'current_path MODULE_PATH 변경후 : {current_path} {MODULE_PATH}')
+        print(fr'current_path self.model_storage_directory 변경후 : {current_path} {self.model_storage_directory}')
+        print(fr'current_path self.user_network_directory 변경후 : {current_path} {self.user_network_directory}')
+
+        if gpu is False:
+            self.device = 'cpu'
+            if verbose:
+                LOGGER.warning('Using CPU. Note: This module is much faster with a GPU.')
+        elif gpu is True:
+            if torch.cuda.is_available():
+                self.device = 'cuda'
+            elif torch.backends.mps.is_available():
+                self.device = 'mps'
+            else:
+                self.device = 'cpu'
+                if verbose:
+                    LOGGER.warning(
+                        'Neither CUDA nor MPS are available - defaulting to CPU. Note: This module is much faster with a GPU.')
+        else:
+            self.device = gpu
+
+        self.detection_models = detection_models
+        self.recognition_models = recognition_models
+
+        # check and download detection model
+        self.support_detection_network = ['craft', 'dbnet18']
+        self.quantize = quantize,
+        self.cudnn_benchmark = cudnn_benchmark
+        if detector:
+            detector_path = self.getDetectorPath(detect_network)
+
+            print(fr'detect_network : {current_path} {detect_network}')
+
+            print(fr'detector_path : {current_path} {detector_path}')
+
+        # recognition model
+        separator_list = {}
+
+        print(fr'Reader recog_network : {current_path} {recog_network}')
+
+        if recog_network in ['standard'] + [model for model in recognition_models['gen1']] + [model for model in
+                                                                                              recognition_models[
+                                                                                                  'gen2']]:
+
+            if recog_network in [model for model in recognition_models['gen1']]:
+                model = recognition_models['gen1'][recog_network]
+                recog_network = 'generation1'
+                self.model_lang = model['model_script']
+
+
+            elif recog_network in [model for model in recognition_models['gen2']]:
+                model = recognition_models['gen2'][recog_network]
+                recog_network = 'generation2'
+                self.model_lang = model['model_script']
+
+            else:  # auto-detect
+                unknown_lang = set(lang_list) - set(all_lang_list)
+                if unknown_lang != set():
+                    raise ValueError(unknown_lang, 'is not supported')
+                # choose recognition model
+                print(fr'current_path lang_list : {current_path} {lang_list}')
+                if lang_list == ['en']:
+                    self.setModelLanguage('english', lang_list, ['en'], '["en"]')
+                    model = recognition_models['gen2']['english_g2']
+                    recog_network = 'generation2'
+                    print(fr'current_path model lang_list en : {current_path} {model}')
+                    print(fr'current_path recog_network lang_list en : {current_path} {recog_network}')
+                elif 'th' in lang_list:
+                    self.setModelLanguage('thai', lang_list, ['th', 'en'], '["th","en"]')
+                    model = recognition_models['gen1']['thai_g1']
+                    recog_network = 'generation1'
+
+                    print(fr' 타이일때 recog_network : {recog_network}')
+
+                    md5s = model['md5sum']
+
+
+                elif 'ch_tra' in lang_list:
+                    self.setModelLanguage('chinese_tra', lang_list, ['ch_tra', 'en'], '["ch_tra","en"]')
+                    model = recognition_models['gen1']['zh_tra_g1']
+                    recog_network = 'generation1'
+                elif 'ch_sim' in lang_list:
+                    self.setModelLanguage('chinese_sim', lang_list, ['ch_sim', 'en'], '["ch_sim","en"]')
+                    model = recognition_models['gen2']['zh_sim_g2']
+                    recog_network = 'generation2'
+                elif 'ja' in lang_list:
+                    self.setModelLanguage('japanese', lang_list, ['ja', 'en'], '["ja","en"]')
+                    model = recognition_models['gen2']['japanese_g2']
+                    recog_network = 'generation2'
+                elif 'ko' in lang_list:
+                    self.setModelLanguage('korean', lang_list, ['ko', 'en'], '["ko","en"]')
+                    model = recognition_models['gen2']['korean_g2']
+                    recog_network = 'generation2'
+                elif 'ta' in lang_list:
+                    self.setModelLanguage('tamil', lang_list, ['ta', 'en'], '["ta","en"]')
+                    model = recognition_models['gen1']['tamil_g1']
+                    recog_network = 'generation1'
+                elif 'te' in lang_list:
+                    self.setModelLanguage('telugu', lang_list, ['te', 'en'], '["te","en"]')
+                    model = recognition_models['gen2']['telugu_g2']
+                    recog_network = 'generation2'
+                elif 'kn' in lang_list:
+                    self.setModelLanguage('kannada', lang_list, ['kn', 'en'], '["kn","en"]')
+                    model = recognition_models['gen2']['kannada_g2']
+                    recog_network = 'generation2'
+                elif set(lang_list) & set(bengali_lang_list):
+                    self.setModelLanguage('bengali', lang_list, bengali_lang_list + ['en'], '["bn","as","en"]')
+                    model = recognition_models['gen1']['bengali_g1']
+                    recog_network = 'generation1'
+                elif set(lang_list) & set(arabic_lang_list):
+                    self.setModelLanguage('arabic', lang_list, arabic_lang_list + ['en'], '["ar","fa","ur","ug","en"]')
+                    model = recognition_models['gen1']['arabic_g1']
+                    recog_network = 'generation1'
+                elif set(lang_list) & set(devanagari_lang_list):
+                    self.setModelLanguage('devanagari', lang_list, devanagari_lang_list + ['en'],
+                                          '["hi","mr","ne","en"]')
+                    model = recognition_models['gen1']['devanagari_g1']
+                    recog_network = 'generation1'
+                elif set(lang_list) & set(cyrillic_lang_list):
+                    self.setModelLanguage('cyrillic', lang_list, cyrillic_lang_list + ['en'],
+                                          '["ru","rs_cyrillic","be","bg","uk","mn","en"]')
+                    model = recognition_models['gen2']['cyrillic_g2']
+                    recog_network = 'generation2'
+                else:
+                    self.model_lang = 'latin'
+                    model = recognition_models['gen2']['latin_g2']
+                    recog_network = 'generation2'
+            self.character = model['characters']
+            print(fr'current_path model : {current_path} {model}')
+            print(fr'current_path self.character : {current_path} {self.character}')
+
+            model_path = os.path.join(self.model_storage_directory, model['filename'])
+            print(fr'current_path self.model_storage_directory : {current_path} {self.model_storage_directory}')
+
+            model_filename = model['filename']
+            model_url = model['url']
+            model_md5sum = model['md5sum']
+            print(fr'current_path recognizer : {current_path} {recognizer}')
+            print(fr'current_path model_path : {current_path} {model_path}')
+            print(fr'current_path os.path.isfile(model_path) : {current_path} {os.path.isfile(model_path)}')
+            print(fr'current_path model_url : {current_path} {model_url}')
+            print(fr'current_path model_filename : {current_path} {model_filename}')
+            print(fr'current_path self.model_storage_directory) : {current_path} {self.model_storage_directory}')
+            print(fr'current_path calculate_md5(model_path) : {current_path} {calculate_md5(model_path)}')
+            print(fr'current_path model_md5sum : {current_path} {model_md5sum}')
+            if recognizer:
+
+                if os.path.isfile(model_path) == False:
+
+                    if not self.download_enabled:
+                        raise FileNotFoundError("Missing %s and downloads disabled" % model_path)
+                    LOGGER.warning('Downloading recognition model, please wait. '
+                                   'This may take several minutes depending upon your network connection.')
+                    download_and_unzip(model['url'], model['filename'], self.model_storage_directory, verbose)
+
+                    corrupt_msg = '커럽 메세지'
+
+                    assert calculate_md5(model_path) == model['md5sum'], corrupt_msg
+
+                    LOGGER.info('Download complete.')
+
+                elif calculate_md5(model_path) != model['md5sum']:
+
+                    if not self.download_enabled:
+                        raise FileNotFoundError("MD5 mismatch for %s and downloads disabled" % model_path)
+
+                    corrupt_msg = '커럽 메세지'
+
+                    LOGGER.warning(corrupt_msg)
+                    os.remove(model_path)
+                    LOGGER.warning('Re-downloading the recognition model, please wait. '
+                                   'This may take several minutes depending upon your network connection.')
+
+                    file_name = model['filename']
+
+                    download_and_unzip(model['url'], model['filename'], self.model_storage_directory, verbose)
+
+                    assert calculate_md5(model_path) == model['md5sum'], corrupt_msg
+
+                    LOGGER.info('Download complete')
+            self.setLanguageList(lang_list, model)
+
+        else:  # user-defined model
+
+            print(fr'user-defined model!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! : {current_path}')
+
+            # yaml_file_path = self.user_network_directory + recog_network + '.yaml'
+            # yaml_file_path = self.user_network_directory + 'custom' + '.yaml'
+            #yaml_file_path = fr'{self.user_network_directory}/custom_{lan}.yaml '
+            #yaml_file_path = self.user_network_directory + 'custom' + '_th.yaml'
+            yaml_file_path = self.user_network_directory + 'custom' + '.yaml'
+
+            print(fr'yaml_file_path : {current_path} {yaml_file_path}')
+
+            with open(yaml_file_path, encoding='utf8') as file:
+                # 파일 내용을 읽는 코드 작성
+                recog_config = yaml.load(file, Loader=yaml.FullLoader)
+
+            global imgH  # if custom model, save this variable. (from *.yaml)
+            if recog_config['imgH']:
+                imgH = recog_config['imgH']
+                print(fr'Reader imgH : {current_path} {imgH}')
+
+            imgH = 114
+            imgH = 1410
+            imgH = 114
+
+            #imgH = 64
+            #imgH = 64
+            #imgH = 214
+            print(fr'Reader imgH 임의로 바꿈 : {current_path} {imgH}')
+
+
+            available_lang = recog_config['lang_list']
+            print(fr'available_lang : {current_path} {available_lang}')
+
+            self.setModelLanguage(recog_network, lang_list, available_lang, str(available_lang))
+            print(fr'self.setModelLanguage : {current_path} {self.setModelLanguage}')
+
+            # char_file = os.path.join(self.user_network_directory, recog_network+ '.txt')
+            self.character = recog_config['character_list']
+            print(fr'self.character : {current_path} {self.character}')
+
+            # self.character = '¢£¤¥!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙\\✓'
+            # self.character = '¢£¤¥!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓'
+            # ¢£¤¥!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓
+            # self.character = 'hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓¢£¤¥!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefg'
+            # self.character = '''¢£¤¥!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓
+            # '''
+            model_file = recog_network + '.pth'
+            print(fr'self.model_file : {current_path} {model_file}')
+
+            model_path = os.path.join(self.user_network_directory, model_file)
+            model_path = fr'D:\dtrb\saved_models\None-VGG-BiLSTM-CTC-Seed1111\03-20\best_valid_loss_2024-03-20_09-48-22_0.1246_1000.pth'
+            model_path = fr'D:\pythonlib\user_network\None_VGG_BiLSTM_CTC_th2.pth'
+            #model_path = fr'D:\dtrb\saved_models\None-VGG-BiLSTM-CTC-Seed1111\03-19\best_prediction_accuracy_2023-12-29_18-24-39_0.5000_1.pth'
+            print(fr'self.elf.user_network_directory : {current_path} {self.user_network_directory}')
+            print(fr'self.model_path : {current_path} {model_path}')
+
+            self.setLanguageList(lang_list, recog_config)
+            print(fr'self.lang_list : {current_path} {lang_list}')
+
+        dict_list = {}
+        for lang in lang_list:
+            dict_list[lang] = os.path.join(BASE_PATH, 'dict', lang + ".txt")
+            print(fr'dict_list[lang] : {current_path} {dict_list[lang]}')
+            print(fr'lang : {current_path} {lang}')
+            print(fr'BASE_PATH : {current_path} {BASE_PATH}')
+
+        print(fr'detector : {current_path} {detector}')
+        if detector:
+            self.detector = self.initDetector(detector_path)
+
+        print(fr'recognizer : {current_path} {recognizer}')
+        if recognizer:
+
+            print(fr'recog_network : {current_path} {recog_network}')
+
+            if recog_network == 'generation1':
+                network_params = {
+                    'input_channel': 1,
+                    'output_channel': 512,
+                    'hidden_size': 512
+                }
+            elif recog_network == 'generation2':
+                network_params = {
+                    'input_channel': 1,
+                    'output_channel': 256,
+                    'hidden_size': 256
+                }
+            else:
+                network_params = recog_config['network_params']
+
+                # train.py -> yaml
+                # network_params = {
+                #     'input_channel': 1,
+                #     'output_channel': 256,
+                #     'hidden_size': 256
+                # }
+                network_params = {
+                    'input_channel': 1,
+                    'output_channel': 512,
+                    'hidden_size': 512
+                }
+
+            print(fr'Reader recog_network : {current_path} {recog_network}')
+            print(fr'Reader network_params : {current_path} {network_params}')
+            print(fr'Reader self.character : {current_path} {self.character}')
+            print(fr'Reader separator_list : {current_path} {separator_list}')
+
+            print(fr'Reader dict_list : {current_path} {dict_list}')
+            print(fr'Reader model_path : {current_path} {model_path}')
+            print(fr'Reader self.device : {current_path} {self.device}')
+            print(fr'Reader quantize : {current_path} {quantize}')
+
+            self.recognizer, self.converter = get_recognizer(recog_network, network_params, \
+                                                             self.character, separator_list, \
+                                                             dict_list, model_path, device=self.device,
+                                                             quantize=quantize)
+
+            print(fr'self.recognizer : {current_path} {self.recognizer}')
+            print(fr'self.converter : {current_path} {self.converter}')
+
+            # print(f'pythonlib easyocr self.recognizer : {self.recognizer}')
+            print(f'pythonlib easyocr self.converter : {self.converter}')
+
+    def getDetectorPath(self, detect_network):
+
+        print(fr'detect_network : {current_path} {detect_network} ')
+
+        if detect_network in self.support_detection_network:
+            self.detect_network = detect_network
+            if self.detect_network == 'craft':
+                from .detection import get_detector, get_textbox
+            elif self.detect_network in ['dbnet18']:
+                from .detection_db import get_detector, get_textbox
+            else:
+                raise RuntimeError("Unsupport detector network. Support networks are craft and dbnet18.")
+            self.get_textbox = get_textbox
+            self.get_detector = get_detector
+            corrupt_msg = 'MD5 hash mismatch, possible file corruption'
+            detector_path = os.path.join(self.model_storage_directory,
+                                         self.detection_models[self.detect_network]['filename'])
+
+            print(fr'detect_network : {current_path} {detect_network} ')
+            print(fr'detect_network : {self.model_storage_directory} {self.model_storage_directory} ')
+            print(fr'detector_path : {current_path} {detector_path} ')
+
+            if os.path.isfile(detector_path) == False:
+                if not self.download_enabled:
+                    raise FileNotFoundError("Missing %s and downloads disabled" % detector_path)
+                LOGGER.warning('Downloading detection model, please wait. '
+                               'This may take several minutes depending upon your network connection.')
+                download_and_unzip(self.detection_models[self.detect_network]['url'],
+                                   self.detection_models[self.detect_network]['filename'], self.model_storage_directory,
+                                   self.verbose)
+                assert calculate_md5(detector_path) == self.detection_models[self.detect_network]['md5sum'], corrupt_msg
+                LOGGER.info('Download complete')
+            elif calculate_md5(detector_path) != self.detection_models[self.detect_network]['md5sum']:
+                if not self.download_enabled:
+                    raise FileNotFoundError("MD5 mismatch for %s and downloads disabled" % detector_path)
+                LOGGER.warning(corrupt_msg)
+                os.remove(detector_path)
+                LOGGER.warning('Re-downloading the detection model, please wait. '
+                               'This may take several minutes depending upon your network connection.')
+                download_and_unzip(self.detection_models[self.detect_network]['url'],
+                                   self.detection_models[self.detect_network]['filename'], self.model_storage_directory,
+                                   self.verbose)
+                assert calculate_md5(detector_path) == self.detection_models[self.detect_network]['md5sum'], corrupt_msg
+        else:
+            raise RuntimeError("Unsupport detector network. Support networks are {}.".format(
+                ', '.join(self.support_detection_network)))
+
+        return detector_path
+
+    def initDetector(self, detector_path):
+        return self.get_detector(detector_path,
+                                 device=self.device,
+                                 quantize=self.quantize,
+                                 cudnn_benchmark=self.cudnn_benchmark
+                                 )
+
+    def setDetector(self, detect_network):
+        detector_path = self.getDetectorPath(detect_network)
+        self.detector = self.initDetector(detector_path)
+
+    def setModelLanguage(self, language, lang_list, list_lang, list_lang_string):
+        self.model_lang = language
+        if set(lang_list) - set(list_lang) != set():
+            if language == 'ch_tra' or language == 'ch_sim':
+                language = 'chinese'
+            raise ValueError(
+                language.capitalize() + ' is only compatible with English, try lang_list=' + list_lang_string)
+
+    def getChar(self, fileName):
+        char_file = os.path.join(BASE_PATH, 'character', fileName)
+        with open(char_file, "r", encoding="utf-8-sig") as input_file:
+            list = input_file.read().splitlines()
+            char = ''.join(list)
+        return char
+
+    def setLanguageList(self, lang_list, model):
+        self.lang_char = []
+        for lang in lang_list:
+            print(fr'BASE_PATH : {current_path} {BASE_PATH}')
+
+            char_file = os.path.join(BASE_PATH, 'character', lang + "_char.txt")
+
+            print(fr'char_file : {current_path} {char_file}')
+
+
+            with open(char_file, "r", encoding="utf-8-sig") as input_file:
+                char_list = input_file.read().splitlines()
+            self.lang_char += char_list
+        if model.get('symbols'):
+            symbol = model['symbols']
+        elif model.get('character_list'):
+            symbol = model['character_list']
+        else:
+            symbol = '0123456789!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ '
+        self.lang_char = set(self.lang_char).union(set(symbol))
+        self.lang_char = ''.join(self.lang_char)
+
+    def detect(self, img, min_size=20, text_threshold=0.7, low_text=0.4, \
+               link_threshold=0.4, canvas_size=2560, mag_ratio=1., \
+               slope_ths=0.1, ycenter_ths=0.5, height_ths=0.5, \
+               width_ths=0.5, add_margin=0.1, reformat=True, optimal_num_chars=None,
+               threshold=0.2, bbox_min_score=0.2, bbox_min_size=3, max_candidates=0,
+               ):
+
+        if reformat:
+            img, img_cv_grey = reformat_input(img)
+
+        text_box_list = self.get_textbox(self.detector,
+                                         img,
+                                         canvas_size=canvas_size,
+                                         mag_ratio=mag_ratio,
+                                         text_threshold=text_threshold,
+                                         link_threshold=link_threshold,
+                                         low_text=low_text,
+                                         poly=False,
+                                         device=self.device,
+                                         optimal_num_chars=optimal_num_chars,
+                                         threshold=threshold,
+                                         bbox_min_score=bbox_min_score,
+                                         bbox_min_size=bbox_min_size,
+                                         max_candidates=max_candidates,
+                                         )
+
+        horizontal_list_agg, free_list_agg = [], []
+        for text_box in text_box_list:
+
+            print(fr'detect text_box : {current_path} {text_box}')
+            print(fr'detect text_box_list : {current_path} {text_box_list}')
+
+            print(fr'detect slope_ths : {current_path} {slope_ths}')
+            print(fr'detect ycenter_ths : {current_path} {ycenter_ths}')
+            print(fr'detect height_ths : {current_path} {height_ths}')
+            print(fr'detect add_margin : {current_path} {add_margin}')
+
+
+            horizontal_list, free_list = group_text_box(text_box, slope_ths,
+                                                        ycenter_ths, height_ths,
+                                                        width_ths, add_margin,
+                                                        (optimal_num_chars is None))
+
+            print(fr'horizontal_list : {current_path} {horizontal_list}')
+            print(fr'free_list : {current_path} {free_list}')
+
+            print(fr'min_size : {current_path} {min_size}')
+
+            if min_size:
+                horizontal_list = [i for i in horizontal_list if max(
+                    i[1] - i[0], i[3] - i[2]) > min_size]
+
+                free_list = [i for i in free_list if max(
+                    diff([c[0] for c in i]), diff([c[1] for c in i])) > min_size]
+
+                print(fr'horizontal_list : {current_path} {horizontal_list}')
+                print(fr'free_list : {current_path} {free_list}')
+
+            horizontal_list_agg.append(horizontal_list)
+            free_list_agg.append(free_list)
+
+            print(fr'horizontal_list_agg : {current_path} {horizontal_list_agg}')
+            print(fr'free_list_agg : {current_path} {free_list_agg}')
+
+        return horizontal_list_agg, free_list_agg
+
+    def recognize(self, img_cv_grey, horizontal_list=None, free_list=None, \
+                  decoder='greedy', beamWidth=5, batch_size=1, \
+                  workers=0, allowlist=None, blocklist=None, detail=1, \
+                  rotation_info=None, paragraph=False, \
+                  contrast_ths=0.1, adjust_contrast=0.5, filter_ths=0.003, \
+                  y_ths=0.5, x_ths=1.0, reformat=True, output_format='standard'):
+
+        print(f'!!!!!!{current_path} recognize horizontal_list :  {horizontal_list}')
+        print(f'!!!!!!{current_path} recognize reformat :  {reformat}')
+        print(f'!!!!!!{current_path} recognize allowlist :  {allowlist}')
+        print(f'!!!!!!{current_path} recognize blocklist :  {blocklist}')
+
+
+        if reformat:
+            img, img_cv_grey = reformat_input(img_cv_grey)
+
+            from PIL import Image
+            # import cv2
+
+            # OpenCV 이미지를 PIL 이미지로 변환
+            pil_image = Image.fromarray(cv2.cvtColor(img_cv_grey, cv2.COLOR_BGR2RGB))
+
+            # 이미지 표시
+            pil_image.show()
+
+        if allowlist:
+            ignore_char = ''.join(set(self.character) - set(allowlist))
+
+        elif blocklist:
+            ignore_char = ''.join(set(blocklist))
+
+        else:
+            ignore_char = ''.join(set(self.character) - set(self.lang_char))
+
+        if self.model_lang in ['chinese_tra', 'chinese_sim']: decoder = 'greedy'
+
+        print(f'!!!!!!{current_path} recognize batch_size :  {batch_size}')
+        print(f'!!!!!!{current_path} recognize self.device :  {self.device}')
+        print(f'!!!!!!{current_path} recognize rotation_info :  {rotation_info}')
+
+        if (horizontal_list == None) and (free_list == None):
+            y_max, x_max = img_cv_grey.shape
+            horizontal_list = [[0, x_max, 0, y_max]]
+            free_list = []
+
+            print(f'{current_path} easyocr recognize 함수 들어옴   y_max : {y_max}')
+            print(f'{current_path} easyocr recognize 함수 들어옴   x_max : {x_max}')
+
+        # without gpu/parallelization, it is faster to process image one by one
+        if ((batch_size == 1) or (self.device == 'cpu')) and not rotation_info:
+            result = []
+            for bbox in horizontal_list:
+                print(f'!!!!!!{current_path} recognize horizontal_list :  {horizontal_list}')
+                # [[3, 271, 0, 117]]
+                print(f'!!!!!!{current_path} recognize bbox :  {bbox}')
+
+
+                h_list = [bbox]
+                f_list = []
+
+                print(f'!!!!!!{current_path} recognize h_list :  {h_list}')
+                print(f'!!!!!!{current_path} recognize f_list :  {f_list}')
+                print(f'!!!!!!{current_path} recognize imgH :  {imgH}')
+
+                image_list, max_width = get_image_list(h_list, f_list, img_cv_grey, model_height=imgH)
+
+                print(f'!!!!!!{current_path} recognize image_list :  {image_list}')
+                print(f'!!!!!!{current_path} recognize max_width :  {max_width}')
+
+                # 저장할 디렉토리 경로
+                import cv2
+                import os
+
+                # 저장할 디렉토리 경로
+                save_dir = "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/data/th/test/0319/train/img"
+
+                # 디렉토리가 없으면 생성
+                if not os.path.exists(save_dir):
+                    os.makedirs(save_dir)
+
+                # image_list에 있는 각 이미지를 jpg 파일로 저장
+                # for i, image in enumerate(image_list):
+                #     # 이미지가 UMat 형식이면 NumPy 배열로 변환
+                #     if isinstance(image, cv2.UMat):
+                #         image = image.get()
+                #     image_path = os.path.join(save_dir, f"image_{i}.jpg")
+                #     cv2.imwrite(image_path, image)
+
+                print("이미지 저장이 완료되었습니다.")
+
+                print(fr"recognize 이미지 저장이 완료되었습니다. save_dir : {current_path} {save_dir}")
+
+                print(fr'recognize imgH : {imgH}')
+                print(fr'recognize int(max_width) : {int(max_width)}')
+
+                result0 = get_text(self.character, imgH, int(max_width), self.recognizer, self.converter, image_list, \
+                                   ignore_char, decoder, beamWidth, batch_size, contrast_ths, adjust_contrast,
+                                   filter_ths, \
+                                   workers, self.device)
+
+                result += result0
+                print(f'!!!{current_path} for bbox in horizontal_list result : {result}')
+
+            for bbox in free_list:
+                h_list = []
+                f_list = [bbox]
+                image_list, max_width = get_image_list(h_list, f_list, img_cv_grey, model_height=imgH)
+                result0 = get_text(self.character, imgH, int(max_width), self.recognizer, self.converter, image_list, \
+                                   ignore_char, decoder, beamWidth, batch_size, contrast_ths, adjust_contrast,
+                                   filter_ths, \
+                                   workers, self.device)
+                result += result0
+                print(f'{current_path} for bbox in free_list result : {result}')
+
+        else:
+
+            image_list, max_width = get_image_list(horizontal_list, free_list, img_cv_grey, model_height=imgH)
+
+            image_len = len(image_list)
+
+            if rotation_info and image_list:
+                image_list = make_rotated_img_list(rotation_info, image_list)
+                max_width = max(max_width, imgH)
+
+            result = get_text(self.character, imgH, int(max_width), self.recognizer, self.converter, image_list, \
+                              ignore_char, decoder, beamWidth, batch_size, contrast_ths, adjust_contrast, filter_ths, \
+                              workers, self.device)
+
+            print(f'{current_path} else result : {result}')
+
+            if rotation_info and (horizontal_list + free_list):
+                # Reshape result to be a list of lists, each row being for
+                # one of the rotations (first row being no rotation)
+                result = set_result_with_confidence(
+                    [result[image_len * i:image_len * (i + 1)] for i in range(len(rotation_info) + 1)])
+
+        if self.model_lang == 'arabic':
+            direction_mode = 'rtl'
+            result = [list(item) for item in result]
+            for item in result:
+                item[1] = get_display(item[1])
+        else:
+            direction_mode = 'ltr'
+
+        if paragraph:
+            result = get_paragraph(result, x_ths=x_ths, y_ths=y_ths, mode=direction_mode)
+
+        if detail == 0:
+            return [item[1] for item in result]
+        elif output_format == 'dict':
+            if paragraph:
+                return [{'boxes': item[0], 'text': item[1]} for item in result]
+            return [{'boxes': item[0], 'text': item[1], 'confident': item[2]} for item in result]
+        elif output_format == 'json':
+            if paragraph:
+                return [
+                    json.dumps({'boxes': [list(map(int, lst)) for lst in item[0]], 'text': item[1]}, ensure_ascii=False)
+                    for item in result]
+            return [
+                json.dumps({'boxes': [list(map(int, lst)) for lst in item[0]], 'text': item[1], 'confident': item[2]},
+                           ensure_ascii=False) for item in result]
+        elif output_format == 'free_merge':
+            return merge_to_free(result, free_list)
+        else:
+            return result
+
+    def readtext(self, image, decoder='greedy', beamWidth=5, batch_size=1, \
+                 workers=0, allowlist=None, blocklist=None, detail=1, \
+                 rotation_info=None, paragraph=False, min_size=20, \
+                 contrast_ths=0.1, adjust_contrast=0.5, filter_ths=0.003, \
+                 text_threshold=0.7, low_text=0.4, link_threshold=0.4, \
+                 canvas_size=2560, mag_ratio=1., \
+                 slope_ths=0.1, ycenter_ths=0.5, height_ths=0.5, \
+                 width_ths=0.5, y_ths=0.5, x_ths=1.0, add_margin=0.1,
+                 threshold=0.2, bbox_min_score=0.2, bbox_min_size=3, max_candidates=0,
+                 output_format='standard'):
+        '''
+        Parameters:
+        image: file path or numpy-array or a byte stream object
+        '''
+
+        img_path = r'D:\pythonlib\misc\data\img\image-000000001.jpg'
+
+        image = cv2.imread(img_path, cv2.IMREAD_COLOR)
+
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+        # 원본
+        #img, img_cv_grey = reformat_input(image)
+        img, img_cv_grey = reformat_input(gray)
+
+        # import cv2
+        #
+        # # 이미지 표시
+        # cv2.imshow('Image', img)
+        # cv2.imshow('Image (Gray)', img_cv_grey)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        #print(fr' img : {current_path} {img}')
+
+        from PIL import Image
+
+        # 이미지 열기
+        image = Image.open(img_path)
+
+        # 이미지 표시
+        image.show()
+
+        # 이미지 크기 조정 및 저장
+        # resized_image = image.resize((width, height))
+        # resized_image.save('resized_image.jpg')
+
+        # self.
+        horizontal_list, free_list = self.detect(img,
+                                                 min_size=min_size, text_threshold=text_threshold, \
+                                                 low_text=low_text, link_threshold=link_threshold, \
+                                                 canvas_size=canvas_size, mag_ratio=mag_ratio, \
+                                                 slope_ths=slope_ths, ycenter_ths=ycenter_ths, \
+                                                 height_ths=height_ths, width_ths=width_ths, \
+                                                 add_margin=add_margin, reformat=False, \
+                                                 threshold=threshold, bbox_min_score=bbox_min_score, \
+                                                 bbox_min_size=bbox_min_size, max_candidates=max_candidates
+                                                 )
+
+        print(f'{current_path} readtext horizontal_list :  {horizontal_list}')
+        # get the 1st result from hor & free list as self.detect returns a list of depth 3
+        horizontal_list, free_list = horizontal_list[0], free_list[0]
+
+        print(fr' horizontal_list[0] : {current_path} {horizontal_list[0]}')
+
+        result = self.recognize(img_cv_grey, horizontal_list, free_list, \
+                                decoder, beamWidth, batch_size, \
+                                workers, allowlist, blocklist, detail, rotation_info, \
+                                paragraph, contrast_ths, adjust_contrast, \
+                                filter_ths, y_ths, x_ths, False, output_format)
+
+        print(fr' result : {current_path} {result}')
+
+        return result
+
+    def readtextlang(self, image, decoder='greedy', beamWidth=5, batch_size=1, \
+                     workers=0, allowlist=None, blocklist=None, detail=1, \
+                     rotation_info=None, paragraph=False, min_size=20, \
+                     contrast_ths=0.1, adjust_contrast=0.5, filter_ths=0.003, \
+                     text_threshold=0.7, low_text=0.4, link_threshold=0.4, \
+                     canvas_size=2560, mag_ratio=1., \
+                     slope_ths=0.1, ycenter_ths=0.5, height_ths=0.5, \
+                     width_ths=0.5, y_ths=0.5, x_ths=1.0, add_margin=0.1,
+                     threshold=0.2, bbox_min_score=0.2, bbox_min_size=3, max_candidates=0,
+                     output_format='standard'):
+        '''
+        Parameters:
+        image: file path or numpy-array or a byte stream object
+        '''
+        img, img_cv_grey = reformat_input(image)
+
+        horizontal_list, free_list = self.detect(img,
+                                                 min_size=min_size, text_threshold=text_threshold, \
+                                                 low_text=low_text, link_threshold=link_threshold, \
+                                                 canvas_size=canvas_size, mag_ratio=mag_ratio, \
+                                                 slope_ths=slope_ths, ycenter_ths=ycenter_ths, \
+                                                 height_ths=height_ths, width_ths=width_ths, \
+                                                 add_margin=add_margin, reformat=False, \
+                                                 threshold=threshold, bbox_min_score=bbox_min_score, \
+                                                 bbox_min_size=bbox_min_size, max_candidates=max_candidates
+                                                 )
+        # get the 1st result from hor & free list as self.detect returns a list of depth 3
+        horizontal_list, free_list = horizontal_list[0], free_list[0]
+        result = self.recognize(img_cv_grey, horizontal_list, free_list, \
+                                decoder, beamWidth, batch_size, \
+                                workers, allowlist, blocklist, detail, rotation_info, \
+                                paragraph, contrast_ths, adjust_contrast, \
+                                filter_ths, y_ths, x_ths, False, output_format)
+
+        char = []
+        directory = 'characters/'
+        for i in range(len(result)):
+            char.append(result[i][1])
+
+        def search(arr, x):
+            g = False
+            for i in range(len(arr)):
+                if arr[i] == x:
+                    g = True
+                    return 1
+            if g == False:
+                return -1
+
+        def tupleadd(i):
+            a = result[i]
+            b = a + (filename[0:2],)
+            return b
+
+        for filename in os.listdir(directory):
+            if filename.endswith(".txt"):
+                with open('characters/' + filename, 'rt', encoding="utf8") as myfile:
+                    chartrs = str(myfile.read().splitlines()).replace('\n', '')
+                    for i in range(len(char)):
+                        res = search(chartrs, char[i])
+                        if res != -1:
+                            if filename[0:2] == "en" or filename[0:2] == "ch":
+                                print(tupleadd(i))
+
+    def readtext_batched(self, image, n_width=None, n_height=None, \
+                         decoder='greedy', beamWidth=5, batch_size=1, \
+                         workers=0, allowlist=None, blocklist=None, detail=1, \
+                         rotation_info=None, paragraph=False, min_size=20, \
+                         contrast_ths=0.1, adjust_contrast=0.5, filter_ths=0.003, \
+                         text_threshold=0.7, low_text=0.4, link_threshold=0.4, \
+                         canvas_size=2560, mag_ratio=1., \
+                         slope_ths=0.1, ycenter_ths=0.5, height_ths=0.5, \
+                         width_ths=0.5, y_ths=0.5, x_ths=1.0, add_margin=0.1,
+                         threshold=0.2, bbox_min_score=0.2, bbox_min_size=3, max_candidates=0,
+                         output_format='standard'):
+        '''
+        Parameters:
+        image: file path or numpy-array or a byte stream object
+        When sending a list of images, they all must of the same size,
+        the following parameters will automatically resize if they are not None
+        n_width: int, new width
+        n_height: int, new height
+        '''
+        img, img_cv_grey = reformat_input_batched(image, n_width, n_height)
+
+        horizontal_list_agg, free_list_agg = self.detect(img,
+                                                         min_size=min_size, text_threshold=text_threshold, \
+                                                         low_text=low_text, link_threshold=link_threshold, \
+                                                         canvas_size=canvas_size, mag_ratio=mag_ratio, \
+                                                         slope_ths=slope_ths, ycenter_ths=ycenter_ths, \
+                                                         height_ths=height_ths, width_ths=width_ths, \
+                                                         add_margin=add_margin, reformat=False, \
+                                                         threshold=threshold, bbox_min_score=bbox_min_score, \
+                                                         bbox_min_size=bbox_min_size, max_candidates=max_candidates
+                                                         )
+        result_agg = []
+        # put img_cv_grey in a list if its a single img
+        img_cv_grey = [img_cv_grey] if len(img_cv_grey.shape) == 2 else img_cv_grey
+        for grey_img, horizontal_list, free_list in zip(img_cv_grey, horizontal_list_agg, free_list_agg):
+            result_agg.append(self.recognize(grey_img, horizontal_list, free_list, \
+                                             decoder, beamWidth, batch_size, \
+                                             workers, allowlist, blocklist, detail, rotation_info, \
+                                             paragraph, contrast_ths, adjust_contrast, \
+                                             filter_ths, y_ths, x_ths, False, output_format))
+
+        return result_agg

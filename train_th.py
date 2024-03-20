@@ -19,7 +19,6 @@ from model import Model
 #from custom.models.model import CustomModel
 #from custom.models.model import CustomModel
 from custom.models.model_vi import CustomModel
-from custom.models.model_en import CustomModel
 from test import validation
 
 import sys
@@ -30,10 +29,7 @@ import yaml
 from tqdm import tqdm
 lan = 'ko'
 lan = 'ko'
-lan = 'en'
-
-work_dir = fr'/home/work/.E'
-work_dir = fr'/C:/Users/TAMSystech/yjh/ipynb'
+lan = 'th'
 # 모듈을 다시 로드
 importlib.reload(sys)
 
@@ -145,11 +141,11 @@ def train(opt):
                 # print(f'connected_parts : {connected_parts}')
 
                 # current_accuracy = connected_parts.split("_")[-1]
-                print(
-                    f'connected_parts.split("_")  : {connected_parts.split("_") }')
-                print(f'connected_parts.split("_")[-1] : {connected_parts.split("_")[-2]}')
-                print(
-                    f'connected_parts.split("_")[-1].split("_") : {connected_parts.split("_")[-2].split("_")}')
+                # print(
+                #     f'connected_parts.split("_")  : {connected_parts.split("_") }')
+                # print(f'connected_parts.split("_")[-1] : {connected_parts.split("_")[-2]}')
+                # print(
+                #     f'connected_parts.split("_")[-1].split("_") : {connected_parts.split("_")[-2].split("_")}')
                 current_prediction_accuracy = connected_parts.split("_")[-2].split("_")[0]
                 current_prediction_accuracy = connected_parts.split("_")[-2]
 
@@ -253,7 +249,6 @@ def train(opt):
     selected_d = 'vi'
     selected_d = 'latin'
     selected_d = 'ko'
-    selected_d = fr'{lan}'
     # selected_d = 'ttf'
     # print(f'==============밸리드도 나는 트레인으로 일단 하기로 selected_d : {selected_d}')
 
@@ -328,7 +323,8 @@ def train(opt):
     opt.num_class = len(converter.character)
     # batch_max_length ( 라벨 ( 텍스트 ) 길이 )
     opt.batch_max_length = opt.num_class
-    print(f'트레인.py opt.num_class 1 증가한다 [CTCblank] (  : {opt.num_class}')
+    #print(f'트레인.py opt.num_class 1 증가한다 [CTCblank] (  : {opt.num_class}')
+    #sys.exit(1)
     print(
         f'트레인.py opt.batch_max_length num_class ( 178 + 1 ) 로 수정  ( preds 에 178 보다 큰 수 나오면 에러남 ( dict 에 없음 ) : {opt.batch_max_length}')
 
@@ -502,10 +498,9 @@ def train(opt):
         # print(f'Loading pretrained model from model saved_model = {saved_model}')
         # 여기부터
         # yaml 파일 읽기
-        # yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom.yaml'
-        # yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom_vi.yaml'
-        # yaml_path = fr'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom_{lan}.yaml'
-        yaml_path = fr'{work_dir}/deep-text-recognition-benchmark/EasyOCR/user_network/custom_{lan}.yaml'
+        yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom.yaml'
+        yaml_path = 'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom_vi.yaml'
+        yaml_path = fr'C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/EasyOCR/user_network/custom_{lan}.yaml'
 
         with open(yaml_path, 'r', encoding='utf-8') as stream:
             config = yaml.safe_load(stream)
@@ -1468,7 +1463,6 @@ def train(opt):
                     #     torch.save(model.state_dict(), f'./saved_models/{opt.exp_name}/best_norm_ED.pth')
 
                     if current_accuracy > best_accuracy:
-                    #if (current_accuracy > best_accuracy) and current_accuracy > 80:
                         best_accuracy = current_accuracy
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/best_accuracy_{current_time}_{current_accuracy:.4f}.pth')
@@ -1510,11 +1504,10 @@ def train(opt):
 
                     # gt.txt 에서 실패한 행 읽어와서 저장
                     # Read gt.txt file and get failed predictions
-                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
-                    gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
-                    gt_file_path = fr'D:\deep-text-recognition-benchmark\data\vi\rect_invert\train\gt\Bold\gt.txt'
-                    gt_file_path = fr'D:\deep-text-recognition-benchmark\data\{lan}\rect_invert\train\gt\Bold\gt.txt'
-                    #gt_file_path = fr'{work_dir}\deep-text-recognition-benchmark\data\{lan}\rect_invert\train\gt\Bold\gt.txt'
+                    # gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf\gt\LGBD\태국어\gt.txt'
+                    # gt_file_path = r'C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\data\ttf14\train\gt\gt.txt'
+                    # gt_file_path = fr'D:\deep-text-recognition-benchmark\data\vi\rect_invert\train\gt\Bold\gt.txt'
+                    gt_file_path = fr'D:\deep-text-recognition-benchmark\data\{lan}\test\train\gt\Bold\gt.txt'
 
                     failed_gt_predictions = []
 
@@ -1559,32 +1552,32 @@ def train(opt):
 
                     # 실패한 문장 이미지와 함께 텍스트 파일로 저장
                     # Save only failed predictions to a text file along with the corresponding lines from gt.txt
-                    # with open(gt_file_path, 'r', encoding='utf-8') as gt_file:
-                    #     lines = gt_file.readlines()
-                    #
-                    #     for line in lines:
-                    #
-                    #         # print(f'line : {line}')
-                    #
-                    #         # Split the line using tab as a separator
-                    #         parts = line.split('\t')
-                    #         # print(f'parts : {parts}')
-                    #
-                    #         # Check if the part after the tab matches any ground truth in fail_predictions
-                    #         for failed_gt in fail_predictions:
-                    #             t = failed_gt['gt']
-                    #             # print(f'트라이 for failed_gt in fail_predictions failed_gt : {failed_gt}')
-                    #             # print(
-                    #             #     f'트라이 for failed_gt in fail_predictions failed_gt : {t}')
-                    #
-                    #             # if len(parts) > 1 and parts[1].strip() == failed_gt:
-                    #             if len(parts) > 1 and parts[1].strip() == failed_gt['gt']:
-                    #                 # failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
-                    #                 failed_gt_predictions.append(f"{line.strip()}\t|\t{failed_gt['pred']}")
-                    #                 # print(f'failed_gt_predictions : {failed_gt_predictions}')
-                    #
-                    #                 # fail_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
-                    #                 # print(f'이미지도 있어야 해 fail_predictions : {fail_predictions}')
+                    with open(gt_file_path, 'r', encoding='utf-8') as gt_file:
+                        lines = gt_file.readlines()
+
+                        for line in lines:
+
+                            # print(f'line : {line}')
+
+                            # Split the line using tab as a separator
+                            parts = line.split('\t')
+                            # print(f'parts : {parts}')
+
+                            # Check if the part after the tab matches any ground truth in fail_predictions
+                            for failed_gt in fail_predictions:
+                                t = failed_gt['gt']
+                                # print(f'트라이 for failed_gt in fail_predictions failed_gt : {failed_gt}')
+                                # print(
+                                #     f'트라이 for failed_gt in fail_predictions failed_gt : {t}')
+
+                                # if len(parts) > 1 and parts[1].strip() == failed_gt:
+                                if len(parts) > 1 and parts[1].strip() == failed_gt['gt']:
+                                    # failed_gt_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
+                                    failed_gt_predictions.append(f"{line.strip()}\t|\t{failed_gt['pred']}")
+                                    # print(f'failed_gt_predictions : {failed_gt_predictions}')
+
+                                    # fail_predictions.append(line.strip())  # strip to remove leading/trailing whitespaces
+                                    # print(f'이미지도 있어야 해 fail_predictions : {fail_predictions}')
 
                     # Save only failed predictions and corresponding lines to a text file
                     gt_output_file_path = f'./saved_models/{opt.exp_name}/{current_date}/failed_gt_predictions_{current_time}_{iteration + 1}.txt'
@@ -1715,7 +1708,6 @@ def train(opt):
                     #     torch.save(model.state_dict(),
                     #                f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
                     if current_prediction_accuracy > best_prediction_accuracy:
-                    #if (current_prediction_accuracy > best_prediction_accuracy) and current_prediction_accuracy> 80:
                         best_prediction_accuracy = current_prediction_accuracy
                         # torch.save(model.state_dict(),
                         #            f'./saved_models/{opt.exp_name}/{current_date}/best_prediction_accuracy_{current_time}_{accuracy:.4f}_{iteration + 1}.pth')
@@ -1855,12 +1847,12 @@ if __name__ == '__main__':
     # parser.add_argument('--num_iter', type=int, default=6000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=120000, help='number of iterations to train for')
     #parser.add_argument('--num_iter', type=int, default=200000, help='number of iterations to train for')
-    parser.add_argument('--num_iter', type=int, default=1200000, help='number of iterations to train for')
-    #parser.add_argument('--num_iter', type=int, default=1, help='number of iterations to train for')
+    # parser.add_argument('--num_iter', type=int, default=1200000, help='number of iterations to train for')
+    parser.add_argument('--num_iter', type=int, default=1000, help='number of iterations to train for')
     # parser.add_argument('--valInterval', type=int, default=2000, help='Interval between each validation')
     # parser.add_argument('--valInterval', type=int, default=1000, help='Interval between each validation')
-    parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
-    #parser.add_argument('--valInterval', type=int, default=1, help='Interval between each validation')
+   # parser.add_argument('--valInterval', type=int, default=10000, help='Interval between each validation')
+    parser.add_argument('--valInterval', type=int, default=100, help='Interval between each validation')
     parser.add_argument('--saved_model', default='', help="path to model to continue training")
     parser.add_argument('--FT', action='store_true', help='whether to do fine-tuning')
     parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is Adadelta)')
@@ -1911,24 +1903,21 @@ if __name__ == '__main__':
     # 베트남 원본 모델 character
     # opt_character = '''!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ªÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćČčĎďĐđĒēĖėĘęĚěĞ
     #     ğĨĩĪīĮįİıĶķĹĺĻļĽľŁłŃńŅņŇňŒœŔŕŘřŚśŞşŠšŤťŨũŪūŮůŲųŸŹźŻżŽžƏƠơƯưȘșȚțə̇ḌḍḶḷṀṁṂṃṄṅṆṇṬṭẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹ€'''
-#     opt_character = '''!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~가각간갇갈감갑값강갖같갚갛개객걀거걱건걷걸검겁것겉
-# 게겨격겪견결겹경곁계고곡곤곧골곰곱곳공과관광괜괴굉교구국군굳굴굵굶굽궁권귀규균그극근글긁금급긋긍기긴길김깅깊까깎깐깔깜깝깥깨꺼꺾껍껏껑께껴꼬꼭꼴꼼꼽꽂꽃꽉꽤꾸꿀꿈뀌끄끈끊끌끓끔끗끝끼낌나낙낚난날낡남납낫낭낮낯낱낳내냄냉냐냥
-# 너넉널넓넘넣네넥넷녀녁년념녕노녹논놀놈농높놓놔뇌뇨누눈눕뉘뉴늄느늑는늘늙능늦늬니닐님다닥닦단닫달닭닮담답닷당닿대댁댐더덕던덜덤덥덧덩덮데델도독돈돌돕동돼되된두둑둘둠둡둥뒤뒷드득든듣들듬듭듯등디딩딪따딱딴딸땀땅때땜떠떡떤떨떻
-# 떼또똑뚜뚫뚱뛰뜨뜩뜯뜰뜻띄라락란람랍랑랗래랜램랫략량러럭런럴럼럽럿렁렇레렉렌려력련렬렵령례로록론롬롭롯료루룩룹룻뤄류륙률륭르른름릇릎리릭린림립릿마막만많말맑맘맙맛망맞맡맣매맥맨맵맺머먹먼멀멈멋멍멎메멘멩며면멸명몇모목몰몸몹
-# 못몽묘무묵묶문묻물뭄뭇뭐뭣므미민믿밀밉밌및밑바박밖반받발밝밟밤밥방밭배백뱀뱃뱉버번벌범법벗베벤벼벽변별볍병볕보복볶본볼봄봇봉뵈뵙부북분불붉붐붓붕붙뷰브블비빌빗빚빛빠빨빵빼뺨뻐뻔뻗뼈뽑뿌뿐쁘쁨사삭산살삶삼상새색샌생서석섞선설
-# 섬섭섯성세센셈셋션소속손솔솜솟송솥쇄쇠쇼수숙순술숨숫숲쉬쉽슈스슨슬슴습슷승시식신싣실싫심십싱싶싸싹쌀쌍쌓써썩썰썹쎄쏘쏟쑤쓰쓸씀씌씨씩씬씹씻아악안앉않알앓암압앗앙앞애액야약얇양얗얘어억언얹얻얼엄업없엇엉엌엎에엔엘여역연열엷염
-# 엽엿영옆예옛오옥온올옮옳옷와완왕왜왠외왼요욕용우욱운울움웃웅워원월웨웬위윗유육율으윽은을음응의이익인일읽잃임입잇있잊잎자작잔잖잘잠잡장잦재쟁저적전절젊점접젓정젖제젠젯져조족존졸좀좁종좋좌죄주죽준줄줌줍중쥐즈즉즌즐즘증지직진
-# 질짐집짓징짙짚짜짝짧째쨌쩌쩍쩐쪽쫓쭈쭉찌찍찢차착찬찮찰참창찾채책챔챙처척천철첫청체쳐초촉촌총촬최추축춘출춤춥춧충취츠측츰층치칙친칠침칭카칸칼캐캠커컨컬컴컵컷켓켜코콜콤콩쾌쿠퀴크큰클큼키킬타탁탄탈탑탓탕태택탤터턱털텅테텍텔템
-# 토톤톱통퇴투툼퉁튀튜트특튼튿틀틈티틱팀팅파팎판팔패팩팬퍼퍽페펴편펼평폐포폭표푸푹풀품풍퓨프플픔피픽필핏핑하학한할함합항해핵핸햄햇행향허헌험헤헬혀현혈협형혜호혹혼홀홍화확환활황회획횟효후훈훌훔훨휘휴흉흐흑흔흘흙흡흥흩희흰히힘 '''
-    opt_character = '''0123456789!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ €ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz
-                    '''
+    opt_character = '''¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ01
+23456789๑๒๓๔๕๖๗๘๙'''
+    opt_character = '''¢£¤¥!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ01
+    23456789๑๒๓๔๕๖๗๘๙'''
+    opt_character = '''¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙'''
+    # 하나 빼버림 ¥
+    # opt_character = '''¢£¤!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ01
+    #     23456789๑๒๓๔๕๖๗๘๙'''
+
     # 사용자 정의 모델 character
     #character_custom = 'dỏNCấạaLĩB3âHờẩê,~àđũựộIĐx/✓ảvẽicPs°ơữỗớM5ịủềíợùừVòáứy ặưỡốGoọe-ỐTồ2QãèXệ60ỡ.S1(ẻễểắ)ậổóụúý4n?kKézgẫbửărhẹÁqìÍFtp9ADWầôÂu+ằlỉmếR'
 
     #lan = 'ko'
 
     file_path = fr'C:\Users\TAMSystech\yjh\ipynb\TextRecognitionDataGenerator\trdg\dicts\전체언어텍스트파일\{lan}\{lan}.txt'
-    file_path = fr'{work_dir}\TextRecognitionDataGenerator\trdg\dicts\전체언어텍스트파일\{lan}\{lan}.txt'
 
     # 중복된 character를 저장하기 위한 집합(set)을 생성합니다.
     unique_characters = set()
@@ -1963,15 +1952,19 @@ if __name__ == '__main__':
 
     # 중복 제거
     unique_combined_text = ''.join(sorted(set(combined_text), key=combined_text.index))
-#     unique_combined_text = '!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ªÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćČčĎďĐđĒēĖėĘęĚěĞ
+    unique_combined_text = '''¢£¤¥!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓'''
+    # unique_combined_text: ¢£¤¥!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ01
+    # 23456789๑๒๓๔๕๖๗๘๙✓°
+    unique_combined_text = '''¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓'''
+    unique_combined_text = '''¢£¤¥!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓'''
+    #     unique_combined_text = '!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ªÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćČčĎďĐđĒēĖėĘęĚěĞ
 # ğĨĩĪīĮįİıĶķĹĺĻļĽľŁłŃńŅņŇňŒœŔŕŘřŚśŞşŠšŤťŨũŪūŮůŲųŸŹźŻżŽžƏƠơƯưȘșȚțə̇ḌḍḶḷṀṁṂṃṄṅṆṇṬṭẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹ€'
 #     unique_combined_text = '''!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ªÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿĀāĂăĄąĆćČčĎďĐđĒēĖėĘęĚěĞ
 # ğĨĩĪīĮįİıĶķĹĺĻļĽľŁłŃńŅņŇňŒœŔŕŘřŚśŞşŠšŤťŨũŪūŮůŲųŸŹźŻżŽžƏƠơƯưȘșȚțə̇ḌḍḶḷṀṁṂṃṄṅṆṇṬṭẠạẢảẤấẦầẨẩẪẫẬậẮắẰằẲẳẴẵẶặẸẹẺẻẼẽẾếỀềỂểỄễỆệỈỉỊịỌọỎỏỐốỒồỔổỖỗỘộỚớỜờỞởỠỡỢợỤụỦủỨứỪừỬửỮữỰựỲỳỴỵỶỷỸỹ€'''
 
     # ¢£¤¥!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZกขคฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮฤเแโใไะาุูิีืึั่้๊๋็์ำํฺฯๆ0123456789๑๒๓๔๕๖๗๘๙°✓
     # 결과 출력
-    #print(unique_combined_text)
-    print(fr'unique_combined_text : {unique_combined_text}')
+    print(FR'unique_combined_text : {unique_combined_text}')
 
     # parser.add_argument('--character', type=str,
     #                     default=' ()+-./01234569ACDFGILQSTWabeghimnoprstuz~°กขคงจฉชซฑณดตถทธนบปผฝพฟภมยรลวศษสหฬอะัาำิีึืุูเแโใไๆ็่้๊์✓',
@@ -2046,9 +2039,12 @@ if __name__ == '__main__':
     opt.train_data = "data_lmdb_release/latin/train"
     opt.valid_data = "data_lmdb_release/vi/0201/rect_invert_2/val"
     opt.train_data = "data_lmdb_release/vi/0201/rect_invert_2/train"
-    #lan = 'ko'
+    lan = 'ko'
+    lan = 'th'
     opt.valid_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\rect_invert\val"
     opt.train_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\rect_invert\train"
+    opt.valid_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\test\train"
+    opt.train_data = fr"D:\deep-text-recognition-benchmark\data_lmdb_release\{lan}\test\train"
     # opt.valid_data = fr"data_lmdb_release/{lan}/rect_invert/val"
     # opt.train_data = fr"data_lmdb_release/{lan}/rect_invert/train"
     # opt.valid_data = "data_lmdb_release/ttf15/val"
@@ -2059,6 +2055,7 @@ if __name__ == '__main__':
     opt.imgW = 564
     opt.imgH = 111.1
     opt.imgW = 141.1
+    opt.imgW = 114
     # opt.valid_data = "data_lmdb_release/ttf15/val"
     # opt.train_data = "data_lmdb_release/ttf15/train"
     # opt.valid_data = "data_lmdb_release/ttf14/val"
@@ -2074,7 +2071,6 @@ if __name__ == '__main__':
     # 배치 경사 하강법(Batch Gradient Descent) 적용시 train() 함수 반복시 root
     opt.select_data = "th"
     opt.select_data = "es"
-    opt.select_data = fr"{lan}"
     opt.batch_ratio = "1"
     opt.batch_ratio = "0.5"
     opt.batch_ratio = "0.0005"
@@ -2088,6 +2084,7 @@ if __name__ == '__main__':
     opt.total_data_usage_ratio = "1.0"
     opt.batch_ratio = "0.2"
     opt.batch_ratio = "0.5"
+    opt.batch_ratio = "1.0"
     # opt.total_data_usage_ratio = "1"
     # opt.batch_ratio = "1"
     opt.PAD = True
@@ -2109,7 +2106,6 @@ if __name__ == '__main__':
         # print(opt.exp_name)
 
     log_folder = r"D:/dtrb"
-    log_folder = fr"{work_dir}:/dtrb"
     os.makedirs(f'./saved_models/{opt.exp_name}', exist_ok=True)
     os.makedirs(f'{log_folder}/saved_models/{opt.exp_name}', exist_ok=True)
 

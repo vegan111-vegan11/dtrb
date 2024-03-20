@@ -76,6 +76,7 @@
     "Python.create_character.executor": "Run",
     "Python.create_dict.executor": "Run",
     "Python.create_directory.executor": "Run",
+    "Python.create_directory2.executor": "Run",
     "Python.create_gt4.executor": "Run",
     "Python.create_gt5.executor": "Run",
     "Python.create_gt6.executor": "Run",
@@ -193,6 +194,7 @@
     "Python.run_create_dataset14.executor": "Run",
     "Python.run_create_dataset15.executor": "Run",
     "Python.run_create_dataset16.executor": "Run",
+    "Python.run_create_dataset17.executor": "Run",
     "Python.run_create_dataset5.executor": "Run",
     "Python.run_create_dataset7.executor": "Run",
     "Python.run_create_dataset8.executor": "Run",
@@ -246,7 +248,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/test/create_character/en",
+    "last_opened_file_path": "C:/Users/TAMSystech/yjh/ipynb/deep-text-recognition-benchmark/util/create_directory/th",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -264,11 +266,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\create_character\en" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\create_character_opt\en" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\count_file\en" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset" />
-      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_gt_from_img\en" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\create_directory\th" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\create_lmdb_dataset_dir" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\th" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\test\create_character\th" />
+      <recent name="C:\Users\TAMSystech\yjh\ipynb\deep-text-recognition-benchmark\util\run_create_dataset\run_create_dataset_dir" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -600,7 +602,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/dataset.py</url>
-          <line>620</line>
+          <line>621</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -632,6 +634,15 @@
           <url>file://$PROJECT_DIR$/util/create_img_long/en/create_img_long912.py</url>
           <line>28</line>
           <option name="timeStamp" value="156" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pythonlib_easyocr/utils.py</url>
+          <line>1057</line>
+          <option name="timeStamp" value="157" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/pythonlib_easyocr/recognition.py</url>
+          <option name="timeStamp" value="158" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -17,6 +17,7 @@ import random
 lan = 'pt'
 lan = 'ko'
 lan = 'en'
+lan = 'th'
 get_batch_cnt = 0
 class Batch_Balanced_Dataset(object):
 
